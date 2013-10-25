@@ -1,0 +1,299 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <script src="index_files/tigris.txt" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="index_files/netbeans.css">
+  <title>LAB-1614: MySQL Workbench</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta name="SourceCastVersion" content="2.6.2.4.10">
+  <link rel="shortcut icon" href="http://www.netbeans.org/favicon.ico"
+ type="image/x-icon">
+  <meta name="keywords"
+ content="NetBeans, IDE, Platform, free, open source, developer">
+  <link rel="stylesheet" href="index_files/netbeans_002.css">
+  <meta name="author" content="Sang Shin">
+  <style type="text/css">
+#search {height:100%;}
+#topmodule {align:right;}
+  </style>
+  <script language="JavaScript" type="text/javascript">
+<!--
+function get_sc_login() {
+  var sclogin = "guest";
+  return (sclogin);
+}
+var username=get_sc_login();
+//-->
+  </script>
+</head>
+<body onload="loginfocus()" class="composite">
+<!-- begin TopTabs --><!-- end TopTabs --><!-- start NavCol --><!-- end NavCol --><!-- Servlet-Specific template --><!-- Show servlet name if it is a servlet -->
+<br>
+<br>
+<h1 style="text-align: center;">MySQL Workbench<br>
+</h1>
+<div class="articledate" style="margin-left: 0px; text-align: center;"><a
+ href="http://www.javapassion.com/SangSchedule.html#Bio">Sang Shin</a>,
+<a href="http://www.javapassion.com">www.javapassion.com</a><a
+ href="mailto:sangshinpassion@gmail.com"><i>
+</i></a></div>
+<div class="indent"><br>
+<div style="text-align: center;"><img alt=""
+ src="index_files/sangshin2009.jpg" style="width: 88px; height: 101px;"><br>
+</div>
+<br>
+<p>The MySQL® database has become the world's most popular open source
+database because of its consistent fast performance, high reliability
+and ease of use. It's used on every continent -- Yes, even Antarctica!
+-- by individual Web developers as well as many of the world's largest
+and fastest-growing organizations to save time and money powering their
+high-volume Web sites, business-critical systems and packaged software
+-- including industry leaders such as Yahoo!, Alcatel-Lucent, Google,
+Nokia, YouTube, and Zappos.com.
+</p>
+<p>Not only is MySQL the world's most popular open source database,
+it's also become the database of choice for a new generation of
+applications built on the LAMP stack (Linux, Apache, MySQL, PHP / Perl
+/ Python.) MySQL runs on more than 20 platforms including Linux,
+Windows, Mac OS, Solaris, HP-UX, IBM AIX, giving you the kind of
+flexibility that puts you in control. </p>
+<br>
+<b><br>
+</b>
+<div style="text-align: center;"><b>Expected duration: 140 minutes
+(excluding homework)<br>
+<br>
+</b></div>
+<br>
+<br>
+<h3 class="tutorial">Software Needed</h3>
+<p>Before you begin, you need to install the following software.
+</p>
+<ul>
+  <li>MySQL (<a href="http://dev.mysql.com/downloads/">download</a>)</li>
+  <li>MySQL Workbench (<a
+ href="http://dev.mysql.com/downloads/workbench/">download</a>)</li>
+  <ul>
+    <li>Please see the installation instruction <a href="#Exercise_1">below</a>.</li>
+  </ul>
+</ul>
+<br>
+<h3 class="tutorial">OS platforms you can use<br>
+</h3>
+<ul>
+  <li>Windows</li>
+  <li>Solaris x86, Solaris Sparc</li>
+  <li>Linux</li>
+  <li>Mac OS X</li>
+</ul>
+<h3 class="tutorial"><a name="Change_Log"></a>Change Log<br>
+</h3>
+<ul>
+  <li>Feb. 15th, 2010: Created<br>
+  </li>
+</ul>
+<br>
+<h3 class="tutorial">Things to be done (by Sang Shin)<br>
+</h3>
+<ul>
+  <li>Add more explanation to the exercises</li>
+</ul>
+<br>
+&nbsp;<br>
+<h3 class="tutorial"><a name="Tutorial_Exercises"></a>Lab Exercises</h3>
+<ul>
+  <li><a href="#Exercise_1">Exercise 1: Installation of MySQL&nbsp;
+Workbench (20 minutes)</a></li>
+  <li><a href="#Exercise_2">Exercise 2: SQL development (20 minutes)</a></li>
+  <li><a href="#Homework_Exercise">Homework
+Exercise (for people who
+are taking Sang Shin's MySQL online course")</a></li>
+</ul>
+</div>
+<br>
+<h2><a name="Exercise_1"></a>Exercise 1: Installation of MySQL database
+and MySQL Workbench<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;">In this exercise,&nbsp; you
+are going to download and install MySQL Workbench
+5.2 beta.<br>
+</p>
+<ol>
+  <ol>
+    <li><a href="#1.1">Download MySQL Workbench</a></li>
+    <li><a href="#1.2">Install MySQL Workbench</a><br>
+    </li>
+  </ol>
+</ol>
+<p class="pBody" style="margin-left: 40px;"></p>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.1"></a>(1.1)
+Download MySQL
+Workbench<br>
+</h3>
+<div style="margin-left: 40px;"><br>
+From your browser, go to <a
+ href="http://dev.mysql.com/downloads/workbench/">http://dev.mysql.com/downloads/workbench/</a><br>
+</div>
+<br>
+<div style="margin-left: 40px;"><img alt="" src="index_files/1_db1.png"
+ style="width: 827px; height: 793px;"><br>
+<br>
+<img alt="" src="index_files/1_db2.png"
+ style="width: 827px; height: 793px;"><br>
+<br>
+<img alt="" src="index_files/1_db3.png"
+ style="width: 827px; height: 793px;"><br>
+<br>
+<img alt="" src="index_files/1_db4.png"
+ style="width: 439px; height: 187px;"><br>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_1">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.2"></a>(1.2)
+Install MySQL
+Workbench</h3>
+<div style="margin-left: 40px;"><br>
+<img alt="" src="index_files/1_db5.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+<img alt="" src="index_files/1_db6.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+<img alt="" src="index_files/1_db7.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_1">return to top of exercise</a><br>
+</div>
+<br>
+<div style="margin-left: 40px;"><br>
+<br>
+</div>
+<br>
+<div style="margin-left: 40px;"><br>
+<br>
+</div>
+<br>
+<h2><a name="Exercise_2"></a>Exercise 2: Perform SQL development using
+MySQL Workbench<br>
+</h2>
+<br>
+<div style="margin-left: 40px;">Workbench lets you perform three things
+- SQL development, Data modeling, and Server Administration.&nbsp; In
+this exercise, you are going to learn how to do SQL development using
+the Workbench.<br>
+<ol>
+  <li><a href="#2.1">Create a new connection</a></li>
+  <li><a href="#2.2">Edit and execute SQL script</a><br>
+  </li>
+</ol>
+</div>
+<br>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="2.1"></a>(2.1)&nbsp;
+Create a
+new Connection<br>
+</h3>
+<div style="margin-left: 40px;">
+<br>
+<img alt="" src="index_files/0_mysql24.png"
+ style="height: 739px; width: 1024px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql25.png"
+ style="width: 900px; height: 500px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql26.png"
+ style="width: 900px; height: 500px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql27.png"
+ style="width: 368px; height: 193px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql28.png"
+ style="width: 900px; height: 500px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql29.png"
+ style="width: 474px; height: 123px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql30.png"
+ style="width: 900px; height: 500px;"><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="2.2"></a>(2.2)&nbsp;
+Execute SQL
+statements from a file<br>
+</h3>
+<div style="margin-left: 40px;"><br>
+<img alt="" src="index_files/0_mysql31.png"
+ style="width: 1024px; height: 745px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql32.png"
+ style="width: 800px; height: 600px;"><br>
+</div>
+<div style="margin-left: 40px;"><br>
+<img alt="" src="index_files/0_mysql33.png"
+ style="width: 800px; height: 600px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql34.png"
+ style="width: 854px; height: 540px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql35.png"
+ style="width: 800px; height: 600px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql36.png"
+ style="width: 1024px; height: 745px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql37.png"
+ style="width: 1024px; height: 745px;"><br>
+<br>
+</div>
+<br>
+<br>
+<br>
+<br>
+<h2><a name="Homework_Exercise"></a><a name="Homework"></a>Homework
+Exercise (for people
+who
+are taking Sang Shin's "MySQL online course") <br>
+</h2>
+<br>
+<div style="margin-left: 40px;">&lt;there is no homework for this
+topic&gt;<br>
+<span style="font-weight: bold;"></span></div>
+<div style="margin-left: 40px;">
+</div>
+<div style="margin-left: 40px;">
+<div style="margin-left: 40px;"></div>
+</div>
+<div style="margin-left: 40px;"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="#Tutorial_Exercises">return
+to the top</a></div>
+<div class="indent"><br>
+<br>
+<br>
+</div>
+<br>
+<p> </p>
+<!-- ======================================================================================== -->
+</body>
+</html>

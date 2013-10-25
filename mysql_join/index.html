@@ -1,0 +1,3252 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <script src="index_files/tigris.txt" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="index_files/netbeans.css">
+  <title>LAB-1612: Join/Subquery/View</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta name="SourceCastVersion" content="2.6.2.4.10">
+  <link rel="shortcut icon" href="http://www.netbeans.org/favicon.ico"
+ type="image/x-icon">
+  <meta name="keywords"
+ content="NetBeans, IDE, Platform, free, open source, developer">
+  <link rel="stylesheet" href="index_files/netbeans_002.css">
+  <meta name="author" content="Sang Shin">
+  <style type="text/css">
+#search {height:100%;}
+#topmodule {align:right;}
+  </style>
+  <script language="JavaScript" type="text/javascript">
+<!--
+function get_sc_login() {
+  var sclogin = "guest";
+  return (sclogin);
+}
+var username=get_sc_login();
+//-->
+  </script>
+</head>
+<body onload="loginfocus()" class="composite">
+<!-- begin TopTabs --><!-- end TopTabs --><!-- start NavCol --><!-- end NavCol --><!-- Servlet-Specific template --><!-- Show servlet name if it is a servlet -->
+<br>
+<br>
+<h1 style="text-align: center;">Join/Subquery/View<br>
+</h1>
+<div class="articledate" style="margin-left: 0px; text-align: center;"><a
+ href="http://www.javapassion.com/SangSchedule.html#Bio">Sang Shin</a>,
+<a href="http://www.javapassion.com">www.javapassion.com</a><a
+ href="mailto:sangshinpassion@gmail.com"><i>
+</i></a></div>
+<div class="indent"><br>
+<div style="text-align: center;"><img alt=""
+ src="index_files/sangshin2009.jpg" style="width: 88px; height: 101px;"><br>
+</div>
+<br>
+In a typical database, data is divided into multiple tables.&nbsp;
+These tables are then joined to create a result set that combines the
+data from the tables.<br>
+<br>
+<b><br>
+</b>
+<div style="text-align: center;"><b>Expected duration: 210 minutes
+(excluding homework)<br>
+<br>
+</b></div>
+<br>
+<br>
+<h3 class="tutorial">Software Needed</h3>
+<p>Before you begin, you need to install the following software.
+</p>
+<ul>
+</ul>
+<ul>
+  <li>MySQL (<a href="http://dev.mysql.com/downloads/">download</a>)</li>
+</ul>
+<ul>
+  <ul>
+  </ul>
+</ul>
+<br>
+<h3 class="tutorial">OS platforms you can use<br>
+</h3>
+<ul>
+  <li>Windows</li>
+  <li>Solaris x86, Solaris Sparc</li>
+  <li>Linux</li>
+  <li>Mac OS X</li>
+</ul>
+<h3 class="tutorial"><a name="Change_Log"></a>Change Log<br>
+</h3>
+<ul>
+  <li>March 15th, 2010: Created<br>
+  </li>
+</ul>
+<br>
+<h3 class="tutorial">Things to be done (by Sang Shin)<br>
+</h3>
+<ul>
+  <li>Add more explanation to the exercises</li>
+</ul>
+<br>
+&nbsp;<br>
+<h3 class="tutorial"><a name="Tutorial_Exercises"></a>Lab Exercises</h3>
+<ul>
+  <li><a href="#Exercise_1">Exercise 1: Joins (30 minutes)</a></li>
+  <li><a href="#Exercise_2">Exercise 2: Table relationship through
+foreign keys (30 minutes)</a><br>
+  </li>
+  <li><a href="#Exercise_3">Exercise 3: Referential integrity (30
+minutes)</a></li>
+  <li><a href="#Exercise_4">Exercise 4: Automatic deletion/update with
+ON DELETE CASCADE/ON UPDATE CASCADE (30 minutes)</a><br>
+  </li>
+  <li><a href="#Exercise_5">Exercise 5: Union (30 minutes)</a></li>
+  <li><a href="index.html#Exercise_6">Exercise 6: Subquery (30 minutes)</a></li>
+  <li><a href="#Exercise_7">Exercise 7: View(30 minutes)</a><br>
+  </li>
+  <li><a href="#Homework_Exercise">Homework
+Exercise (for people who
+are taking Sang Shin's MySQL online course")</a></li>
+</ul>
+</div>
+<br>
+<h2><a name="Exercise_1"></a>Exercise 1: Joins<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;">In this exercise,&nbsp; you
+are going to explore various types of Join.<br>
+</p>
+<ol>
+  <ol start="0">
+    <li><a href="#1.0">Create and populate test tables</a><br>
+    </li>
+    <li><a href="#1.1">Cross join</a></li>
+    <li><a href="#1.2">Inner join</a></li>
+    <li><a href="#1.3">Outer join (LEFT JOIN, RIGHT JOIN)</a></li>
+    <li><a href="#1.4">Self join</a><br>
+    </li>
+  </ol>
+</ol>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.0"></a>(1.0)&nbsp;
+Create and populate test tables<br>
+</h3>
+<div style="margin-left: 40px;"><br>
+1. Study <span style="font-weight: bold;">joined_tables_create.sql</span>.&nbsp;
+This SQL file is used to create <span style="font-weight: bold;">departments
+</span>and <span style="font-weight: bold;">employees </span>tables
+which are joined together in that an employee belongs to a department.
+We are going to use these two tables as test tables for excercising
+Join's.<br>
+&nbsp;<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Start clean */<br>
+DROP TABLE IF EXISTS employees;<br>
+DROP TABLE IF EXISTS departments;<br>
+      <br>
+/* Recreate "departments" table */ <br>
+CREATE TABLE departments (&nbsp; <br>
+&nbsp;&nbsp;&nbsp; department_id int(11) NOT NULL AUTO_INCREMENT,&nbsp;
+      <br>
+&nbsp;&nbsp;&nbsp; dname varchar(255) NOT NULL,&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (department_id) <br>
+) ENGINE=InnoDB; <br>
+&nbsp; <br>
+&nbsp;<br>
+/* Recreate "employees" table, Each employee belongs to a department
+*/&nbsp; <br>
+CREATE TABLE employees (&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; employee_id int(11) NOT NULL AUTO_INCREMENT,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; ename varchar(255) NOT NULL,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; department_id int(11) default NULL, <br>
+&nbsp;&nbsp;&nbsp; salary decimal(7,2) NOT NULL,&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (employee_id) <br>
+) ENGINE=InnoDB;&nbsp;&nbsp; <br>
+      <br>
+/* Data for the table departments */<br>
+INSERT INTO departments(department_id, dname) <br>
+VALUES<br>
+(1,'Engineering'),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+(2,'Sales'),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+(3,'Marketing'),<br>
+(4,'HR');<br>
+      <br>
+/* Data for the table employees */<br>
+INSERT INTO employees(employee_id, ename, salary, department_id)<br>
+VALUES<br>
+(1,'jack','3000.00', 1),<br>
+(2,'mary','2500.00', 2),<br>
+(3,'nichole','4000.00', 1),<br>
+(4,'angie','5000.00', 2),<br>
+(5,'jones','5000.00', 3),<br>
+(6,'newperson','5000.00', NULL);<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">joined_tables_create.sql<br>
+<br>
+</span>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_join/sqlscripts/joined_tables_create.sql</span><br>
+Query OK, 0 rows affected (0.07 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.04 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.15 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.11 sec)<br>
+      <br>
+Query OK, 4 rows affected (0.03 sec)<br>
+Records: 4&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+Query OK, 6 rows affected (0.03 sec)<br>
+Records: 6&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div style="margin-left: 40px;"><span style="font-weight: bold;"><br>
+</span><span style="font-weight: bold;"></span>3. Display the test
+tables.<br>
+<br>
+<span style="font-weight: bold;"></span>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SELECT * FROM departments;</span><br>
++-------------------+----------------+<br>
+| department_id | dname&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; |<br>
++-------------------+----------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;&nbsp;&nbsp;
+1 | Engineering |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 | Sales&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 | Marketing&nbsp; &nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4 | HR&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; |<br>
++-------------------+----------------+<br>
+4 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * FROM employees;</span><br>
++----------------+----------------+--------------------+------------+<br>
+| employee_id | enam &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | department_id
+|
+salary &nbsp; &nbsp;&nbsp; |<br>
++----------------+----------------+--------------------+------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 1 |
+jack&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+1 | 3000.00 |<br>
+|&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+mary&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+2 | 2500.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+nichole &nbsp; &nbsp;&nbsp; &nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+1 | 4000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 4 |
+angie&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 | 5000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 5 |
+jones&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 | 5000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 6 |
+newperson |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; NULL
+| 5000.00 |<br>
++----------------+----------------+--------------------+------------+<br>
+6 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="#Exercise_1">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.1"></a>(1.1)&nbsp;
+Cross Join</h3>
+<div style="margin-left: 40px;"><br>
+0. Study JOIN.<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">HELP JOIN;</span><br>
+Name: 'JOIN'<br>
+Description:<br>
+MySQL supports the following JOIN syntaxes for the table_references<br>
+part of SELECT statements and multiple-table DELETE and UPDATE<br>
+statements:<br>
+      <br>
+table_references:<br>
+&nbsp;&nbsp;&nbsp; table_reference [, table_reference] ...<br>
+      <br>
+table_reference:<br>
+&nbsp;&nbsp;&nbsp; table_factor<br>
+&nbsp; | join_table<br>
+      <br>
+table_factor:<br>
+&nbsp;&nbsp;&nbsp; tbl_name [[AS] alias] [index_hint_list]<br>
+&nbsp; | table_subquery [AS] alias<br>
+&nbsp; | ( table_references )<br>
+&nbsp; | { OJ table_reference LEFT OUTER JOIN table_reference<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ON conditional_expr }<br>
+      <br>
+join_table:<br>
+&nbsp;&nbsp;&nbsp; table_reference [INNER | CROSS] JOIN table_factor
+[join_condition]<br>
+&nbsp; | table_reference STRAIGHT_JOIN table_factor<br>
+&nbsp; | table_reference STRAIGHT_JOIN table_factor ON conditional_expr<br>
+&nbsp; | table_reference {LEFT|RIGHT} [OUTER] JOIN table_reference
+join_conditi<br>
+&nbsp; | table_reference NATURAL [{LEFT|RIGHT} [OUTER]] JOIN
+table_factor<br>
+      <br>
+join_condition:<br>
+&nbsp;&nbsp;&nbsp; ON conditional_expr<br>
+&nbsp; | USING (column_list)<br>
+      <br>
+index_hint_list:<br>
+&nbsp;&nbsp;&nbsp; index_hint [, index_hint] ...<br>
+      <br>
+index_hint:<br>
+&nbsp;&nbsp;&nbsp; USE {INDEX|KEY}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [{FOR {JOIN|ORDER BY|GROUP BY}]
+([index_list])<br>
+&nbsp; | IGNORE {INDEX|KEY}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [{FOR {JOIN|ORDER BY|GROUP BY}]
+(index_list)<br>
+&nbsp; | FORCE {INDEX|KEY}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [{FOR {JOIN|ORDER BY|GROUP BY}]
+(index_list)<br>
+      <br>
+index_list:<br>
+&nbsp;&nbsp;&nbsp; index_name [, index_name] ...<br>
+      <br>
+A table reference is also known as a join expression.<br>
+      <br>
+The syntax of table_factor is extended in comparison with the SQL<br>
+Standard. The latter accepts only table_reference, not a list of them<br>
+inside a pair of parentheses.<br>
+      <br>
+This is a conservative extension if we consider each comma in a list of<br>
+table_reference items as equivalent to an inner join. For example:<br>
+      <br>
+SELECT * FROM t1 LEFT JOIN (t2, t3, t4)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ON (t2.a=t1.a AND t3.b=t1.b AND t4.c=t1.c)<br>
+      <br>
+is equivalent to:<br>
+      <br>
+SELECT * FROM t1 LEFT JOIN (t2 CROSS JOIN t3 CROSS JOIN t4)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ON (t2.a=t1.a AND t3.b=t1.b AND t4.c=t1.c)<br>
+      <br>
+In MySQL, CROSS JOIN is a syntactic equivalent to INNER JOIN (they can<br>
+replace each other). In standard SQL, they are not equivalent. INNER<br>
+JOIN is used with an ON clause, CROSS JOIN is used otherwise.<br>
+      <br>
+In general, parentheses can be ignored in join expressions containing<br>
+only inner join operations. MySQL also supports nested joins (see<br>
+http://dev.mysql.com/doc/refman/5.1/en/nested-join-optimization.html).<br>
+      <br>
+Index hints can be specified to affect how the MySQL optimizer makes<br>
+use of indexes. For more information, see<br>
+http://dev.mysql.com/doc/refman/5.1/en/index-hints.html.<br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/join.html<br>
+      <br>
+Examples:<br>
+SELECT left_tbl.*<br>
+&nbsp; FROM left_tbl LEFT JOIN right_tbl ON left_tbl.id = right_tbl.id<br>
+&nbsp; WHERE right_tbl.id IS NULL;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;">1. Study <span
+ style="font-weight: bold;">cross_join.sql</span><br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* The following two Cross Join
+statements are equivalent */<br>
+      <br>
+/* Cross Join Option #1 */<br>
+SELECT 'Cross Join', e.ename, e.salary, d.dname<br>
+FROM employees AS e, departments AS d;<br>
+      <br>
+/* Cross Join Option #2 */<br>
+SELECT 'Cross Join', e.ename, e.salary, d.dname<br>
+FROM employees AS e <span style="font-weight: bold;">CROSS JOIN</span>
+departments AS d;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Perform CROSS JOIN - by executing the <span
+ style="font-weight: bold;">cross_join.sql</span><br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;<span
+ style="font-weight: bold;"> SOURCE
+/handson_mysql/mysql_join/sqlscripts/cross_join.sql</span><br>
++------------+-----------+---------+-------------+<br>
+| Cross Join | ename&nbsp;&nbsp;&nbsp;&nbsp; | salary&nbsp; |
+dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++------------+-----------+---------+-------------+<br>
+| Cross Join | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 3000.00 |
+Engineering |<br>
+| Cross Join | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 3000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 3000.00 |
+Marketing&nbsp;&nbsp; |<br>
+| Cross Join | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 3000.00 |
+HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2500.00 |
+Engineering |<br>
+| Cross Join | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2500.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2500.00 |
+Marketing&nbsp;&nbsp; |<br>
+| Cross Join | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2500.00 |
+HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | nichole&nbsp;&nbsp; | 4000.00 | Engineering |<br>
+| Cross Join | nichole&nbsp;&nbsp; | 4000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | nichole&nbsp;&nbsp; | 4000.00 | Marketing&nbsp;&nbsp; |<br>
+| Cross Join | nichole&nbsp;&nbsp; | 4000.00 |
+HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | angie&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 | Engineering |<br>
+| Cross Join | angie&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | angie&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |
+Marketing&nbsp;&nbsp; |<br>
+| Cross Join | angie&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |
+HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | jones&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 | Engineering |<br>
+| Cross Join | jones&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | jones&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |
+Marketing&nbsp;&nbsp; |<br>
+| Cross Join | jones&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |
+HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | newperson | 5000.00 | Engineering |<br>
+| Cross Join | newperson | 5000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | newperson | 5000.00 | Marketing&nbsp;&nbsp; |<br>
+| Cross Join | newperson | 5000.00 |
+HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++------------+-----------+---------+-------------+<br>
+24 rows in set (0.00 sec)<br>
+      <br>
++------------+-----------+---------+-------------+<br>
+| Cross Join | ename&nbsp;&nbsp;&nbsp;&nbsp; | salary&nbsp; |
+dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++------------+-----------+---------+-------------+<br>
+| Cross Join | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 3000.00 |
+Engineering |<br>
+| Cross Join | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 3000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 3000.00 |
+Marketing&nbsp;&nbsp; |<br>
+| Cross Join | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 3000.00 |
+HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2500.00 |
+Engineering |<br>
+| Cross Join | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2500.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2500.00 |
+Marketing&nbsp;&nbsp; |<br>
+| Cross Join | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2500.00 |
+HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | nichole&nbsp;&nbsp; | 4000.00 | Engineering |<br>
+| Cross Join | nichole&nbsp;&nbsp; | 4000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | nichole&nbsp;&nbsp; | 4000.00 | Marketing&nbsp;&nbsp; |<br>
+| Cross Join | nichole&nbsp;&nbsp; | 4000.00 |
+HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | angie&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 | Engineering |<br>
+| Cross Join | angie&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | angie&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |
+Marketing&nbsp;&nbsp; |<br>
+| Cross Join | angie&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |
+HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | jones&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 | Engineering |<br>
+| Cross Join | jones&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | jones&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |
+Marketing&nbsp;&nbsp; |<br>
+| Cross Join | jones&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |
+HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | newperson | 5000.00 | Engineering |<br>
+| Cross Join | newperson | 5000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Cross Join | newperson | 5000.00 | Marketing&nbsp;&nbsp; |<br>
+| Cross Join | newperson | 5000.00 |
+HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++------------+-----------+---------+-------------+<br>
+24 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_1">return to top of exercise</a><br>
+<br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.2"></a>(1.2)&nbsp;
+Inner Join<br>
+</h3>
+<div style="margin-left: 40px;"><br>
+1. Study <span style="font-weight: bold;">inner_join.sql</span><br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* The following Inner Join
+statements are equivalent */<br>
+      <br>
+/* Inner Join Option #1 */<br>
+SELECT 'Inner Join', employees.ename, employees.salary,
+departments.dname<br>
+      <span style="font-weight: bold;">FROM employees, departments</span><br>
+WHERE employees.department_id=departments.department_id;<br>
+      <br>
+/* Inner Join Option #2 */<br>
+SELECT 'Inner Join', employees.ename, employees.salary,
+departments.dname<br>
+      <span style="font-weight: bold;">FROM employees</span><br
+ style="font-weight: bold;">
+      <span style="font-weight: bold;">JOIN departments</span><br>
+WHERE employees.department_id=departments.department_id;<br>
+      <br>
+/* Inner Join Option #3 */<br>
+SELECT 'Inner Join', employees.ename, employees.salary,
+departments.dname<br>
+      <span style="font-weight: bold;">FROM employees</span><br
+ style="font-weight: bold;">
+      <span style="font-weight: bold;">INNER JOIN departments</span><br>
+WHERE employees.department_id=departments.department_id;<br>
+      <br>
+/* Inner Join Option #4 */<br>
+SELECT 'Inner Join', employees.ename, employees.salary,
+departments.dname<br>
+      <span style="font-weight: bold;">FROM employees</span><br
+ style="font-weight: bold;">
+      <span style="font-weight: bold;">INNER JOIN departments</span><br>
+      <span style="font-weight: bold;">ON </span>employees.department_id=departments.department_id;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">inner_join.sql<br>
+<br>
+</span>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_join/sqlscripts/inner_join.sql</span><br>
++-------------+-----------+------------+-------------+<br>
+| Inner Join | ename&nbsp;&nbsp; | salary &nbsp; &nbsp; |
+dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++-------------+-----------+-----------+-------------+<br>
+| Inner Join | jack&nbsp; &nbsp; &nbsp; &nbsp; | 3000.00 | Engineering |<br>
+| Inner Join | nichole &nbsp; | 4000.00 | Engineering |<br>
+| Inner Join | mary&nbsp;&nbsp; &nbsp;&nbsp; | 2500.00 |
+Sales&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; |<br>
+| Inner Join | angie&nbsp; &nbsp;&nbsp; | 5000.00 |
+Sales&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; |<br>
+| Inner Join | jones&nbsp; &nbsp;&nbsp; | 5000.00 |
+Marketing&nbsp;&nbsp; |<br>
++------------+---------+---------+-------------+<br>
+5 rows in set (0.00 sec)<br>
+      <br>
++------------+---------+---------+-------------+<br>
+| Inner Join | ename&nbsp;&nbsp; | salary&nbsp; |
+dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++------------+---------+---------+-------------+<br>
+| Inner Join | jack&nbsp;&nbsp;&nbsp; | 3000.00 | Engineering |<br>
+| Inner Join | nichole | 4000.00 | Engineering |<br>
+| Inner Join | mary&nbsp;&nbsp;&nbsp; | 2500.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Inner Join | angie&nbsp;&nbsp; | 5000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Inner Join | jones&nbsp;&nbsp; | 5000.00 | Marketing&nbsp;&nbsp; |<br>
++------------+---------+---------+-------------+<br>
+5 rows in set (0.00 sec)<br>
+      <br>
++------------+---------+---------+-------------+<br>
+| Inner Join | ename&nbsp;&nbsp; | salary&nbsp; |
+dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++------------+---------+---------+-------------+<br>
+| Inner Join | jack&nbsp;&nbsp;&nbsp; | 3000.00 | Engineering |<br>
+| Inner Join | nichole | 4000.00 | Engineering |<br>
+| Inner Join | mary&nbsp;&nbsp;&nbsp; | 2500.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Inner Join | angie&nbsp;&nbsp; | 5000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Inner Join | jones&nbsp;&nbsp; | 5000.00 | Marketing&nbsp;&nbsp; |<br>
++------------+---------+---------+-------------+<br>
+5 rows in set (0.00 sec)<br>
+      <br>
++------------+---------+---------+-------------+<br>
+| Inner Join | ename&nbsp;&nbsp; | salary&nbsp; |
+dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++------------+---------+---------+-------------+<br>
+| Inner Join | jack&nbsp;&nbsp;&nbsp; | 3000.00 | Engineering |<br>
+| Inner Join | nichole | 4000.00 | Engineering |<br>
+| Inner Join | mary&nbsp;&nbsp;&nbsp; | 2500.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Inner Join | angie&nbsp;&nbsp; | 5000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Inner Join | jones&nbsp;&nbsp; | 5000.00 | Marketing&nbsp;&nbsp; |<br>
++------------+---------+---------+-------------+<br>
+5 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_1">return to top of exercise</a><br>
+<br>
+<br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.3"></a>(1.3)&nbsp;
+Outer Join (LEFT JOIN &amp; RIGHT JOIN)<br>
+</h3>
+<div style="margin-left: 40px;"><br>
+1. Study <span style="font-weight: bold;">outer_join.sql</span><br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Outer Join could be either
+LEFT JOIN or RIGHT JOIN */<br>
+      <br>
+/* Outer Join #1 - LEFT JOIN */<br>
+/* All records (actually fields of the records) of the "employees" table<br>
+&nbsp;* are included in the result set because the "employees" table is<br>
+&nbsp;*&nbsp; left side of the JOIN */<br>
+SELECT 'Outer Join - LEFT JOIN ', employees.ename, employees.salary,
+departments.dname<br>
+FROM employees<br>
+LEFT JOIN departments<br>
+ON employees.department_id=departments.department_id;<br>
+      <br>
+/* Outer Join #2 - RIGHT JOIN */<br>
+/* All records (actually fields of the records) of the "departments"
+table<br>
+&nbsp;* are included in the result set because the "departments" table
+is<br>
+&nbsp;* right side of the JOIN */<br>
+SELECT 'Outer Join - RIGHT JOIN', employees.ename, employees.salary,
+departments.dname<br>
+FROM employees<br>
+RIGHT JOIN departments<br>
+ON employees.department_id=departments.department_id;<br>
+      <br>
+/* Outer Join #3- RIGHT JOIN, Same result as Outer Join #1 <br>
+&nbsp;* because the tables are switched but using RIGHT JOIN<br>
+&nbsp;* instead of LEFT JOIN */<br>
+SELECT 'Outer Join - LEFT JOIN ', employees.ename, employees.salary,
+departments.dname<br>
+FROM departments<br>
+RIGHT JOIN employees<br>
+ON employees.department_id=departments.department_id;<br>
+      <br>
+/* Outer Join #4 - LEFT JOIN, Same result as Outer Join #2 <br>
+&nbsp;* because the tables are swtiched but using LEFT JOIN<br>
+&nbsp;* instead of RIGHT JOIN */<br>
+SELECT 'Outer Join - RIGHT JOIN', employees.ename, employees.salary,
+departments.dname<br>
+FROM departments<br>
+LEFT JOIN employees<br>
+ON employees.department_id=departments.department_id;<br>
+      <br>
+/* Outer Join #5 - Same result as #3 but using optional OUTER keyword */<br>
+SELECT 'Outer Join - LEFT JOIN ', employees.ename, employees.salary,
+departments.dname<br>
+FROM departments<br>
+RIGHT OUTER JOIN employees<br>
+ON employees.department_id=departments.department_id;<br>
+      <br>
+/* Outer Join #6 - Same result as #4 but using optional OUTER keyword */<br>
+SELECT 'Outer Join - RIGHT JOIN', employees.ename, employees.salary,
+departments.dname<br>
+FROM departments<br>
+LEFT OUTER JOIN employees<br>
+ON employees.department_id=departments.department_id;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">outer_join.sql<br>
+<br>
+</span>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">// Notice that all records
+(actually fields of the records) of employees<br>
+// table are included in the result set regardless of the match because<br>
+// employees table is the left side of the outer left join.<br>
+mysql&gt; <span style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_join/sqlscripts/outer_join.sql</span><br>
++-----------------------------+---------------+-----------+----------------+<br>
+| Outer Join - LEFT JOIN&nbsp; | ename &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+|
+salary &nbsp;&nbsp; | dname &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; |<br>
++-----------------------------+---------------+-----------+----------------+<br>
+| Outer Join - LEFT JOIN&nbsp; | jack&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; |
+3000.00 | Engineering |<br>
+| Outer Join - LEFT JOIN&nbsp; | mary &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp; |
+2500.00 | Sales&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; |<br>
+| Outer Join - LEFT JOIN&nbsp; | nichole &nbsp; &nbsp; &nbsp;&nbsp; |
+4000.00 |
+Engineering |<br>
+| Outer Join - LEFT JOIN&nbsp; | angie&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+&nbsp; |
+5000.00 | Sales&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; |<br>
+| Outer Join - LEFT JOIN&nbsp; | jones&nbsp;&nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; |
+5000.00 | Marketing &nbsp; &nbsp; |<br>
+| Outer Join - LEFT JOIN&nbsp; | newperson | 5000.00 |<span
+ style="color: rgb(255, 0, 0);">
+NULL&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;</span> |<br>
++-----------------------------+---------------+------------+---------------+<br>
+6 rows in set (0.00 sec)<br>
+      <br>
+// Notice that all records
+(actually fields of the records) of departments<br>
+// table are included in the result set regardless of the match because<br>
+// the departments table is the right side of the outer right join.<br>
++------------------------------+---------------+-----------+----------------+<br>
+| Outer Join - RIGHT JOIN | ename &nbsp; &nbsp;&nbsp; &nbsp; | salary
+&nbsp;&nbsp; |
+dname &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; |<br>
++------------------------------+---------------+-----------+----------------+<br>
+| Outer Join - RIGHT JOIN | jack&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; | 3000.00 |
+Engineering |<br>
+| Outer Join - RIGHT JOIN | nichole &nbsp; &nbsp; &nbsp;&nbsp; |
+4000.00 | Engineering |<br>
+| Outer Join - RIGHT JOIN | mary&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; | 2500.00 |
+Sales&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; |<br>
+| Outer Join - RIGHT JOIN | angie &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; |
+5000.00&nbsp; |
+Sales&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; |<br>
+| Outer Join - RIGHT JOIN | jones &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; |
+5000.00&nbsp; |
+Marketing&nbsp;&nbsp; |<br>
+| Outer Join - RIGHT JOIN | <span style="color: rgb(255, 0, 0);">NULL&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </span>|<span
+ style="color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp;
+NULL &nbsp;&nbsp;</span> | HR&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; |<br>
++-----------------------------+---------------+-----------+----------------+<br>
+6 rows in set (0.00 sec)<br>
+      <br>
++-------------------------+-----------+---------+-------------+<br>
+| Outer Join - LEFT JOIN&nbsp; | ename&nbsp;&nbsp;&nbsp;&nbsp; |
+salary&nbsp; | dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++-------------------------+-----------+---------+-------------+<br>
+| Outer Join - LEFT JOIN&nbsp; | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+3000.00 | Engineering |<br>
+| Outer Join - LEFT JOIN&nbsp; | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+2500.00 | Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Outer Join - LEFT JOIN&nbsp; | nichole&nbsp;&nbsp; | 4000.00 |
+Engineering |<br>
+| Outer Join - LEFT JOIN&nbsp; | angie&nbsp;&nbsp;&nbsp;&nbsp; |
+5000.00 | Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Outer Join - LEFT JOIN&nbsp; | jones&nbsp;&nbsp;&nbsp;&nbsp; |
+5000.00 | Marketing&nbsp;&nbsp; |<br>
+| Outer Join - LEFT JOIN&nbsp; | newperson | 5000.00 | <span
+ style="color: rgb(255, 0, 0);">NULL</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
++-------------------------+-----------+---------+-------------+<br>
+6 rows in set (0.00 sec)<br>
+      <br>
++-------------------------+---------+---------+-------------+<br>
+| Outer Join - RIGHT JOIN | ename&nbsp;&nbsp; | salary&nbsp; |
+dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++-------------------------+---------+---------+-------------+<br>
+| Outer Join - RIGHT JOIN | jack&nbsp;&nbsp;&nbsp; | 3000.00 |
+Engineering |<br>
+| Outer Join - RIGHT JOIN | nichole | 4000.00 | Engineering |<br>
+| Outer Join - RIGHT JOIN | mary&nbsp;&nbsp;&nbsp; | 2500.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Outer Join - RIGHT JOIN | angie&nbsp;&nbsp; | 5000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Outer Join - RIGHT JOIN | jones&nbsp;&nbsp; | 5000.00 |
+Marketing&nbsp;&nbsp; |<br>
+| Outer Join - RIGHT JOIN | <span style="color: rgb(255, 0, 0);">NULL&nbsp;&nbsp;&nbsp;
+      </span>|&nbsp;&nbsp;&nbsp; <span style="color: rgb(255, 0, 0);">NULL</span>
+|
+HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++-------------------------+---------+---------+-------------+<br>
+6 rows in set (0.00 sec)<br>
+      <br>
++-------------------------+-----------+---------+-------------+<br>
+| Outer Join - LEFT JOIN&nbsp; | ename&nbsp;&nbsp;&nbsp;&nbsp; |
+salary&nbsp; | dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++-------------------------+-----------+---------+-------------+<br>
+| Outer Join - LEFT JOIN&nbsp; | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+3000.00 | Engineering |<br>
+| Outer Join - LEFT JOIN&nbsp; | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+2500.00 | Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Outer Join - LEFT JOIN&nbsp; | nichole&nbsp;&nbsp; | 4000.00 |
+Engineering |<br>
+| Outer Join - LEFT JOIN&nbsp; | angie&nbsp;&nbsp;&nbsp;&nbsp; |
+5000.00 | Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Outer Join - LEFT JOIN&nbsp; | jones&nbsp;&nbsp;&nbsp;&nbsp; |
+5000.00 | Marketing&nbsp;&nbsp; |<br>
+| Outer Join - LEFT JOIN&nbsp; | newperson | 5000.00 | <span
+ style="color: rgb(255, 0, 0);">NULL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span>|<br>
++-------------------------+-----------+---------+-------------+<br>
+6 rows in set (0.00 sec)<br>
+      <br>
++-------------------------+---------+---------+-------------+<br>
+| Outer Join - RIGHT JOIN | ename&nbsp;&nbsp; | salary&nbsp; |
+dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++-------------------------+---------+---------+-------------+<br>
+| Outer Join - RIGHT JOIN | jack&nbsp;&nbsp;&nbsp; | 3000.00 |
+Engineering |<br>
+| Outer Join - RIGHT JOIN | nichole | 4000.00 | Engineering |<br>
+| Outer Join - RIGHT JOIN | mary&nbsp;&nbsp;&nbsp; | 2500.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Outer Join - RIGHT JOIN | angie&nbsp;&nbsp; | 5000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Outer Join - RIGHT JOIN | jones&nbsp;&nbsp; | 5000.00 |
+Marketing&nbsp;&nbsp; |<br>
+| Outer Join - RIGHT JOIN | <span style="color: rgb(255, 0, 0);">NULL&nbsp;&nbsp;&nbsp;
+      </span>|&nbsp;&nbsp;&nbsp; NULL |
+HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++-------------------------+---------+---------+-------------+<br>
+6 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_1">return to top of exercise</a><br>
+<br>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.4"></a>(1.4)&nbsp;
+Self Join</h3>
+<div style="margin-left: 40px;"><br>
+1. Study <span style="font-weight: bold;">self_join.sql</span><br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Self Join involves joining a
+table to itself */<br>
+      <br>
+/* Self Join */<br>
+SELECT 'Self Join', e1.ename, e2.salary<br>
+FROM employees AS e1, employees AS e2<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;">2. Execute <span
+ style="font-weight: bold;">self_join.sql<br>
+<br>
+</span>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_join/sqlscripts/self_join.sql</span><br>
++-----------+-----------+---------+<br>
+| Self Join | ename&nbsp;&nbsp;&nbsp;&nbsp; | salary&nbsp; |<br>
++-----------+-----------+---------+<br>
+| Self Join | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 3000.00 |<br>
+| Self Join | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 3000.00 |<br>
+| Self Join | nichole&nbsp;&nbsp; | 3000.00 |<br>
+| Self Join | angie&nbsp;&nbsp;&nbsp;&nbsp; | 3000.00 |<br>
+| Self Join | jones&nbsp;&nbsp;&nbsp;&nbsp; | 3000.00 |<br>
+| Self Join | newperson | 3000.00 |<br>
+| Self Join | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2500.00 |<br>
+| Self Join | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2500.00 |<br>
+| Self Join | nichole&nbsp;&nbsp; | 2500.00 |<br>
+| Self Join | angie&nbsp;&nbsp;&nbsp;&nbsp; | 2500.00 |<br>
+| Self Join | jones&nbsp;&nbsp;&nbsp;&nbsp; | 2500.00 |<br>
+| Self Join | newperson | 2500.00 |<br>
+| Self Join | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 4000.00 |<br>
+| Self Join | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 4000.00 |<br>
+| Self Join | nichole&nbsp;&nbsp; | 4000.00 |<br>
+| Self Join | angie&nbsp;&nbsp;&nbsp;&nbsp; | 4000.00 |<br>
+| Self Join | jones&nbsp;&nbsp;&nbsp;&nbsp; | 4000.00 |<br>
+| Self Join | newperson | 4000.00 |<br>
+| Self Join | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | nichole&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | angie&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | jones&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | newperson | 5000.00 |<br>
+| Self Join | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | nichole&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | angie&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | jones&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | newperson | 5000.00 |<br>
+| Self Join | jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | mary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | nichole&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | angie&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | jones&nbsp;&nbsp;&nbsp;&nbsp; | 5000.00 |<br>
+| Self Join | newperson | 5000.00 |<br>
++-----------+-----------+---------+<br>
+36 rows in set (0.03 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div style="margin-left: 40px;"><br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_1">return to top of exercise</a><br>
+<br>
+</div>
+<div style="margin-left: 40px;"></div>
+<br>
+<h2><a name="Exercise_2"></a>Exercise 2: Table relationship through
+foreign keys<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;">Tables are related through
+foreign keys.&nbsp;&nbsp; The relationship between tables could be
+One-to-One (1-1), One-to-Many (1-n), or Many-to-Many (n-m).<strong
+ style="font-weight: normal;"></strong><br>
+</p>
+<ol>
+  <ol>
+    <li><a href="index.html#2.1">One-to-One (1-1) relationship</a><br>
+    </li>
+    <span style="text-decoration: underline;"><span
+ style="font-weight: bold;"></span></span><li><a href="index.html#2.2">One-to-many
+(1-n) relationship<br>
+      </a></li>
+    <li><a href="index.html#2.3">Many-to-Many (n-m) relationship<br>
+      </a></li>
+  </ol>
+</ol>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="2.1"></a>(2.1)
+One-to-One (1-1) relationship</h3>
+<br>
+<div style="margin-left: 40px;">1. Study <span
+ style="font-weight: bold;">one_to_one.sql</span><br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Drop tables if they exist */<br>
+DROP TABLE IF EXISTS primary_address;<br>
+DROP TABLE IF EXISTS person;&nbsp; <br>
+&nbsp;<br>
+/* Create "person" table */<br>
+CREATE TABLE person (&nbsp; <br>
+&nbsp;&nbsp;&nbsp; person_id INT NOT NULL AUTO_INCREMENT,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; pname varchar(255) NOT NULL,&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (person_id) <br>
+) ENGINE=InnoDB; <br>
+&nbsp; <br>
+&nbsp;<br>
+/* Create "primary_address" table with FOREIGN KEY */ <br>
+&nbsp;CREATE TABLE primary_address (&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; primary_address_id INT NOT NULL,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; address varchar(255) NOT NULL,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; p_id INT NOT NULL,<br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (primary_address_id),<br>
+&nbsp;&nbsp;&nbsp; FOREIGN KEY (p_id) REFERENCES person (person_id)<br>
+) ENGINE=InnoDB;&nbsp;&nbsp; <br>
+      <br>
+/* Data for the table person */<br>
+INSERT INTO person(person_id, pname) <br>
+VALUES<br>
+(1,'Sang Shin'),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+(2,'Casey Jones'),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+(3,'Bull Fighter'),<br>
+(4,'Passion You');<br>
+      <br>
+/* Data for the table primary_address */<br>
+INSERT INTO primary_address(primary_address_id, address, p_id)<br>
+VALUES<br>
+(11,'11 dreamland', 1),<br>
+(12,'5 king road', 2),<br>
+(13,'67 nichole st', 3),<br>
+(14,'32 Washington st', 4);<br>
+      <br>
+/* Display data in the tables */<br>
+SELECT * FROM person;<br>
+SELECT * FROM primary_address;<br>
+      <br>
+/* Perforn Inner Joined SELECT */<br>
+SELECT person.pname, primary_address.address<br>
+FROM person, primary_address<br>
+WHERE person.person_id=primary_address.p_id;<br>
+      <br>
+/* Display number of primary_addresses for each person */<br>
+SELECT person.pname AS 'person', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COUNT(primary_address.address) AS
+'number of primary addresses'<br>
+FROM person, primary_address<br>
+WHERE person.person_id = primary_address.p_id <br>
+GROUP BY primary_address.address;<br>
+      <br>
+/* Display number of person for each primary_address */<br>
+SELECT primary_address.address AS 'primary address', <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COUNT(person.pname) AS 'person'<br>
+FROM person, primary_address<br>
+WHERE person.person_id = primary_address.p_id <br>
+GROUP BY person.pname;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">one_to_one.sql<br>
+<br>
+</span></div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_join/sqlscripts/one_to_one.sql</span><br>
+Query OK, 0 rows affected (0.06 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.06 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.15 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.10 sec)<br>
+      <br>
+Query OK, 4 rows affected (0.04 sec)<br>
+Records: 4&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+Query OK, 4 rows affected (0.04 sec)<br>
+Records: 4&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
++-------------+-----------------+<br>
+| person_id | pname &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++-------------+-----------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 1 |
+Sang
+Shin&nbsp;&nbsp; &nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; 2 |
+Casey Jones&nbsp;
+|<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; 3 |
+Bull Fighter &nbsp;&nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; 4 |
+Passion You&nbsp;
+|<br>
++-------------+-----------------+<br>
+4 rows in set (0.00 sec)<br>
+      <br>
++-------------------------+-----------------------+------+<br>
+| primary_address_id |
+address&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp; | p_id |<br>
++-------------------------+-----------------------+------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+11 | 11 dreamland &nbsp;&nbsp; &nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 1 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+12 | 5 king road &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp; 2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+13 | 67 nichole st&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;
+3 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+14 | 32 Washington st |&nbsp;&nbsp;&nbsp; 4 |<br>
++-------------------------+-----------------------+------+<br>
+4 rows in set (0.00 sec)<br>
+      <br>
++--------------+------------------+<br>
+| pname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++--------------+------------------+<br>
+| Sang Shin&nbsp;&nbsp;&nbsp; | 11 dreamland&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Casey Jones&nbsp; | 5 king road&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| Bull Fighter | 67 nichole st&nbsp;&nbsp;&nbsp; |<br>
+| Passion You&nbsp; | 32 Washington st |<br>
++--------------+------------------+<br>
+4 rows in set (0.00 sec)<br>
+      <br>
++--------------+-----------------------------+<br>
+| person&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | number of primary
+addresses |<br>
++--------------+-----------------------------+<br>
+| Sang Shin&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+| Passion You&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+| Casey Jones&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+| Bull Fighter
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
++--------------+-----------------------------+<br>
+4 rows in set (0.00 sec)<br>
+      <br>
++------------------+--------+<br>
+| primary address&nbsp; | person |<br>
++------------------+--------+<br>
+| 67 nichole st&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |<br>
+| 5 king road&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |<br>
+| 32 Washington st |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |<br>
+| 11 dreamland&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
++------------------+--------+<br>
+4 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_2">return to top of exercise</a><br>
+<br>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="2.2"></a>(2.2)
+One-to-Many (1-n) relationship</h3>
+<br>
+<div style="margin-left: 40px;">1. Study <span
+ style="font-weight: bold;">one_to_many.sql</span>.<span
+ style="font-weight: bold;">&nbsp; </span>Pay special attention to the
+retrieval tasks which are highlighted in bold font below.<br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Drop tables if they exist */<br>
+DROP TABLE IF EXISTS employees;&nbsp; <br>
+DROP TABLE IF EXISTS departments;<br>
+&nbsp;<br>
+/* Create departments table */<br>
+CREATE TABLE departments (&nbsp; <br>
+&nbsp;&nbsp;&nbsp; department_id int(11) NOT NULL AUTO_INCREMENT,&nbsp;
+      <br>
+&nbsp;&nbsp;&nbsp; dname varchar(255) NOT NULL,&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (department_id) <br>
+) ENGINE=InnoDB; <br>
+&nbsp; <br>
+&nbsp;<br>
+/* Create "employees" table with FOREIGN KEY */ <br>
+&nbsp;CREATE TABLE employees (&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; employee_id int(11) NOT NULL AUTO_INCREMENT,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; ename varchar(255) NOT NULL,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; d_id int(11) NOT NULL, <br>
+&nbsp;&nbsp;&nbsp; salary decimal(7,2) NOT NULL,&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (employee_id),<br>
+&nbsp;&nbsp;&nbsp; FOREIGN KEY (d_id) REFERENCES departments
+(department_id)<br>
+) ENGINE=InnoDB;&nbsp;&nbsp; <br>
+      <br>
+/* Data for the table departments */<br>
+INSERT INTO departments(department_id, dname) <br>
+VALUES<br>
+(1,'Engineering'),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+(2,'Sales'),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+(3,'Marketing'),<br>
+(4,'HR');<br>
+      <br>
+/* Data for the table employees */<br>
+INSERT INTO employees(employee_id, ename, salary, d_id)<br>
+VALUES<br>
+(1,'jack','3000.00', 1),<br>
+(2,'mary','2500.00', 2),<br>
+(3,'nichole','4000.00', 1),<br>
+(4,'angie','5000.00', 2),<br>
+(5,'jones','5000.00', 3);<br>
+      <br>
+/* Display data in the tables */<br>
+SELECT * FROM departments;<br>
+SELECT * FROM employees;<br>
+      <br>
+/* Perforn Inner Joined SELECT */<br>
+SELECT employees.ename, employees.salary, departments.dname<br>
+FROM employees, departments<br>
+WHERE employees.d_id=departments.department_id;<br>
+      <br>
+      <span style="font-weight: bold;">/* Display number of employees
+for each department */</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">SELECT departments.dname AS
+'Department', </span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+COUNT(employees.d_id) AS 'Number
+of employees'</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">FROM departments, employees</span><br
+ style="font-weight: bold;">
+      <span style="font-weight: bold;">WHERE departments.department_id
+= employees.d_id </span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">GROUP BY employees.d_id;</span><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">one_to_many.sql<br>
+<br>
+</span></div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_join/sqlscripts/one_to_many.sql</span><br>
+Query OK, 0 rows affected (0.05 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.04 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.09 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.07 sec)<br>
+      <br>
+Query OK, 4 rows affected (0.04 sec)<br>
+Records: 4&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+Query OK, 5 rows affected (0.04 sec)<br>
+Records: 5&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
++-------------------+----------------+<br>
+| department_id | dname &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; |<br>
++-------------------+----------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+1 | Engineering |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+2 | Sales&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+3 | Marketing &nbsp;&nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+4 | HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; |<br>
++-------------------+----------------+<br>
+4 rows in set (0.00 sec)<br>
+      <br>
++----------------+---------+------+---------+<br>
+| employee_id | ename | d_id | salary&nbsp; |<br>
++----------------+---------+------+---------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+jack&nbsp; &nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 1 | 3000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 2 |
+mary&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 2 | 2500.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; 3 |
+nichole |&nbsp;&nbsp;&nbsp; 1 | 4000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp; 4 |
+angie&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 2 | 5000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp; 5 |
+jones&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 3 | 5000.00 |<br>
++-----------------+---------+------+---------+<br>
+5 rows in set (0.00 sec)<br>
+      <br>
++---------+---------+-------------+<br>
+| ename&nbsp;&nbsp; | salary&nbsp; |
+dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++---------+---------+-------------+<br>
+| jack&nbsp;&nbsp;&nbsp; | 3000.00 | Engineering |<br>
+| nichole | 4000.00 | Engineering |<br>
+| mary&nbsp;&nbsp;&nbsp; | 2500.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| angie&nbsp;&nbsp; | 5000.00 |
+Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| jones&nbsp;&nbsp; | 5000.00 | Marketing&nbsp;&nbsp; |<br>
++---------+---------+-------------+<br>
+5 rows in set (0.00 sec)<br>
+      <br>
++----------------+----------------------------+<br>
+| Department&nbsp; | Number of employees |<br>
++----------------+----------------------------+<br>
+| Engineering&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+2 |<br>
+| Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
+| Marketing&nbsp; &nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
++----------------+----------------------------+<br>
+3 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_2">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="2.3"></a>(2.3)
+Many-to_Many (n-m) relationship</h3>
+<br>
+<div style="margin-left: 40px;">1. Study <span
+ style="font-weight: bold;">many_to_many.sql</span>.&nbsp; Pay special
+attention to the retrieval tasks which are highlighted in bold font
+below.<span style="font-weight: bold;"><br>
+<br>
+</span></div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Drop tables if they exist */<br>
+DROP TABLE IF EXISTS student_course; <br>
+DROP TABLE IF EXISTS student;&nbsp; <br>
+DROP TABLE IF EXISTS course;<br>
+&nbsp;<br>
+/* Create student table */<br>
+CREATE TABLE student (&nbsp; <br>
+&nbsp;&nbsp;&nbsp; student_id INT NOT NULL AUTO_INCREMENT,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; sname varchar(255) NOT NULL,&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (student_id) <br>
+) ENGINE=InnoDB; <br>
+      <br>
+&nbsp;<br>
+/* Create course table */<br>
+CREATE TABLE course (&nbsp; <br>
+&nbsp;&nbsp;&nbsp; course_id INT NOT NULL AUTO_INCREMENT,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; cname varchar(255) NOT NULL,&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (course_id) <br>
+) ENGINE=InnoDB; <br>
+      <br>
+/* Create "student_course" join table with FOREIGN KEY to<br>
+&nbsp;* both student and course tables. */ <br>
+CREATE TABLE student_course (&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; student_course_id INT NOT NULL
+AUTO_INCREMENT,&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; s_id INT NOT NULL, <br>
+&nbsp;&nbsp;&nbsp; c_id INT NOT NULL,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (student_course_id),<br>
+&nbsp;&nbsp;&nbsp; FOREIGN KEY (s_id) REFERENCES student (student_id),<br>
+&nbsp;&nbsp;&nbsp; FOREIGN KEY (c_id) REFERENCES course (course_id)<br>
+) ENGINE=InnoDB;&nbsp;&nbsp; <br>
+      <br>
+&nbsp; <br>
+/* Data for the table student */<br>
+INSERT INTO student(student_id, sname)<br>
+VALUES<br>
+(1,'jack'),<br>
+(2,'mary'),<br>
+(3,'nichole'),<br>
+(4,'mike');<br>
+&nbsp;<br>
+/* Data for the table course */<br>
+INSERT INTO course(course_id, cname) <br>
+VALUES<br>
+(11,'Computer Science 101'),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+(22,'MySQL'),<br>
+(33,'Java programming');<br>
+      <br>
+/* Data for the table student_course */<br>
+INSERT INTO student_course(s_id, c_id) <br>
+VALUES<br>
+(1, 11),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+(1, 22),<br>
+(3, 22),<br>
+(4, 22);<br>
+      <br>
+      <br>
+/* Display data in the tables */<br>
+SELECT * FROM course;<br>
+SELECT * FROM student;<br>
+SELECT * FROM student_course;<br>
+      <br>
+      <span style="font-weight: bold;">/* Display all courses that
+'jack' is taking */</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">SELECT course.cname AS 'courses
+jack is taking'</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">FROM student, course,
+student_course</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">WHERE student.student_id =
+student_course.s_id AND</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+course.course_id = student_course.c_id
+AND</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+student.sname = 'jack';</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><br
+ style="font-weight: bold;">
+      <span style="font-weight: bold;">/* Display all courses that
+'nichole' is taking */</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">SELECT course.cname AS 'courses
+nichole is taking'</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">FROM student, course,
+student_course</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">WHERE student.student_id =
+student_course.s_id AND</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+course.course_id = student_course.c_id
+AND</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+student.sname = 'nichole';</span><br style="font-weight: bold;">
+      <br style="font-weight: bold;">
+      <span style="font-weight: bold;">/* Display all students who take
+'MySQL' */</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">SELECT student.sname AS
+'students who take MySQL'</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">FROM student, course,
+student_course</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">WHERE student.student_id =
+student_course.s_id AND</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+course.course_id = student_course.c_id
+AND</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+course.cname = 'MySQL';</span><br style="font-weight: bold;">
+      <br style="font-weight: bold;">
+      <span style="font-weight: bold;">/* Display number of students
+for each course */</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">SELECT course.cname AS course, </span><br
+ style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+COUNT(student.sname) AS 'number of
+students'</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">FROM student, course,
+student_course</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">WHERE student.student_id =
+student_course.s_id AND</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+course.course_id = student_course.c_id </span><br
+ style="font-weight: bold;">
+      <span style="font-weight: bold;">GROUP BY course.cname;</span><br
+ style="font-weight: bold;">
+      <br style="font-weight: bold;">
+      <span style="font-weight: bold;">/* Display number of courses for
+each student */</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">SELECT student.sname AS student,
+      </span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+COUNT(course.cname) AS 'number of
+courses'</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">FROM student, course,
+student_course</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">WHERE student.student_id =
+student_course.s_id AND</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+course.course_id = student_course.c_id </span><br
+ style="font-weight: bold;">
+      <span style="font-weight: bold;">GROUP BY student.sname;</span><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">many_to_many.sql<br>
+<br>
+</span></div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_join/sqlscripts/many_to_many.sql</span><br>
+Query OK, 0 rows affected (0.05 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.11 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.03 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.09 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.10 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.12 sec)<br>
+      <br>
+Query OK, 4 rows affected (0.04 sec)<br>
+Records: 4&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+Query OK, 3 rows affected (0.04 sec)<br>
+Records: 3&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+Query OK, 4 rows affected (0.04 sec)<br>
+Records: 4&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
++------------+----------------------------+<br>
+| course_id |
+cname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
++------------+----------------------------+<br>
+|&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; 11 | Computer Science
+101 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; 22 |
+MySQL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; 33 | Java
+programming &nbsp; &nbsp;&nbsp;&nbsp; |<br>
++------------+----------------------------+<br>
+3 rows in set (0.00 sec)<br>
+      <br>
++--------------+-----------+<br>
+| student_id | sname&nbsp;&nbsp; |<br>
++--------------+-----------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+1 |
+jack &nbsp; &nbsp; &nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; 2 |
+mary &nbsp; &nbsp;&nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+3 | nichole &nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+4 |
+mike&nbsp; &nbsp; &nbsp; |<br>
++--------------+-----------+<br>
+4 rows in set (0.00 sec)<br>
+      <br>
++------------------------+------+------+<br>
+| student_course_id | s_id | c_id |<br>
++------------------------+------+------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+1 | &nbsp; &nbsp; 1 |&nbsp;&nbsp; 11 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+2 |&nbsp; &nbsp;&nbsp; 1 |&nbsp;&nbsp; 22 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+3 |&nbsp; &nbsp;&nbsp; 3 |&nbsp;&nbsp; 22 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+4 |&nbsp; &nbsp;&nbsp; 4 |&nbsp;&nbsp; 22 |<br>
++------------------------+------+------+<br>
+4 rows in set (0.00 sec)<br>
+      <br>
++------------------------+<br>
+| courses jack is taking |<br>
++------------------------+<br>
+| Computer Science 101&nbsp;&nbsp; |<br>
+|
+MySQL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
++------------------------+<br>
+2 rows in set (0.00 sec)<br>
+      <br>
++---------------------------+<br>
+| courses nichole is taking |<br>
++---------------------------+<br>
+|
+MySQL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
++---------------------------+<br>
+1 row in set (0.00 sec)<br>
+      <br>
++-------------------------+<br>
+| students who take MySQL |<br>
++-------------------------+<br>
+|
+jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+nichole&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+mike&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
++-------------------------+<br>
+3 rows in set (0.00 sec)<br>
+      <br>
++----------------------+--------------------+<br>
+|
+course&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| number of students |<br>
++----------------------+--------------------+<br>
+| Computer Science 101
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+|
+MySQL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 |<br>
++----------------------+--------------------+<br>
+2 rows in set (0.00 sec)<br>
+      <br>
++---------+-------------------+<br>
+| student | number of courses |<br>
++---------+-------------------+<br>
+| jack&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
+| mike&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+| nichole
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
++---------+-------------------+<br>
+3 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_2">return to top of exercise</a><br>
+</div>
+<br>
+<h2><a name="Exercise_3"></a>Exercise 3: Primary key and foreign key
+and referential integrity<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;">A <strong
+ style="font-weight: normal;">primary key</strong> is a field or
+combination of fields that uniquely identify a record in a table, so
+that an individual record can be located without confusion. A <strong
+ style="font-weight: normal;">foreign key</strong> (sometimes called a
+referencing key) is a key used to link two tables together. Typically
+you take the primary key field from one table and insert it into the
+other table where it becomes a foreign key (it remains a primary key in
+the original table).&nbsp; <br>
+</p>
+<ol>
+  <ol>
+    <li><a href="#3.1">Create two tables, which are related with
+primary key and foreign key</a><br>
+    </li>
+    <span style="text-decoration: underline;"><span
+ style="font-weight: bold;"></span></span> <li><a href="#3.2">Test
+referential integrity in inserting records</a></li>
+    <li><a href="#3.3">Test referential integrity in updating records</a></li>
+    <li><a href="index.html#3.4">Test referential integrity in deleting
+records</a></li>
+    <li><a href="index.html#3.5">Test referential integrity in dropping
+tables<br>
+      </a></li>
+  </ol>
+</ol>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.1"></a>(3.1)
+Create two tables which are related with primary key and foreign key</h3>
+<div style="margin-left: 40px;"><br>
+0.&nbsp; Study FOREIGN KEY constraint.<br>
+</div>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">HELP CONSTRAINT;</span><br>
+Name: 'CONSTRAINT'<br>
+Description:<br>
+InnoDB supports foreign key constraints. The syntax for a foreign key<br>
+constraint definition in InnoDB looks like this:<br>
+      <br>
+[CONSTRAINT [symbol]] FOREIGN KEY<br>
+&nbsp;&nbsp;&nbsp; [index_name] (index_col_name, ...)<br>
+&nbsp;&nbsp;&nbsp; REFERENCES tbl_name (index_col_name,...)<br>
+&nbsp;&nbsp;&nbsp; [ON DELETE reference_option]<br>
+&nbsp;&nbsp;&nbsp; [ON UPDATE reference_option]<br>
+      <br>
+reference_option:<br>
+&nbsp;&nbsp;&nbsp; RESTRICT | CASCADE | SET NULL | NO ACTION<br>
+      <br>
+URL:
+http://dev.mysql.com/doc/refman/5.1/en/innodb-foreign-key-constraints.html<br>
+      <br>
+Examples:<br>
+CREATE TABLE product (category INT NOT NULL, id INT NOT NULL,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+price DECIMAL,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+PRIMARY KEY(category, id)) ENGINE=INNODB;<br>
+CREATE TABLE customer (id INT NOT NULL,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+PRIMARY KEY (id)) ENGINE=INNODB;<br>
+CREATE TABLE product_order (no INT NOT NULL AUTO_INCREMENT,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+product_category INT NOT NULL,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+product_id INT NOT NULL,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+customer_id INT NOT NULL,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+PRIMARY KEY(no),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+INDEX (product_category, product_id),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FOREIGN KEY (product_category, product_id)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+REFERENCES product(category, id)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ON UPDATE CASCADE ON DELETE RESTRICT,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+INDEX (customer_id),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FOREIGN KEY (customer_id)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+REFERENCES customer(id)) ENGINE=INNODB;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+1. Study <span style="font-weight: bold;">joined_tables_create_foreignkey.sql</span><br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Drop tables if they exist */<br>
+DROP TABLE IF EXISTS employees;&nbsp; <br>
+DROP TABLE IF EXISTS departments;<br>
+&nbsp;<br>
+/* Create departments table */<br>
+CREATE TABLE departments (&nbsp; <br>
+&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;"> department_id
+int(11) NOT NULL AUTO_INCREMENT,&nbsp; </span><br>
+&nbsp;&nbsp;&nbsp; dname varchar(255) NOT NULL,&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (department_id) <br>
+) ENGINE=InnoDB; <br>
+&nbsp; <br>
+&nbsp;<br>
+/* Create "employees" table with FOREIGN KEY */ <br>
+&nbsp;CREATE TABLE employees (&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; employee_id int(11) NOT NULL AUTO_INCREMENT,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; ename varchar(255) NOT NULL,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">d_id int(11) NOT
+NULL, </span><br>
+&nbsp;&nbsp;&nbsp; salary decimal(7,2) NOT NULL,&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (employee_id),<br>
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">FOREIGN KEY (d_id)
+REFERENCES departments (department_id)</span><br>
+) ENGINE=InnoDB;&nbsp;&nbsp; <br>
+      <br>
+/* Data for the table departments */<br>
+INSERT INTO departments(department_id, dname) <br>
+VALUES<br>
+(1,'Engineering'),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+(2,'Sales'),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+(3,'Marketing'),<br>
+(4,'HR');<br>
+      <br>
+/* Data for the table employees */<br>
+INSERT INTO employees(employee_id, ename, salary, d_id)<br>
+VALUES<br>
+(1,'jack','3000.00', 1),<br>
+(2,'mary','2500.00', 2),<br>
+(3,'nichole','4000.00', 1),<br>
+(4,'angie','5000.00', 2),<br>
+(5,'jones','5000.00', 3);<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">joined_tables_create_foreignkey.sql<br>
+<br>
+</span>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_join/sqlscripts/joined_tables_create_foreignkey.sql</span><br>
+Query OK, 0 rows affected (0.08 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.04 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.10 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.10 sec)<br>
+      <br>
+Query OK, 4 rows affected (0.03 sec)<br>
+Records: 4&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+Query OK, 5 rows affected (0.04 sec)<br>
+Records: 5&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * FROM departments;</span><br>
++-------------------+----------------+<br>
+| department_id | dname&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; |<br>
++-------------------+----------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+1 | Engineering |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+2 | Sales&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;&nbsp;&nbsp;
+3 | Marketing &nbsp; &nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;&nbsp;&nbsp;
+4 | HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; |<br>
++-------------------+----------------+<br>
+4 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * FROM employees;</span><br>
++----------------+----------+------+---------+<br>
+| employee_id | ename | d_id | salary&nbsp; |<br>
++----------------+----------+------+---------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 1 |
+jack&nbsp; &nbsp; &nbsp; |&nbsp;&nbsp;&nbsp; 1 | 3000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 2 |
+mary &nbsp; &nbsp; |&nbsp;&nbsp;&nbsp; 2 | 2500.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp; 3 |
+nichole&nbsp; |&nbsp;&nbsp;&nbsp; 1 | 4000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+angie&nbsp; &nbsp; |&nbsp;&nbsp;&nbsp; 2 | 5000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; 5 |
+jones&nbsp; &nbsp; |&nbsp;&nbsp;&nbsp; 3 | 5000.00 |<br>
++----------------+-----------+------+---------+<br>
+5 rows in set (0.00 sec)<br>
+      <span style="font-weight: bold;"> </span></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_3">return to top of exercise</a><br>
+</div>
+<div style="margin-left: 40px;"><br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.2"></a>(3.2)
+Test referential integrity checking for inserting records<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">A <strong style="font-weight: normal;">foreign
+key constraint</strong> specifies
+that the data in a <strong style="font-weight: normal;">foreign key</strong>
+must match the data in the primary key of the linked table, in the
+example tables above, you cannot set the<span style="font-weight: bold;">
+d_id</span>
+field in the <span style="font-weight: bold;">employees </span>table
+to 10&nbsp; as there is no <span style="font-weight: bold;">department_id</span>
+of 10 in the <span style="font-weight: bold;">departments </span>table.
+This system is called <strong>referential integrity</strong>, it is to
+ensure that the data entered is correct and not orphaned (i.e. there
+are no broken links between data in the tables)<br>
+<br>
+1. Test referential integrity by
+inserting records that contain invalid foreign key values in d_id field.<br>
+</div>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">INSERT INTO employees(employee_id, ename,
+salary, d_id)</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">VALUES</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">(6,
+'newperson', '5000.00', NULL);</span><br>
+      <span style="color: rgb(255, 0, 0);">ERROR 1048 (23000): Column
+'d_id' cannot be null</span><br>
+mysql&gt;<span style="font-weight: bold;"> INSERT INTO
+employees(employee_id, ename, salary, d_id)</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">VALUES</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">(6,
+'newperson', '5000.00', 10);</span><br>
+      <span style="color: rgb(255, 0, 0);">ERROR 1452 (23000): Cannot
+add or update a child row: a foreign key constraint fails
+(`mydb`.`employ</span><br style="color: rgb(255, 0, 0);">
+      <span style="color: rgb(255, 0, 0);">ees`, CONSTRAINT
+`employees_ibfk_1` FOREIGN KEY (`d_id`) REFERENCES `departments`
+(`department_id`))</span><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_3">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.3"></a>(3.3)
+Test referential integrity checking for updating records</h3>
+<br>
+<div style="margin-left: 40px;">1. Test referential integrity by
+updating records that contain invalid foreign key values in d_id field.<br>
+</div>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">// This should succeed because
+there is no dependent records in the employees table.<br>
+// In other words, there is no record in the employees table whose
+foreign key field has<br>
+// value of 4.<br>
+mysql&gt; <span style="font-weight: bold;">UPDATE departments SET
+department_id = 44
+WHERE department_id = 4;</span><br>
+Query OK, 1 row affected (0.06 sec)<br>
+Rows matched: 1&nbsp; Changed: 1&nbsp; Warnings: 0<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * FROM departments;</span><br>
++---------------+-------------+<br>
+| department_id | dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++---------------+-------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 | Engineering |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 | Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 | Marketing&nbsp;&nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 44
+| HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++---------------+-------------+<br>
+4 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">UPDATE departments SET
+department_id = 4 WHERE department_id = 44;</span><br>
+Query OK, 1 row affected (0.06 sec)<br>
+Rows matched: 1&nbsp; Changed: 1&nbsp; Warnings: 0<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">UPDATE departments SET
+department_id = 11 WHERE department_id = 1;</span><br>
+      <span style="color: rgb(255, 0, 0);">ERROR 1451 (23000): Cannot
+delete or update a parent row: a foreign key constraint fails
+(`mydb`.`employees`, CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`d_id`)
+REFERENCES `departments` (`department_id`))</span><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_3">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.4"></a>(3.4)
+Test referential integrity checking for deleting records</h3>
+<br>
+<div style="margin-left: 40px;">1. Test referential integrity by
+deleting records.<br>
+</div>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">// This should succeed because
+there is no dependent records in the employees table.<br>
+// In other words, there is no record in the employees table whose
+foreign key field has<br>
+// value of 4.<br>
+mysql&gt; <span style="font-weight: bold;">DELETE FROM departments
+WHERE department_id = 4;</span><br>
+Query OK, 1 row affected (0.05 sec)<br>
+      <br>
+mysql&gt;<span style="font-weight: bold;"> SELECT * FROM departments;</span><br>
++---------------+-------------+<br>
+| department_id | dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++---------------+-------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 | Engineering |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 | Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 | Marketing&nbsp;&nbsp; |<br>
++---------------+-------------+<br>
+3 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * FROM employees;</span><br>
++-------------+---------+------+---------+<br>
+| employee_id | ename&nbsp;&nbsp; | d_id | salary&nbsp; |<br>
++-------------+---------+------+---------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+jack&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 1 | 3000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+mary&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 2 | 2500.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+nichole |&nbsp;&nbsp;&nbsp; 1 | 4000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+angie&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 2 | 5000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 |
+jones&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 3 | 5000.00 |<br>
++-------------+---------+------+---------+<br>
+5 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">DELETE FROM departments
+WHERE department_id = 2;</span><br>
+      <span style="color: rgb(255, 0, 0);">ERROR 1451 (23000): Cannot
+delete or update a parent row: a foreign key constraint fails
+(`mydb`.`employees`, CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`d_id`)
+REFERENCES `departments` (`department_id`))<br>
+      <br>
+      <span style="color: rgb(0, 0, 0);">mysql&gt; <span
+ style="font-weight: bold;">SELECT * FROM employees;</span></span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">+-------------+---------+------+---------+</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">| employee_id |
+ename&nbsp;&nbsp;&nbsp; | d_id | salary&nbsp; |</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">+-------------+---------+------+---------+</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 | jack&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 1 | 3000.00 |</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 | mary&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 2 | 2500.00 |</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 | nichole |&nbsp;&nbsp;&nbsp; 1 | 4000.00 |</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4 | angie&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 2 | 5000.00 |</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5 | jones&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 3 | 5000.00 |</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">+-------------+---------+------+---------+</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">5 rows in set (0.00 sec)</span><br
+ style="color: rgb(0, 0, 0);">
+      <br style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">mysql&gt; <span
+ style="font-weight: bold;">DELETE FROM employees WHERE d_id = 2;</span></span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">Query OK, 2 rows affected
+(0.05 sec)</span><br style="color: rgb(0, 0, 0);">
+      <br style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">mysql&gt; <span
+ style="font-weight: bold;">SELECT * FROM employees;</span></span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">+-------------+---------+------+---------+</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">| employee_id |
+ename&nbsp;&nbsp;&nbsp; | d_id | salary&nbsp; |</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">+-------------+---------+------+---------+</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 | jack&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 1 | 3000.00 |</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 | nichole |&nbsp;&nbsp;&nbsp; 1 | 4000.00 |</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5 | jones&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 3 | 5000.00 |</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">+-------------+---------+------+---------+</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">3 rows in set (0.00 sec)</span><br
+ style="color: rgb(0, 0, 0);">
+      <br style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">mysql&gt; <span
+ style="font-weight: bold;">DELETE FROM departments WHERE department_id
+= 2;</span></span><br style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">Query OK, 1 row affected (0.09
+sec)</span><br style="color: rgb(0, 0, 0);">
+      <br style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">mysql&gt; <span
+ style="font-weight: bold;">SELECT * FROM departments;</span></span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">+---------------+-------------+</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">| department_id |
+dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">+---------------+-------------+</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 | Engineering |</span><br style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 | Marketing&nbsp;&nbsp; |</span><br style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">+---------------+-------------+</span><br
+ style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">2 rows in set (0.00 sec)<br>
+      </span></span></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_3">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.5"></a>(3.5)
+Test referential integrity checking for dropping tables</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><span
+ style="color: rgb(255, 0, 0);"><span style="color: rgb(0, 0, 0);">mysql&gt;
+      <span style="font-weight: bold;">DROP TABLE departments;</span><br>
+      <span style="color: rgb(255, 0, 0);">ERROR 1217 (23000): Cannot
+delete or update a parent row: a foreign key constraint fails<br>
+      <br>
+      </span>mysql&gt;<span style="font-weight: bold;"> DROP TABLE
+employees;</span><br>
+Query OK, 0 rows affected (0.05 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">DROP TABLE departments</span>;<br>
+Query OK, 0 rows affected (0.04 sec)</span></span></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_2">return to top of exercise</a><br>
+<br>
+</div>
+<br>
+<h2><a name="Exercise_4"></a>Exercise 4: Automatic deletion and update
+using "ON DELETE CASCADE" &amp; "ON UPDATE CASCADE'<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;">The ON DELETE CASCADE or ON
+UPDATE CASCADE clause to the <span style="font-weight: bold;">FOREIGN
+KEY .. REFERENCES </span>modifier enabled automatic deletion or update
+of the records.<strong style="font-weight: normal;"></strong></p>
+<ol>
+  <ol start="1">
+    <li><a href="index.html#4.1">Create two tables, which are related
+with primary key and foreign key</a><br>
+    </li>
+    <li><a href="index.html#4.2">Add records to the tables</a></li>
+    <li><a href="index.html#4.3">Automatic update<br>
+      </a></li>
+    <li><a href="index.html#4.4">Automatic delete</a><br>
+    </li>
+  </ol>
+</ol>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="4.1"></a>(4.1)
+Create two tables which are related with primary key and foreign key</h3>
+<br>
+<div style="margin-left: 40px;">1. Study <span
+ style="font-weight: bold;">joined_tables_create_foreignkey_cascade.sql</span><br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Drop tables if they exist */<br>
+DROP TABLE IF EXISTS employees;&nbsp; <br>
+DROP TABLE IF EXISTS departments;<br>
+      <br>
+/* Create "departments" table */<br>
+CREATE TABLE departments ( <br>
+&nbsp;&nbsp;&nbsp; department_id int(11) NOT NULL AUTO_INCREMENT, <br>
+&nbsp;&nbsp;&nbsp; dname varchar(255) NOT NULL,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (department_id)<br>
+) ENGINE=InnoDB;<br>
+&nbsp;<br>
+&nbsp;<br>
+/* Create "employees" table with FOREIGN KEY */<br>
+CREATE TABLE employees (&nbsp; <br>
+&nbsp;&nbsp;&nbsp; employee_id int(11) NOT NULL AUTO_INCREMENT, <br>
+&nbsp;&nbsp;&nbsp; ename varchar(255) NOT NULL, <br>
+&nbsp;&nbsp;&nbsp; d_id int(11) NOT NULL,<br>
+&nbsp;&nbsp;&nbsp; salary decimal(7,2) NOT NULL,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (employee_id),<br>
+&nbsp;&nbsp;&nbsp; FOREIGN KEY (d_id) REFERENCES departments
+(department_id)<br>
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">ON DELETE CASCADE</span><br
+ style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp; ON UPDATE
+CASCADE</span><br>
+) ENGINE=InnoDB;&nbsp;&nbsp;&nbsp; <br>
+      <br>
+      <br>
+/* Data for the table departments */<br>
+INSERT INTO departments(department_id, dname)<br>
+VALUES<br>
+(1,'Engineering'),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+(2,'Sales'),&nbsp;&nbsp;&nbsp;&nbsp; <br>
+(3,'Marketing'),<br>
+(4,'HR');<br>
+      <br>
+/* Data for the table employees */<br>
+INSERT INTO employees(employee_id, ename, salary, d_id)<br>
+VALUES<br>
+(1,'jack','3000.00', 1),<br>
+(2,'mary','2500.00', 2),<br>
+(3,'nichole','4000.00', 1),<br>
+(4,'angie','5000.00', 2),<br>
+(5,'jones','5000.00', 3);<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">joined_tables_create_foreignkey_cascade.sql<br>
+<br>
+</span>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_join/sqlscripts/joined_tables_create_foreignkey_cascade.sql</span><br>
+Query OK, 0 rows affected (0.06 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.04 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.07 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.17 sec)<br>
+      <br>
+Query OK, 4 rows affected (0.04 sec)<br>
+Records: 4&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+Query OK, 5 rows affected (0.04 sec)<br>
+Records: 5&nbsp; Duplicates: 0&nbsp; Warnings: 0</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_4">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="4.2"></a>(4.2)
+Automatic update<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">UPDATE departments SET department_id = 11
+WHERE department_id = 1;</span><br>
+Query OK, 1 row affected (0.05 sec)<br>
+Rows matched: 1&nbsp; Changed: 1&nbsp; Warnings: 0<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * FROM departments;</span><br>
++---------------+-------------+<br>
+| department_id | dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++---------------+-------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 | Sales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 | Marketing&nbsp;&nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4 | HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11
+| Engineering |<br>
++---------------+-------------+<br>
+4 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * FROM employees;</span><br>
++-------------+---------+------+---------+<br>
+| employee_id | ename&nbsp;&nbsp;&nbsp; | d_id | salary&nbsp; |<br>
++-------------+---------+------+---------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+jack&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 11 | 3000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+mary&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 2 | 2500.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+nichole |&nbsp;&nbsp; 11 | 4000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+angie&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 2 | 5000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 |
+jones&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 3 | 5000.00 |<br>
++-------------+---------+------+---------+<br>
+5 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_4">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="4.3"></a>(4.3)
+Automatic deletion<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;<span
+ style="font-weight: bold;"> DELETE FROM
+departments WHERE department_id = 2;</span><br>
+Query OK, 1 row affected (0.05 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * FROM departments;</span><br>
++---------------+-------------+<br>
+| department_id | dname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++---------------+-------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 | Marketing&nbsp;&nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4 | HR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11
+| Engineering |<br>
++---------------+-------------+<br>
+3 rows in set (0.00 sec)<br>
+      <br>
+// Observe that the employee record whose foregin key is 2<br>
+// are autimatically deleted.<br>
+mysql&gt;<span style="font-weight: bold;"> SELECT * FROM employees;</span><br>
++-------------+---------+------+---------+<br>
+| employee_id | ename&nbsp;&nbsp;&nbsp; | d_id | salary&nbsp; |<br>
++-------------+---------+------+---------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+jack&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 11 | 3000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+nichole |&nbsp;&nbsp; 11 | 4000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 |
+jones&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 3 | 5000.00 |<br>
++-------------+---------+------+---------+<br>
+3 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<br>
+<div style="margin-left: 40px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_4">return to top of exercise</a></div>
+<div style="margin-left: 40px;"><br>
+</div>
+<br>
+<h2><a name="Exercise_5"></a>Exercise 5: Union<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;"><code class="literal">UNION</code>
+is used to combine the result from multiple <code class="literal">SELECT</code>
+statements into a single result set. </p>
+<ol>
+  <ol>
+  </ol>
+</ol>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="5.1"></a>(5.1)&nbsp;
+UNION<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">1. Study <span
+ style="font-weight: bold;">union.sql</span><br>
+<span style="font-weight: bold;"><br>
+</span></div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">DROP TABLE IF EXISTS
+HighSalaryEmployees;<br>
+      <br>
+CREATE TEMPORARY TABLE HighSalaryEmployees <br>
+SELECT ename, salary FROM employees<br>
+WHERE salary &gt; 4000;<br>
+      <br>
+DROP TABLE IF EXISTS LowSalaryEmployees;<br>
+      <br>
+CREATE TEMPORARY TABLE LowSalaryEmployees <br>
+SELECT ename, salary FROM employees<br>
+WHERE salary &lt; 3000;<br>
+      <br>
+/* Combine the output of multiple SELECT */<br>
+SELECT ename, salary FROM HighSalaryEmployees<br>
+      <span style="font-weight: bold;">UNION</span><br>
+SELECT ename, salary FROM LowSalaryEmployees;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">union.sql</span><br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_join/sqlscripts/union.sql</span><br>
+Query OK, 0 rows affected (0.05 sec)<br>
+      <br>
+Query OK, 2 rows affected (0.17 sec)<br>
+Records: 2&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+Query OK, 0 rows affected (0.04 sec)<br>
+      <br>
+Query OK, 1 row affected (0.11 sec)<br>
+Records: 1&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
++-------+---------+<br>
+| ename | salary&nbsp; |<br>
++-------+---------+<br>
+| angie | 5000.00 |<br>
+| jones | 5000.00 |<br>
+| mary&nbsp; | 2500.00 |<br>
++-------+---------+<br>
+3 rows in set (0.01 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_5">return to top of exercise</a></div>
+<div style="margin-left: 40px;">
+<div style="margin-left: 40px;"><br>
+</div>
+<br>
+</div>
+<br>
+<br>
+<h2><a name="Exercise_6"></a>Exercise 6: Subquery<br>
+</h2>
+<div style="margin-left: 40px;"><br>
+A subquery is a <code class="literal">SELECT</code> statement within
+another statement. A subquery must always appear within
+parentheses.&nbsp; The main advantages of subqueries are: </div>
+<div style="margin-left: 40px;" class="itemizedlist">
+<ul>
+  <li>They allow queries that are <span class="emphasis"><em>structured</em></span>
+so that it is possible to isolate each part of a statement.</li>
+  <li>They provide alternative ways to perform operations that would
+otherwise require complex joins and unions. </li>
+  <li>They are, in many people's opinion, more readable than complex
+joins or unions.&nbsp; </li>
+</ul>
+</div>
+<p class="pBody" style="margin-left: 40px;"> </p>
+<ol>
+  <ol>
+  </ol>
+</ol>
+<div style="margin-left: 40px;">
+<ol>
+  <li><a href="#6.1">Simple subquery</a></li>
+  <li><a href="#6.2">Subquery using tables</a></li>
+</ol>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="6.1"></a>(6.1)&nbsp;
+Simple subquery<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">1. Study <span
+ style="font-weight: bold;">subquery_avg.sql</span><br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">SELECT ename, salary FROM
+employees <br>
+WHERE salary &gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;"> (SELECT
+AVG(salary) FROM employees);</span><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">subquery_avg.sql<br>
+<br>
+</span></div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_join/sqlscripts/subquery_avg.sql</span><br>
++---------+---------+<br>
+| ename&nbsp;&nbsp; | salary&nbsp; |<br>
++---------+---------+<br>
+| nichole | 4000.00 |<br>
+| angie&nbsp;&nbsp; | 5000.00 |<br>
+| jones&nbsp;&nbsp; | 5000.00 |<br>
++---------+---------+<br>
+3 rows in set (0.03 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_6">return to top of exercise</a><br>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="6.2"></a>(6.2)&nbsp;
+Subquery using tables<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">1. Study <span
+ style="font-weight: bold;">subquery_tables.sql<br>
+<br>
+</span></div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">SELECT ename, salary FROM
+employees <br>
+WHERE d_id =<br>
+&nbsp;&nbsp;&nbsp;&nbsp; (SELECT department_id FROM departments<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WHERE dname = 'Sales');<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">subquery_tables.sql<br>
+<br>
+</span></div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_join/sqlscripts/subquery_tables.sql</span><br>
++-------+---------+<br>
+| name&nbsp; | salary&nbsp; |<br>
++-------+---------+<br>
+| mary&nbsp; | 2500.00 |<br>
+| angie | 5000.00 |<br>
++-------+---------+<br>
+2 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_6">return to top of exercise</a><br>
+<br>
+</div>
+<br>
+<h2><a name="Exercise_7"></a>Exercise 7: View<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;">A view is a virtual table
+which is composed of result set of a SELECT query.&nbsp; Because view
+is like the table which consists of row and <span class="IL_AD"
+ id="IL_AD2">column</span>
+so you can retrieve and update data on it in the same way with table.
+When the tables which are the source data of a view changes; the data
+in the view change also.
+</p>
+<ol>
+  <ol>
+    <li><a href="#7.1">Simpe view </a><br>
+    </li>
+    <li><a href="#7.2">View from multiple tables</a><br>
+    </li>
+  </ol>
+</ol>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="7.1"></a>(7.1)&nbsp;
+Simple view</h3>
+<div style="margin-left: 40px;"><br>
+0. Study CREATE VIEW<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">HELP CREATE VIEW;</span><br>
+Name: 'CREATE VIEW'<br>
+Description:<br>
+Syntax:<br>
+CREATE<br>
+&nbsp;&nbsp;&nbsp; [OR REPLACE]<br>
+&nbsp;&nbsp;&nbsp; [ALGORITHM = {UNDEFINED | MERGE | TEMPTABLE}]<br>
+&nbsp;&nbsp;&nbsp; [DEFINER = { user | CURRENT_USER }]<br>
+&nbsp;&nbsp;&nbsp; [SQL SECURITY { DEFINER | INVOKER }]<br>
+&nbsp;&nbsp;&nbsp; VIEW view_name [(column_list)]<br>
+&nbsp;&nbsp;&nbsp; AS select_statement<br>
+&nbsp;&nbsp;&nbsp; [WITH [CASCADED | LOCAL] CHECK OPTION]<br>
+      <br>
+The CREATE VIEW statement creates a new view, or replaces an existing<br>
+one if the OR REPLACE clause is given. If the view does not exist,<br>
+CREATE OR REPLACE VIEW is the same as CREATE VIEW. If the view does<br>
+exist, CREATE OR REPLACE VIEW is the same as ALTER VIEW.<br>
+      <br>
+The select_statement is a SELECT statement that provides the definition<br>
+of the view. (When you select from the view, you select in effect using<br>
+the SELECT statement.) select_statement can select from base tables or<br>
+other views.<br>
+      <br>
+The view definition is "frozen" at creation time, so changes to the<br>
+underlying tables afterward do not affect the view definition. For<br>
+example, if a view is defined as SELECT * on a table, new columns added<br>
+to the table later do not become part of the view.<br>
+      <br>
+The ALGORITHM clause affects how MySQL processes the view. The DEFINER<br>
+and SQL SECURITY clauses specify the security context to be used when<br>
+checking access privileges at view invocation time. The WITH CHECK<br>
+OPTION clause can be given to constrain inserts or updates to rows in<br>
+tables referenced by the view. These clauses are described later in<br>
+this section.<br>
+      <br>
+The CREATE VIEW statement requires the CREATE VIEW privilege for the<br>
+view, and some privilege for each column selected by the SELECT<br>
+statement. For columns used elsewhere in the SELECT statement you must<br>
+have the SELECT privilege. If the OR REPLACE clause is present, you<br>
+must also have the DROP privilege for the view.<br>
+      <br>
+A view belongs to a database. By default, a new view is created in the<br>
+default database. To create the view explicitly in a given database,<br>
+specify the name as db_name.view_name when you create it.<br>
+      <br>
+mysql&gt; CREATE VIEW test.v AS SELECT * FROM t;<br>
+      <br>
+Base tables and views share the same namespace within a database, so a<br>
+database cannot contain a base table and a view that have the same<br>
+name.<br>
+      <br>
+Views must have unique column names with no duplicates, just like base<br>
+tables. By default, the names of the columns retrieved by the SELECT<br>
+statement are used for the view column names. To define explicit names<br>
+for the view columns, the optional column_list clause can be given as a<br>
+list of comma-separated identifiers. The number of names in column_list<br>
+must be the same as the number of columns retrieved by the SELECT<br>
+statement.<br>
+      <br>
+*Note*: Prior to MySQL 5.1.29, when you modify an existing view, the<br>
+current view definition is backed up and saved. It is stored in that<br>
+table's database directory, in a subdirectory named arc. The backup<br>
+file for a view v is named v.frm-00001. If you alter the view again,<br>
+the next backup is named v.frm-00002. The three latest view backup<br>
+definitions are stored. Backed up view definitions are not preserved by<br>
+mysqldump, or any other such programs, but you can retain them using a<br>
+file copy operation. However, they are not needed for anything but to<br>
+provide you with a backup of your previous view definition. It is safe<br>
+to remove these backup definitions, but only while mysqld is not<br>
+running. If you delete the arc subdirectory or its files while mysqld<br>
+is running, you will receive an error the next time you try to alter<br>
+the view: mysql&gt; ALTER VIEW v AS SELECT * FROM t; ERROR 6 (HY000):<br>
+Error on delete of '.\test\arc/v.frm-0004' (Errcode: 2)<br>
+      <br>
+Columns retrieved by the SELECT statement can be simple references to<br>
+table columns. They can also be expressions that use functions,<br>
+constant values, operators, and so forth.<br>
+      <br>
+Unqualified table or view names in the SELECT statement are interpreted<br>
+with respect to the default database. A view can refer to tables or<br>
+views in other databases by qualifying the table or view name with the<br>
+proper database name.<br>
+      <br>
+A view can be created from many kinds of SELECT statements. It can<br>
+refer to base tables or other views. It can use joins, UNION, and<br>
+subqueries. The SELECT need not even refer to any tables. The following<br>
+example defines a view that selects two columns from another table, as<br>
+well as an expression calculated from those columns:<br>
+      <br>
+mysql&gt; CREATE TABLE t (qty INT, price INT);<br>
+mysql&gt; INSERT INTO t VALUES(3, 50);<br>
+mysql&gt; CREATE VIEW v AS SELECT qty, price, qty*price AS value FROM t;<br>
+mysql&gt; SELECT * FROM v;<br>
++------+-------+-------+<br>
+| qty&nbsp; | price | value |<br>
++------+-------+-------+<br>
+|&nbsp;&nbsp;&nbsp; 3 |&nbsp;&nbsp;&nbsp; 50 |&nbsp;&nbsp; 150 |<br>
++------+-------+-------+<br>
+...<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+1. Study <span style="font-weight: bold;">view_simple.sql</span><br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Start from scratch */<br>
+DROP VIEW IF EXISTS v_HighSalaryEmployees;<br>
+DROP VIEW IF EXISTS v_LowSalaryEmployees;<br>
+      <br>
+      <span style="font-weight: bold;">CREATE VIEW
+v_HighSalaryEmployees AS</span><br>
+&nbsp; SELECT ename, salary FROM employees<br>
+&nbsp; WHERE salary &gt; 4000;<br>
+      <br>
+      <span style="font-weight: bold;">CREATE VIEW v_LowSalaryEmployees
+AS</span><br>
+&nbsp; SELECT ename, salary FROM employees<br>
+&nbsp; WHERE salary &lt; 3000;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">view_simple.sql<br>
+<br>
+</span>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;<span
+ style="font-weight: bold;"> SOURCE
+/handson_mysql/mysql_join/sqlscripts/view_simple.sql</span><br>
+Query OK, 0 rows affected (0.06 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.01 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.15 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.03 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+3. Perform query operations against views.<br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SHOW TABLES;</span><br>
++-----------------------+<br>
+| Tables_in_mydb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++-----------------------+<br>
+|
+departments&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+employees&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+| new_person_table&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+|
+newperson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+person&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+person_log&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+person_log2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+person_log3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+| <span style="color: rgb(255, 0, 0);">v_highsalaryemployees |</span><br
+ style="color: rgb(255, 0, 0);">
+      <span style="color: rgb(255, 0, 0);">| v_lowsalaryemployees&nbsp;
+      </span>|<br>
++-----------------------+<br>
+10 rows in set (0.22 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * from
+v_HighSalaryEmployees;</span><br>
++-------+---------+<br>
+| ename&nbsp; | salary&nbsp; |<br>
++-------+---------+<br>
+| angie | 5000.00 |<br>
+| jones | 5000.00 |<br>
++-------+---------+<br>
+2 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * from
+v_LowSalaryEmployees;</span><br>
++------+---------+<br>
+| ename | salary&nbsp; |<br>
++------+---------+<br>
+| mary | 2500.00 |<br>
++------+---------+<br>
+1 row in set (0.00 sec)<br>
+      <br>
+// Adding a new record in the parent table is automatically<br>
+// reflected in the View tables.<br>
+mysql&gt;<span style="font-weight: bold;"> INSERT INTO employees (name,
+d_id, salary)</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">VALUES</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">('shin', 2,
+6500.00),</span><br>
+&nbsp;&nbsp;&nbsp; -&gt;<span style="font-weight: bold;"> ('daniel', 3,
+7000.00),</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">('dadu', 2,
+2300.00);</span><br>
+Query OK, 3 rows affected (0.08 sec)<br>
+Records: 3&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * from
+v_HighSalaryEmployees;</span><br>
++--------+---------+<br>
+| ename&nbsp;&nbsp; | salary&nbsp; |<br>
++--------+---------+<br>
+| angie&nbsp; | 5000.00 |<br>
+| jones&nbsp; | 5000.00 |<br>
+| <span style="color: rgb(255, 0, 0);">shin&nbsp;&nbsp; | 6500.00 |</span><br
+ style="color: rgb(255, 0, 0);">
+      <span style="color: rgb(255, 0, 0);">| daniel | 7000.00 |</span><br>
++--------+---------+<br>
+4 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * from
+v_LowSalaryEmployees;</span><br>
++------+---------+<br>
+| ename | salary&nbsp; |<br>
++------+---------+<br>
+| mary | 2500.00 |<br>
+| <span style="color: rgb(255, 0, 0);">dadu | 2300.00 |</span><br>
++------+---------+<br>
+2 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_7">return to top of exercise</a><br>
+<br>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="7.2"></a>(7.2)&nbsp;
+Views from
+multiple tables</h3>
+<div style="margin-left: 40px;"><br>
+1. Study <span style="font-weight: bold;">view_multitable.sql</span><br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Start from scratch */<br>
+DROP VIEW IF EXISTS v_HighSalaryEmployees;<br>
+DROP VIEW IF EXISTS v_LowSalaryEmployees;<br>
+      <br>
+CREATE VIEW v_HighSalaryEmployees AS<br>
+&nbsp; SELECT employees.ename, employees.salary, departments.dname<br>
+&nbsp; FROM employees, departments<br>
+&nbsp; WHERE employees.d_id=departments.department_id AND<br>
+&nbsp; salary &gt; 4000;<br>
+      <br>
+CREATE VIEW v_LowSalaryEmployees AS<br>
+&nbsp; SELECT employees.ename, employees.salary, departments.dname<br>
+&nbsp; FROM employees, departments<br>
+&nbsp; WHERE employees.d_id=departments.department_id AND<br>
+&nbsp; salary &lt; 3000;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">view_multitable.sql<br>
+<br>
+</span>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;&nbsp; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_join/sqlscripts/view_multitable.sql</span><br>
+Query OK, 0 rows affected (0.00 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.00 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.06 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.03 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+3. Perform query operations against views.<br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">select * from v_HighSalaryEmployees;</span><br>
++-------+---------+-----------+<br>
+| ename | salary&nbsp; | dname&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++-------+---------+-----------+<br>
+| angie | 5000.00 | Sales&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| jones | 5000.00 | Marketing |<br>
++-------+---------+-----------+<br>
+2 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt;<span style="font-weight: bold;"> select * from
+v_LowSalaryEmployees;</span><br>
++-------+---------+-------+<br>
+| ename | salary&nbsp; | dname |<br>
++-------+---------+-------+<br>
+| mary&nbsp; | 2500.00 | Sales |<br>
++-------+---------+-------+<br>
+1 row in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_7">return to top of exercise</a><br>
+<br>
+</div>
+<br>
+<br>
+<h2><a name="Homework_Exercise"></a><a name="Homework"></a>Homework
+Exercise (for people
+who
+are taking Sang Shin's "MySQL online course") <br>
+</h2>
+<br>
+<div style="margin-left: 40px;"><span style="color: rgb(0, 0, 0);">1.
+The homework is to create a SQL file called, <span
+ style="font-weight: bold;">my_many_to_many.sql</span>, in which you
+are going to exercise many-to-many relationship.</span><span
+ style="color: rgb(0, 0, 0);"></span><br>
+<ul>
+  <li>Create many-to-many relationship between students and teachers -
+a student can have many teachers and a teacher can have many students.</li>
+  <li>Create and populate student table.</li>
+  <li>Create and popualte teacher table.</li>
+  <li>Display number of students per each teacher.</li>
+  <li>Display number of teachers per each student.<br>
+  </li>
+</ul>
+2<span style="color: rgb(0, 0, 0);">. Send the following files to</span><span
+ style="color: rgb(0, 0, 0);"> <a
+ href="mailto:mysql_homeworks@javapassion.com">mysql_homeworks@javapassion.com</a>
+with </span><span style="font-weight: bold; color: rgb(0, 0, 0);">Subject
+</span><span style="color: rgb(0, 0, 0);">as </span><span
+ style="font-weight: bold; color: rgb(0, 0, 0);">mysql_join.</span><br
+ style="color: rgb(0, 0, 0);">
+<span style="font-weight: bold; color: rgb(0, 0, 0);"></span>
+<ul style="color: rgb(0, 0, 0);">
+  <li><span style="color: rgb(0, 0, 0);"><span
+ style="font-weight: bold;">my_many_to_many.sql</span></span> file.<span
+ style="font-weight: bold;"> <br>
+    </span></li>
+  <li>Captured output screen&nbsp;<span style="font-weight: bold;"> </span>-
+name it as <span style="font-weight: bold;">mysql_join.gif</span>
+or <span style="font-weight: bold;">mysql_join</span><span
+ style="font-weight: bold;">.jpg</span> (or <span
+ style="font-weight: bold;">mysql_join.&lt;whatver
+graphics format&gt;</span>)</li>
+  <ul>
+    <li>Any screen capture that shows that your program is working is
+good enough.&nbsp; </li>
+  </ul>
+</ul>
+<br>
+<span style="font-weight: bold;"></span></div>
+<div style="margin-left: 40px;">
+</div>
+<div style="margin-left: 40px;">
+<div style="margin-left: 40px;"></div>
+</div>
+<div style="margin-left: 40px;"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="#Tutorial_Exercises">return
+to the top</a></div>
+<div class="indent"><br>
+<br>
+<br>
+</div>
+<br>
+<p> </p>
+<!-- ======================================================================================== -->
+</body>
+</html>

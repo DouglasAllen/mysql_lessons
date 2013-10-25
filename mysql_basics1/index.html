@@ -1,0 +1,2881 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <script src="index_files/tigris.txt" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="index_files/netbeans.css">
+  <title>LAB-1610: MySQL Basics I</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta name="SourceCastVersion" content="2.6.2.4.10">
+  <link rel="shortcut icon" href="http://www.netbeans.org/favicon.ico"
+ type="image/x-icon">
+  <meta name="keywords"
+ content="NetBeans, IDE, Platform, free, open source, developer">
+  <link rel="stylesheet" href="index_files/netbeans_002.css">
+  <meta name="author" content="Sang Shin">
+  <style type="text/css">
+#search {height:100%;}
+#topmodule {align:right;}
+  </style>
+  <script language="JavaScript" type="text/javascript">
+<!--
+function get_sc_login() {
+  var sclogin = "guest";
+  return (sclogin);
+}
+var username=get_sc_login();
+//-->
+  </script>
+</head>
+<body onload="loginfocus()" class="composite">
+<!-- begin TopTabs --><!-- end TopTabs --><!-- start NavCol --><!-- end NavCol --><!-- Servlet-Specific template --><!-- Show servlet name if it is a servlet -->
+<br>
+<br>
+<h1 style="text-align: center;">MySQL Basics I<br>
+</h1>
+<div class="articledate" style="margin-left: 0px; text-align: center;"><a
+ href="http://www.javapassion.com/SangSchedule.html#Bio">Sang Shin</a>,
+<a href="http://www.javapassion.com">www.javapassion.com</a><a
+ href="mailto:sangshinpassion@gmail.com"><i>
+</i></a></div>
+<div class="indent"><br>
+<div style="text-align: center;"><img alt=""
+ src="index_files/sangshin2009.jpg" style="width: 88px; height: 101px;"><br>
+</div>
+<br>
+<p>The MySQL database has become the world's most popular open source
+database because of its consistent fast performance, high reliability
+and ease of use. It's used on every continent -- Yes, even Antarctica!
+-- by individual Web developers as well as many of the world's largest
+and fastest-growing organizations to save time and money powering their
+high-volume Web sites, business-critical systems and packaged software
+-- including industry leaders such as Yahoo!, Alcatel-Lucent, Google,
+Nokia, YouTube, and Zappos.com.
+</p>
+<p>Not only is MySQL the world's most popular open source database,
+it's also become the database of choice for a new generation of
+applications built on the LAMP stack (Linux, Apache, MySQL, PHP / Perl
+/ Python.) MySQL runs on more than 20 platforms including Linux,
+Windows, Mac OS, Solaris, HP-UX, IBM AIX, giving you the kind of
+flexibility that puts you in control. </p>
+<br>
+<b><br>
+</b>
+<div style="text-align: center;"><b>Expected duration: 140 minutes
+(excluding homework)<br>
+<br>
+</b></div>
+<br>
+<br>
+<h3 class="tutorial">Software Needed</h3>
+<p>Before you begin, you need to install the following software.<br>
+</p>
+<ul>
+  <li>MySQL (<a href="http://dev.mysql.com/downloads/">download</a>)</li>
+  <ul>
+    <li>Please see the installation instruction <a href="#Exercise_1">below</a>.</li>
+  </ul>
+</ul>
+<br>
+<h3 class="tutorial">OS platforms you can use<br>
+</h3>
+<ul>
+  <li>Windows</li>
+  <li>Solaris x86, Solaris Sparc</li>
+  <li>Linux</li>
+  <li>Mac OS X</li>
+</ul>
+<h3 class="tutorial"><a name="Change_Log"></a>Change Log<br>
+</h3>
+<ul>
+  <li>Feb. 15th, 2010: Created<br>
+  </li>
+</ul>
+<br>
+<h3 class="tutorial">Things to be done (by Sang Shin)<br>
+</h3>
+<ul>
+  <li>Add more explanation to the exercises</li>
+</ul>
+<br>
+&nbsp;<br>
+<h3 class="tutorial"><a name="Tutorial_Exercises"></a>Lab Exercises</h3>
+<ul>
+  <li><a href="#Exercise_1">Exercise 1: Installation of MySQL database
+package
+(20 minutes)</a></li>
+  <li><a href="#Exercise_2">Exercise 2: "mysql" command line client (20
+minutes)</a><br>
+  </li>
+  <li><a href="#Exercise_3">Exercise 3: SQL Basics - Database
+and
+tables (20 minutes)</a></li>
+  <li><a href="#Exercise_4">Exercise 4: SQL Basics -
+INSERT/UPDATE/DELETE records (20 minutes)</a></li>
+  <li><a href="index.html#Exercise_5">Exercise 5: SQL Basics -
+Retrieval of records using SELECT (20 minutes)</a></li>
+  <li><a href="#Exercise_6">Exercise 6: SQL Basics - Arithmetic
+functions (20 minutes)</a><br>
+  </li>
+  <li><a href="#Exercise_7">Exercise 7: Reading and executing SQL file
+(20 minutes)</a><br>
+  </li>
+  <li><a href="#Homework_Exercise">Homework
+Exercise (for people who
+are taking Sang Shin's MySQL online course")</a></li>
+</ul>
+</div>
+<br>
+<h2><a name="Exercise_1"></a>Exercise 1: Installation of MySQL database
+package<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;">In this exercise,&nbsp; you
+are going to download and install MySQL.<br>
+</p>
+<ol>
+  <ol>
+    <li><a href="#1.1">Download MySQL</a></li>
+    <li><a href="#1.2">Install MySQL</a></li>
+  </ol>
+</ol>
+<p class="pBody" style="margin-left: 40px;"></p>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.1"></a>(1.1)&nbsp;
+Download MySQL<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">1. From your browser, go to <a
+ href="http://dev.mysql.com/downloads/">http://dev.mysql.com/downloads/</a>.<br>
+<br>
+<img alt="" src="index_files/0_mysql1.png"
+ style="width: 827px; height: 765px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql2.png"
+ style="width: 827px; height: 846px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql3.png"
+ style="width: 827px; height: 842px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql4.png"
+ style="width: 827px; height: 842px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql5.png"
+ style="width: 827px; height: 842px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql6.png"
+ style="width: 439px; height: 187px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql7.png"
+ style="width: 802px; height: 540px;"><br>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_1">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.2"></a>(1.2)&nbsp;
+Install MySQL</h3>
+<div style="margin-left: 40px;"><br>
+1. Run the installation.<br>
+</div>
+<br>
+<div style="margin-left: 40px;"><img alt=""
+ src="index_files/0_mysql8.png" style="width: 807px; height: 636px;"><br>
+<br>
+<img alt="" src="index_files/0_mysq9.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+2. Choose Typical installation.<br>
+<br>
+<img alt="" src="index_files/0_mysql10.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql11.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql12.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+3. Step through the information page on MySQL Enterprise.<br>
+<br>
+<img alt="" src="index_files/0_mysql13.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql14.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+4. Start the configuration.<br>
+<br>
+<img alt="" src="index_files/0_mysql15.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql16.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql17.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+5. If you are installing MySQL over Windows, you can install it as a
+Windows service.<br>
+<br>
+<img alt="" src="index_files/0_mysql18.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+6. Enter the password of the root.<br>
+<br>
+<img alt="" src="index_files/0_mysql19.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql20.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql21.png"
+ style="width: 504px; height: 382px;"><br>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_1">return to top of exercise</a><br>
+<br>
+<br>
+</div>
+<h2><a name="Exercise_2"></a>Exercise 2: "mysql" command-line client<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;">"mysql" is a simple SQL
+shell (with GNU readline capabilities). It supports interactive and
+noninteractive use. When used interactively, query results are
+presented in an ASCII-table format. When used noninteractively (for
+example, as a filter), the result is presented in tab-separated format.
+The output format can be changed using command options.&nbsp; For
+possible options, please see <a
+ href="http://dev.mysql.com/doc/refman/5.5/en/mysql-command-options.html">4.5.1.1
+mysql Options</a> chapter of MySQL documentation.<br>
+</p>
+<div style="margin-left: 40px;">
+<ol>
+  <li><a href="index.html#2.1">Display and study "mysql" command line
+client<br>
+    </a></li>
+  <li><a href="index.html#2.2">Display the version of "mysql"<br>
+    </a></li>
+  <li><a href="index.html#2.3">Run "mysql" command line tool in
+interactive mode<br>
+    </a></li>
+</ol>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="2.1"></a>(2.1)
+Display and study "mysql" command_line tool help<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">1. At the command line, type<span
+ style="font-weight: bold;"> mysql --help</span><br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">C:\Users\sang&gt;<span
+ style="font-weight: bold;">mysql --help</span><br>
+mysql&nbsp; Ver 14.14 Distrib 5.1.44, for Win32 (ia32)<br>
+Copyright 2000-2008 MySQL AB, 2008 Sun Microsystems, Inc.<br>
+This software comes with ABSOLUTELY NO WARRANTY. This is free software,<br>
+and you are welcome to modify and redistribute it under the GPL license<br>
+Usage: mysql [OPTIONS] [database]<br>
+&nbsp; -?, --help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Display this help and exit.<br>
+&nbsp; -I, --help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Synonym for -?<br>
+&nbsp; --auto-rehash&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Enable
+automatic rehashing. One doesn't need to use<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'rehash' to get table and field completion, but startup<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+and reconnecting may take a longer time. Disable with<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+--disable-auto-rehash.<br>
+&nbsp; -A, --no-auto-rehash<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+No automatic rehashing. One has to use 'rehash' to get<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+table and field completion. This gives a quicker start of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mysql and disables rehashing on reconnect.<br>
+&nbsp; -B, --batch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Don't use history file. Disable interactive behavior.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(Enables --silent)<br>
+&nbsp; --character-sets-dir=name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Directory where character sets are.<br>
+&nbsp; --column-type-info&nbsp; Display column type information.<br>
+&nbsp; -c, --comments&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Preserve comments.
+Send comments to the server. The<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+default is --skip-comments (discard comments), enable<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+with --comments<br>
+&nbsp; -C, --compress&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Use compression in
+server/client protocol.<br>
+&nbsp; -#, --debug[=#]&nbsp;&nbsp;&nbsp;&nbsp; This is a non-debug
+version. Catch this and exit<br>
+&nbsp; --debug-check&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Check memory
+and open file usage at exit.<br>
+&nbsp; -T, --debug-info&nbsp;&nbsp;&nbsp; Print some debug info at exit.<br>
+&nbsp; -D, --database=name Database to use.<br>
+&nbsp; --default-character-set=name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Set the default character set.<br>
+&nbsp; --delimiter=name&nbsp;&nbsp;&nbsp; Delimiter to be used.<br>
+&nbsp; -e, --execute=name&nbsp; Execute command and quit. (Disables
+--force and history<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+file)<br>
+&nbsp; -E, --vertical&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Print the output of
+a query (rows) vertically.<br>
+&nbsp; -f, --force&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Continue even if we get an sql error.<br>
+&nbsp; -G, --named-commands<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Enable named commands. Named commands mean this program's<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+internal commands; see mysql&gt; help . When enabled, the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+named commands can be used from any line of the query,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+otherwise only from the first line, before an enter.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Disable with --disable-named-commands. This option is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+disabled by default.<br>
+...<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<img alt="" src="index_files/0_mysql46.png"
+ style="width: 817px; height: 795px;"><br>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_2">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="2.2"></a>(2.2)
+Display the version of "mysql" <br>
+</h3>
+<div style="margin-left: 40px;"><br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">C:\Users\sang&gt;<span
+ style="font-weight: bold;">mysql --version</span><br>
+mysql&nbsp; Ver 14.14 Distrib 5.1.44, for Win32 (ia32)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_2">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="2.3"></a>(2.3)
+Run "mysql" in interactive mode</h3>
+<div style="margin-left: 40px;"><br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">C:\Users\sang&gt;<span
+ style="font-weight: bold;">mysql -u root -p</span><br>
+Enter password:<br>
+Welcome to the MySQL monitor.&nbsp; Commands end with ; or \g.<br>
+Your MySQL connection id is 6<br>
+Server version: 5.1.44-community MySQL Community Server (GPL)<br>
+      <br>
+Type 'help;' or '\h' for help. Type '\c' to clear the current input
+statement.<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">show databases;</span><br>
++------------------------+<br>
+|
+Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
++------------------------+<br>
+| information_schema&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+|
+mysql&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+test&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
++------------------------+<br>
+3 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;"><br>
+<img alt="" src="index_files/0_mysql22.png"
+ style="width: 817px; height: 843px;"><br>
+<br>
+<img alt="" src="index_files/0_mysql23.png"
+ style="width: 817px; height: 907px;"><br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">help show;</span><br>
+Name: 'SHOW'<br>
+Description:<br>
+SHOW has many forms that provide information about databases, tables,<br>
+columns, or status information about the server. This section describes<br>
+those following:<br>
+      <br>
+SHOW AUTHORS<br>
+SHOW CHARACTER SET [like_or_where]<br>
+SHOW COLLATION [like_or_where]<br>
+SHOW [FULL] COLUMNS FROM tbl_name [FROM db_name] [like_or_where]<br>
+SHOW CONTRIBUTORS<br>
+SHOW CREATE DATABASE db_name<br>
+SHOW CREATE EVENT event_name<br>
+SHOW CREATE FUNCTION func_name<br>
+SHOW CREATE PROCEDURE proc_name<br>
+DESCRIBE tbl_name<br>
+SHOW CREATE TRIGGER trigger_name<br>
+SHOW CREATE VIEW view_name<br>
+SHOW DATABASES [like_or_where]<br>
+SHOW ENGINE engine_name {STATUS | MUTEX}<br>
+SHOW [STORAGE] ENGINES<br>
+SHOW ERRORS [LIMIT [offset,] row_count]<br>
+SHOW EVENTS<br>
+SHOW FUNCTION CODE func_name<br>
+SHOW FUNCTION STATUS [like_or_where]<br>
+SHOW GRANTS FOR user<br>
+SHOW INDEX FROM tbl_name [FROM db_name]<br>
+SHOW INNODB STATUS<br>
+SHOW OPEN TABLES [FROM db_name] [like_or_where]<br>
+SHOW PLUGINS<br>
+SHOW PROCEDURE CODE proc_name<br>
+SHOW PROCEDURE STATUS [like_or_where]<br>
+SHOW PRIVILEGES<br>
+SHOW [FULL] PROCESSLIST<br>
+SHOW PROFILE [types] [FOR QUERY n] [OFFSET n] [LIMIT n]<br>
+SHOW PROFILES<br>
+SHOW SCHEDULER STATUS<br>
+SHOW [GLOBAL | SESSION] STATUS [like_or_where]<br>
+SHOW TABLE STATUS [FROM db_name] [like_or_where]<br>
+SHOW [FULL] TABLES [FROM db_name] [like_or_where]<br>
+SHOW TRIGGERS [FROM db_name] [like_or_where]<br>
+SHOW [GLOBAL | SESSION] VARIABLES [like_or_where]<br>
+SHOW WARNINGS [LIMIT [offset,] row_count]<br>
+      <br>
+like_or_where:<br>
+&nbsp;&nbsp;&nbsp; LIKE 'pattern'<br>
+&nbsp; | WHERE expr<br>
+      <br>
+If the syntax for a given SHOW statement includes a LIKE 'pattern'<br>
+part, 'pattern' is a string that can contain the SQL "%" and "_"<br>
+wildcard characters. The pattern is useful for restricting statement<br>
+output to matching values.<br>
+      <br>
+Several SHOW statements also accept a WHERE clause that provides more<br>
+flexibility in specifying which rows to display. See<br>
+http://dev.mysql.com/doc/refman/5.1/en/extended-show.html.<br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/show.html<br>
+      <br>
+      <br>
+mysql&gt;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_2">return to top of exercise</a><br>
+<br>
+</div>
+<h2><a name="Exercise_3"></a>Exercise 3: SQL Basics - Databases
+and
+Tables<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;">In this exercise,
+you are going to execute SQL commands related to the manipulation of
+databases and tables using "mysql" command line client in interactive
+mode.<br>
+</p>
+<div style="margin-left: 40px;">
+<ol>
+  <li><a href="#3.1">Create a new database and a new table</a></li>
+  <li><a href="#3.2">Alter table name</a></li>
+  <li><a href="#3.3">Alter field names and their properties</a></li>
+  <li><a href="#3.4">Add and remove fields</a></li>
+  <li><a href="#3.5">Add and remove primary key</a></li>
+  <li><a href="#3.6">Retrieve SQL statement that was used to create the
+table</a></li>
+  <li><a href="#3.7">Working with multiple databases</a><br>
+  </li>
+  <li><a href="#3.8">Remove table and database</a></li>
+</ol>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.1"></a>(3.1)&nbsp;
+Create a new database and a new table<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">1. Create a new database.<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><span
+ style="color: rgb(0, 0, 0);">mysql&gt; <span
+ style="font-weight: bold;">HELP CREATE DATABASE;</span><br>
+Name: 'CREATE DATABASE'<br>
+Description:<br>
+Syntax:<br>
+CREATE {DATABASE | SCHEMA} [IF NOT EXISTS] db_name<br>
+&nbsp;&nbsp;&nbsp; [create_specification] ...<br>
+      <br>
+create_specification:<br>
+&nbsp;&nbsp;&nbsp; [DEFAULT] CHARACTER SET [=] charset_name<br>
+&nbsp; | [DEFAULT] COLLATE [=] collation_name<br>
+      <br>
+CREATE DATABASE creates a database with the given name. To use this<br>
+statement, you need the CREATE privilege for the database. CREATE<br>
+SCHEMA is a synonym for CREATE DATABASE.<br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/create-database.html</span></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><span
+ style="color: rgb(0, 0, 0);">// Create a new database called "mydb"</span><br>
+mysql&gt; <span style="font-weight: bold;"><span
+ style="color: rgb(255, 0, 0);">CREATE
+DATABASE</span> <span style="color: rgb(255, 0, 0);">mydb;</span></span><br>
+Query OK, 1 row affected (0.01 sec)</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Set the default (current) database using <span
+ style="font-weight: bold;">USE</span> command.<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;<span
+ style="font-weight: bold;"> HELP USE;</span><br>
+Name: 'USE'<br>
+Description:<br>
+Syntax:<br>
+USE db_name<br>
+      <br>
+The USE db_name statement tells MySQL to use the db_name database as<br>
+the default (current) database for subsequent statements. The database<br>
+remains the default until the end of the session or another USE<br>
+statement is issued:<br>
+      <br>
+USE db1;<br>
+SELECT COUNT(*) FROM mytable;&nbsp;&nbsp; # selects from db1.mytable<br>
+USE db2;<br>
+SELECT COUNT(*) FROM mytable;&nbsp;&nbsp; # selects from db2.mytable<br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/use.html<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><span
+ style="color: rgb(0, 0, 0);"></span><span style="color: rgb(0, 0, 0);">//
+Use "mydb" database as
+default (current) database for</span><br style="color: rgb(0, 0, 0);">
+      <span style="color: rgb(0, 0, 0);">// subsequent statements.</span><br>
+mysql&gt;<span style="font-weight: bold;"> <span
+ style="color: rgb(255, 0, 0);">USE mydb;</span></span><br>
+Database changed<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+3. Create a new table.<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">HELP CREATE_TABLE;</span><br>
+Name: 'CREATE TABLE'<br>
+Description:<br>
+Syntax:<br>
+CREATE [TEMPORARY] TABLE [IF NOT EXISTS] tbl_name<br>
+&nbsp;&nbsp;&nbsp; (create_definition,...)<br>
+&nbsp;&nbsp;&nbsp; [table_options]<br>
+&nbsp;&nbsp;&nbsp; [partition_options]<br>
+      <br>
+Or:<br>
+      <br>
+CREATE [TEMPORARY] TABLE [IF NOT EXISTS] tbl_name<br>
+&nbsp;&nbsp;&nbsp; [(create_definition,...)]<br>
+&nbsp;&nbsp;&nbsp; [table_options]<br>
+&nbsp;&nbsp;&nbsp; [partition_options]<br>
+&nbsp;&nbsp;&nbsp; select_statement<br>
+      <br>
+Or:<br>
+      <br>
+CREATE [TEMPORARY] TABLE [IF NOT EXISTS] tbl_name<br>
+&nbsp;&nbsp;&nbsp; { LIKE old_tbl_name | (LIKE old_tbl_name) }<br>
+      <br>
+create_definition:<br>
+&nbsp;&nbsp;&nbsp; col_name column_definition<br>
+&nbsp; | [CONSTRAINT [symbol]] PRIMARY KEY [index_type]
+(index_col_name,...)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [index_option] ...<br>
+&nbsp; | {INDEX|KEY} [index_name] [index_type] (index_col_name,...)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [index_option] ...<br>
+&nbsp; | [CONSTRAINT [symbol]] UNIQUE [INDEX|KEY]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [index_name] [index_type]
+(index_col_name,...)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [index_option] ...<br>
+&nbsp; | {FULLTEXT|SPATIAL} [INDEX|KEY] [index_name]
+(index_col_name,...)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [index_option] ...<br>
+&nbsp; | [CONSTRAINT [symbol]] FOREIGN KEY<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [index_name] (index_col_name,...)
+reference_definition<br>
+&nbsp; | CHECK (expr)<br>
+      <br>
+column_definition:<br>
+&nbsp;&nbsp;&nbsp; data_type [NOT NULL | NULL] [DEFAULT default_value]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [AUTO_INCREMENT] [UNIQUE [KEY] |
+[PRIMARY] KEY]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [COMMENT 'string']<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [COLUMN_FORMAT {FIXED|DYNAMIC|DEFAULT}]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [STORAGE {DISK|MEMORY|DEFAULT}]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [reference_definition]<br>
+      <br>
+data_type:<br>
+&nbsp;&nbsp;&nbsp; BIT[(length)]<br>
+&nbsp; | TINYINT[(length)] [UNSIGNED] [ZEROFILL]<br>
+&nbsp; | SMALLINT[(length)] [UNSIGNED] [ZEROFILL]<br>
+&nbsp; | MEDIUMINT[(length)] [UNSIGNED] [ZEROFILL]<br>
+&nbsp; | INT[(length)] [UNSIGNED] [ZEROFILL]<br>
+&nbsp; | INTEGER[(length)] [UNSIGNED] [ZEROFILL]<br>
+&nbsp; | BIGINT[(length)] [UNSIGNED] [ZEROFILL]<br>
+&nbsp; | REAL[(length,decimals)] [UNSIGNED] [ZEROFILL]<br>
+&nbsp; | DOUBLE[(length,decimals)] [UNSIGNED] [ZEROFILL]<br>
+&nbsp; | FLOAT[(length,decimals)] [UNSIGNED] [ZEROFILL]<br>
+&nbsp; | DECIMAL[(length[,decimals])] [UNSIGNED] [ZEROFILL]<br>
+&nbsp; | NUMERIC[(length[,decimals])] [UNSIGNED] [ZEROFILL]<br>
+&nbsp; | DATE<br>
+&nbsp; | TIME<br>
+&nbsp; | TIMESTAMP<br>
+&nbsp; | DATETIME<br>
+&nbsp; | YEAR<br>
+&nbsp; | CHAR[(length)]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [CHARACTER SET charset_name] [COLLATE
+collation_name]<br>
+&nbsp; | VARCHAR(length)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [CHARACTER SET charset_name] [COLLATE
+collation_name]<br>
+&nbsp; | BINARY[(length)]<br>
+&nbsp; | VARBINARY(length)<br>
+&nbsp; | TINYBLOB<br>
+&nbsp; | BLOB<br>
+&nbsp; | MEDIUMBLOB<br>
+&nbsp; | LONGBLOB<br>
+&nbsp; | TINYTEXT [BINARY]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [CHARACTER SET charset_name] [COLLATE
+collation_name]<br>
+&nbsp; | TEXT [BINARY]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [CHARACTER SET charset_name] [COLLATE
+collation_name]<br>
+&nbsp; | MEDIUMTEXT [BINARY]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [CHARACTER SET charset_name] [COLLATE
+collation_name]<br>
+&nbsp; | LONGTEXT [BINARY]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [CHARACTER SET charset_name] [COLLATE
+collation_name]<br>
+&nbsp; | ENUM(value1,value2,value3,...)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [CHARACTER SET charset_name] [COLLATE
+collation_name]<br>
+&nbsp; | SET(value1,value2,value3,...)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [CHARACTER SET charset_name] [COLLATE
+collation_name]<br>
+&nbsp; | spatial_type<br>
+      <br>
+index_col_name:<br>
+&nbsp;&nbsp;&nbsp; col_name [(length)] [ASC | DESC]<br>
+      <br>
+index_type:<br>
+&nbsp;&nbsp;&nbsp; USING {BTREE | HASH | RTREE}<br>
+      <br>
+index_option:<br>
+&nbsp;&nbsp;&nbsp; KEY_BLOCK_SIZE [=] value<br>
+&nbsp; | index_type<br>
+&nbsp; | WITH PARSER parser_name<br>
+      <br>
+reference_definition:<br>
+&nbsp;&nbsp;&nbsp; REFERENCES tbl_name (index_col_name,...)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [MATCH FULL | MATCH PARTIAL | MATCH
+SIMPLE]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ON DELETE reference_option]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ON UPDATE reference_option]<br>
+      <br>
+reference_option:<br>
+&nbsp;&nbsp;&nbsp; RESTRICT | CASCADE | SET NULL | NO ACTION<br>
+      <br>
+table_options:<br>
+&nbsp;&nbsp;&nbsp; table_option [[,] table_option] ...<br>
+      <br>
+table_option:<br>
+&nbsp;&nbsp;&nbsp; ENGINE [=] engine_name<br>
+&nbsp; | AUTO_INCREMENT [=] value<br>
+&nbsp; | AVG_ROW_LENGTH [=] value<br>
+&nbsp; | [DEFAULT] CHARACTER SET [=] charset_name<br>
+&nbsp; | CHECKSUM [=] {0 | 1}<br>
+&nbsp; | [DEFAULT] COLLATE [=] collation_name<br>
+&nbsp; | COMMENT [=] 'string'<br>
+&nbsp; | CONNECTION [=] 'connect_string'<br>
+&nbsp; | DATA DIRECTORY [=] 'absolute path to directory'<br>
+&nbsp; | DELAY_KEY_WRITE [=] {0 | 1}<br>
+&nbsp; | INDEX DIRECTORY [=] 'absolute path to directory'<br>
+&nbsp; | INSERT_METHOD [=] { NO | FIRST | LAST }<br>
+&nbsp; | KEY_BLOCK_SIZE [=] value<br>
+&nbsp; | MAX_ROWS [=] value<br>
+&nbsp; | MIN_ROWS [=] value<br>
+&nbsp; | PACK_KEYS [=] {0 | 1 | DEFAULT}<br>
+&nbsp; | PASSWORD [=] 'string'<br>
+&nbsp; | ROW_FORMAT [=]
+{DEFAULT|DYNAMIC|FIXED|COMPRESSED|REDUNDANT|COMPACT}<br>
+&nbsp; | TABLESPACE tablespace_name [STORAGE {DISK|MEMORY|DEFAULT}]<br>
+&nbsp; | UNION [=] (tbl_name[,tbl_name]...)<br>
+&nbsp;...<br>
+      <br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold; color: rgb(255, 0, 0);">CREATE
+TABLE person (</span><br
+ style="font-weight: bold; color: rgb(255, 0, 0);">
+      <span style="font-weight: bold; color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp;
+-&gt; person_id SMALLINT UNSIGNED NOT NULL,</span><br
+ style="font-weight: bold; color: rgb(255, 0, 0);">
+      <span style="font-weight: bold; color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp;
+-&gt; first_name VARCHAR(45) NOT NULL,</span><br
+ style="font-weight: bold; color: rgb(255, 0, 0);">
+      <span style="font-weight: bold; color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp;
+-&gt; last_name VARCHAR(45) NOT NULL,</span><br
+ style="font-weight: bold; color: rgb(255, 0, 0);">
+      <span style="font-weight: bold; color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp;
+-&gt; PRIMARY KEY&nbsp; (person_id)</span><br
+ style="font-weight: bold; color: rgb(255, 0, 0);">
+      <span style="font-weight: bold; color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp;
+-&gt; ) ;</span><br>
+Query OK, 0 rows affected (0.14 sec)<br>
+      <br>
+mysql&gt;<span style="font-weight: bold;"> <span
+ style="color: rgb(255, 0, 0);">SHOW TABLES</span></span><span
+ style="font-weight: bold; color: rgb(255, 0, 0);">;</span><br>
++----------------+<br>
+| Tables_in_mydb |<br>
++----------------+<br>
+| person &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++----------------+<br>
+1 row in set (0.00 sec)</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="#Exercise_3">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.2"></a>(3.2)&nbsp;
+Alter (rename) table name</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">HELP ALTER TABLE;</span><br>
+Name: 'ALTER TABLE'<br>
+Description:<br>
+Syntax:<br>
+ALTER [ONLINE | OFFLINE] [IGNORE] TABLE tbl_name<br>
+&nbsp;&nbsp;&nbsp; alter_specification [, alter_specification] ...<br>
+      <br>
+alter_specification:<br>
+&nbsp;&nbsp;&nbsp; table_options<br>
+&nbsp; | ADD [COLUMN] col_name column_definition<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [FIRST | AFTER col_name ]<br>
+&nbsp; | ADD [COLUMN] (col_name column_definition,...)<br>
+&nbsp; | ADD {INDEX|KEY} [index_name]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [index_type]
+(index_col_name,...) [index_option] ...<br>
+&nbsp; | ADD [CONSTRAINT [symbol]] PRIMARY KEY<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [index_type]
+(index_col_name,...) [index_option] ...<br>
+&nbsp; | ADD [CONSTRAINT [symbol]]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UNIQUE [INDEX|KEY]
+[index_name]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [index_type]
+(index_col_name,...) [index_option] ...<br>
+&nbsp; | ADD FULLTEXT [INDEX|KEY] [index_name]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (index_col_name,...)
+[index_option] ...<br>
+&nbsp; | ADD SPATIAL [INDEX|KEY] [index_name]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (index_col_name,...)
+[index_option] ...<br>
+&nbsp; | ADD [CONSTRAINT [symbol]]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FOREIGN KEY [index_name]
+(index_col_name,...)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reference_definition<br>
+&nbsp; | ALTER [COLUMN] col_name {SET DEFAULT literal | DROP DEFAULT}<br>
+&nbsp; | CHANGE [COLUMN] old_col_name new_col_name column_definition<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [FIRST|AFTER col_name]<br>
+&nbsp; | MODIFY [COLUMN] col_name column_definition<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [FIRST | AFTER col_name]<br>
+&nbsp; | DROP [COLUMN] col_name<br>
+&nbsp; | DROP PRIMARY KEY<br>
+&nbsp; | DROP {INDEX|KEY} index_name<br>
+&nbsp; | DROP FOREIGN KEY fk_symbol<br>
+&nbsp; | DISABLE KEYS<br>
+&nbsp; | ENABLE KEYS<br>
+&nbsp; | RENAME [TO] new_tbl_name<br>
+&nbsp; | ORDER BY col_name [, col_name] ...<br>
+&nbsp; | CONVERT TO CHARACTER SET charset_name [COLLATE collation_name]<br>
+&nbsp; | [DEFAULT] CHARACTER SET [=] charset_name [COLLATE [=]
+collation_name]<br>
+&nbsp; | DISCARD TABLESPACE<br>
+&nbsp; | IMPORT TABLESPACE<br>
+&nbsp; | partition_options<br>
+&nbsp; | ADD PARTITION (partition_definition)<br>
+&nbsp; | DROP PARTITION partition_names<br>
+&nbsp; | COALESCE PARTITION number<br>
+&nbsp; | REORGANIZE PARTITION [partition_names INTO
+(partition_definitions)]<br>
+&nbsp; | ANALYZE PARTITION&nbsp; {partition_names | ALL }<br>
+&nbsp; | CHECK PARTITION&nbsp; {partition_names | ALL }<br>
+&nbsp; | OPTIMIZE PARTITION&nbsp; {partition_names | ALL }<br>
+&nbsp; | REBUILD PARTITION&nbsp; {partition_names | ALL }<br>
+&nbsp; | REPAIR PARTITION&nbsp; {partition_names | ALL }<br>
+&nbsp; | REMOVE PARTITIONING<br>
+      <br>
+index_col_name:<br>
+&nbsp;&nbsp;&nbsp; col_name [(length)] [ASC | DESC]<br>
+      <br>
+index_type:<br>
+&nbsp;&nbsp;&nbsp; USING {BTREE | HASH | RTREE}<br>
+      <br>
+index_option:<br>
+&nbsp;&nbsp;&nbsp; KEY_BLOCK_SIZE [=] value<br>
+&nbsp; | index_type<br>
+&nbsp; | WITH PARSER parser_name<br>
+      <br>
+table_options:<br>
+&nbsp;&nbsp;&nbsp; table_option [[,] table_option] ...<br>
+      <br>
+ALTER TABLE enables you to change the structure of an existing table.<br>
+For example, you can add or delete columns, create or destroy indexes,<br>
+change the type of existing columns, or rename columns or the table<br>
+itself. You can also change the comment for the table and type of the<br>
+table.<br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/alter-table.html<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">// There are two different ways
+you can use to change<br>
+// the name of a table.&nbsp; Using "ALTER TABLE .." is one option.<br>
+mysql&gt; <span style="font-weight: bold;"><span
+ style="color: rgb(255, 0, 0);">ALTER
+TABLE </span>person <span style="color: rgb(255, 0, 0);">rename to</span>
+person1;</span><br>
+Query OK, 0 rows affected (0.06 sec)<br>
+      <br>
+      <span style="font-weight: bold;">mysql&gt; SHOW TABLES;</span><br>
++----------------+<br>
+| Tables_in_mydb |<br>
++----------------+<br>
+| person1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++----------------+<br>
+1 row in set (0.00 sec)<br>
+      <br>
+// The 2nd option is using "RENAME TABLE".<br>
+mysql&gt; <span style="font-weight: bold;"><span
+ style="color: rgb(255, 0, 0);">RENAME TABLE </span>person1 <span
+ style="color: rgb(255, 0, 0);">TO</span> whatever;</span><br>
+Query OK, 0 rows affected (0.05 sec)<br>
+      <br>
+      <span style="font-weight: bold;">mysql&gt; SHOW TABLES;</span><br>
++----------------+<br>
+| Tables_in_mydb |<br>
++----------------+<br>
+| whatever&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++----------------+<br>
+1 row in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;"><span
+ style="color: rgb(255, 0, 0);">RENAME TABLE </span>whatever <span
+ style="color: rgb(255, 0, 0);">TO</span> person;</span><br>
+Query OK, 0 rows affected (0.05 sec)<br>
+      <br>
+      <span style="font-weight: bold;">mysql&gt; SHOW TABLES;</span><br>
++----------------+<br>
+| Tables_in_mydb |<br>
++----------------+<br>
+| person &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++----------------+<br>
+1 row in set (0.00 sec)</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_3">return to top of exercise</a><br>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.3"></a>(3.3)&nbsp;
+Alter field names and their properties</h3>
+<div style="margin-left: 40px;"><br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">// Describe the structure of the
+person table<br>
+mysql&gt; <span style="font-weight: bold;"><span
+ style="color: rgb(255, 0, 0);">DESCRIBE</span>
+person;</span><br>
++------------+----------------------+------+-----+---------+----------------+<br>
+| Field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Null | Key | Default | Extra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++------------+----------------------+------+-----+---------+----------------+<br>
+| person_id&nbsp;&nbsp; | smallint(5) unsigned | NO&nbsp;&nbsp; | PRI |
+NULL&nbsp;&nbsp;&nbsp; | <br>
+| first_name |
+varchar(45)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+NO&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| last_name&nbsp; |
+varchar(45)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+NO&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++------------+----------------------+------+-----+---------+----------------+<br>
+3 rows in set (0.01 sec)<br>
+      <br>
+// Change last_name field to surname whose type is varchar(30)<br>
+mysql&gt; <span style="font-weight: bold;"><span
+ style="color: rgb(255, 0, 0);">ALTER TABLE </span>person <span
+ style="color: rgb(255, 0, 0);">CHANGE</span> last_name surname
+varchar(30);</span><br>
+Query OK, 0 rows affected (0.62 sec)<br>
+Records: 0&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;"><span
+ style="color: rgb(255, 0, 0);">DESCRIBE</span> person;</span><br>
++------------+----------------------+------+-----+---------+----------------+<br>
+| Field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Null | Key | Default |
+Extra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++------------+----------------------+------+-----+---------+----------------+<br>
+| person_id&nbsp;&nbsp; | smallint(5) unsigned | NO&nbsp;&nbsp; | PRI |
+NULL&nbsp;&nbsp;&nbsp; | <br>
+| first_name |
+varchar(45)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+NO&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+| <span style="font-weight: bold;">surname &nbsp; |
+varchar(30)&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| YES&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
++------------+----------------------+------+-----+---------+----------------+<br>
+3 rows in set (0.01 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_3">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.4"></a>(3.4)&nbsp;
+Add and remove fields<br>
+</h3>
+<div style="margin-left: 40px;"><br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">// Add a new field "age" whose
+type is "unsigned not null".<br>
+mysql&gt;<span style="color: rgb(255, 0, 0);"> </span><span
+ style="font-weight: bold;"><span style="color: rgb(255, 0, 0);">ALTER
+TABLE</span> person <span style="color: rgb(255, 0, 0);">ADD</span>
+age
+smallint(3) unsigned not null;</span><br>
+Query OK, 0 rows affected (0.42 sec)<br>
+Records: 0&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;"><span
+ style="color: rgb(255, 0, 0);">DESCRIBE</span> person;</span><br>
++------------+----------------------+------+-----+---------+----------------+<br>
+| Field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Null | Key | Default |
+Extra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++------------+----------------------+------+-----+---------+----------------+<br>
+| person_id&nbsp;&nbsp; | smallint(5) unsigned | NO&nbsp;&nbsp; | PRI |
+NULL&nbsp;&nbsp;&nbsp; | <br>
+| first_name |
+varchar(45)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+NO&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+| surname &nbsp; |
+varchar(30)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+YES&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|<span style="font-weight: bold;">
+age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | smallint(3) unsigned |
+NO&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|</span><br>
++------------+----------------------+------+-----+---------+----------------+<br>
+4 rows in set (0.01 sec)<br>
+      <br>
+// Remove "first_name" field from the "person" table.<br>
+mysql&gt;<span style="font-weight: bold;"> <span
+ style="color: rgb(255, 0, 0);">ALTER TABLE</span> person <span
+ style="color: rgb(255, 0, 0);">DROP</span> first_name;</span><br>
+Query OK, 0 rows affected (0.25 sec)<br>
+Records: 0&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;"><span
+ style="color: rgb(255, 0, 0);">DESCRIBE</span> person;</span><br>
++----------+----------------------+------+-----+---------+----------------+<br>
+| Field&nbsp;&nbsp;&nbsp; |
+Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Null | Key | Default |
+Extra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++----------+----------------------+------+-----+---------+----------------+<br>
+| person_id | smallint(5) unsigned | NO&nbsp;&nbsp; | PRI |
+NULL&nbsp;&nbsp;&nbsp; | <br>
+| surname |
+varchar(30)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+YES&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+| age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | smallint(3) unsigned |
+NO&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
++----------+----------------------+------+-----+---------+----------------+<br>
+3 rows in set (0.01 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_3">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.5"></a>(3.5)&nbsp;
+Add and remove primary key</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">DESCRIBE person;</span><br>
++----------+----------------------+------+-----+---------+-------+<br>
+| Field&nbsp;&nbsp;&nbsp; |
+Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Null | Key | Default | Extra |<br>
++----------+----------------------+------+-----+---------+-------+<br>
+| person_id | smallint(5) unsigned | NO&nbsp;&nbsp; | PRI |
+NULL&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| surname |
+varchar(30)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+YES&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | smallint(3) unsigned |
+NO&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++----------+----------------------+------+-----+---------+-------+<br>
+3 rows in set (0.01 sec)<br>
+      <br>
+// Remove primary key.<br>
+mysql&gt; <span style="font-weight: bold;">ALTER TABLE person DROP
+PRIMARY KEY;</span><br>
+Query OK, 0 rows affected (0.25 sec)<br>
+Records: 0&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">DESCRIBE person;</span><br>
++----------+----------------------+------+-----+---------+-------+<br>
+| Field&nbsp;&nbsp;&nbsp; |
+Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Null | Key | Default | Extra |<br>
++----------+----------------------+------+-----+---------+-------+<br>
+| person_id | smallint(5) unsigned | NO&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| surname |
+varchar(30)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+YES&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | smallint(3) unsigned |
+NO&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++----------+----------------------+------+-----+---------+-------+<br>
+3 rows in set (0.03 sec)<br>
+      <br>
+// Add "person_id" field as a primary key field.<br>
+mysql&gt; <span style="font-weight: bold;">ALTER TABLE person ADD
+PRIMARY KEY (person_id);</span><br>
+Query OK, 0 rows affected (0.23 sec)<br>
+Records: 0&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">DESCRIBE person;</span><br>
++----------+----------------------+------+-----+---------+-------+<br>
+| Field&nbsp;&nbsp;&nbsp; |
+Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Null | Key | Default | Extra |<br>
++----------+----------------------+------+-----+---------+-------+<br>
+| person_id | smallint(5) unsigned | NO&nbsp;&nbsp; | PRI |
+NULL&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| surname |
+varchar(30)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+YES&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | smallint(3) unsigned |
+NO&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; | NULL&nbsp;&nbsp;&nbsp;
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++----------+----------------------+------+-----+---------+-------+<br>
+3 rows in set (0.01 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_3">return to top of exercise</a><br>
+<br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.6"></a>(3.6)&nbsp;
+Retrieve SQL statement that was used for creating a table</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">HELP SHOW;</span><br>
+Name: 'SHOW'<br>
+Description:<br>
+SHOW has many forms that provide information about databases, tables,<br>
+columns, or status information about the server. This section describes<br>
+those following:<br>
+      <br>
+SHOW AUTHORS<br>
+SHOW CHARACTER SET [like_or_where]<br>
+SHOW COLLATION [like_or_where]<br>
+SHOW [FULL] COLUMNS FROM tbl_name [FROM db_name] [like_or_where]<br>
+SHOW CONTRIBUTORS<br>
+SHOW CREATE DATABASE db_name<br>
+SHOW CREATE EVENT event_name<br>
+SHOW CREATE FUNCTION func_name<br>
+SHOW CREATE PROCEDURE proc_name<br>
+SHOW CREATE TABLE tbl_name<br>
+SHOW CREATE TRIGGER trigger_name<br>
+SHOW CREATE VIEW view_name<br>
+SHOW DATABASES [like_or_where]<br>
+SHOW ENGINE engine_name {STATUS | MUTEX}<br>
+SHOW [STORAGE] ENGINES<br>
+SHOW ERRORS [LIMIT [offset,] row_count]<br>
+SHOW EVENTS<br>
+SHOW FUNCTION CODE func_name<br>
+SHOW FUNCTION STATUS [like_or_where]<br>
+SHOW GRANTS FOR user<br>
+SHOW INDEX FROM tbl_name [FROM db_name]<br>
+SHOW INNODB STATUS<br>
+SHOW OPEN TABLES [FROM db_name] [like_or_where]<br>
+SHOW PLUGINS<br>
+SHOW PROCEDURE CODE proc_name<br>
+SHOW PROCEDURE STATUS [like_or_where]<br>
+SHOW PRIVILEGES<br>
+SHOW [FULL] PROCESSLIST<br>
+SHOW PROFILE [types] [FOR QUERY n] [OFFSET n] [LIMIT n]<br>
+SHOW PROFILES<br>
+SHOW SCHEDULER STATUS<br>
+SHOW [GLOBAL | SESSION] STATUS [like_or_where]<br>
+SHOW TABLE STATUS [FROM db_name] [like_or_where]<br>
+SHOW [FULL] TABLES [FROM db_name] [like_or_where]<br>
+SHOW TRIGGERS [FROM db_name] [like_or_where]<br>
+SHOW [GLOBAL | SESSION] VARIABLES [like_or_where]<br>
+SHOW WARNINGS [LIMIT [offset,] row_count]<br>
+      <br>
+like_or_where:<br>
+&nbsp;&nbsp;&nbsp; LIKE 'pattern'<br>
+&nbsp; | WHERE expr<br>
+      <br>
+If the syntax for a given SHOW statement includes a LIKE 'pattern'<br>
+part, 'pattern' is a string that can contain the SQL "%" and "_"<br>
+wildcard characters. The pattern is useful for restricting statement<br>
+output to matching values.<br>
+      <br>
+Several SHOW statements also accept a WHERE clause that provides more<br>
+flexibility in specifying which rows to display. See<br>
+http://dev.mysql.com/doc/refman/5.1/en/extended-show.html.<br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/show.html<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">HELP SHOW CREATE TABLE;</span><br>
+Name: 'SHOW CREATE TABLE'<br>
+Description:<br>
+Syntax:<br>
+SHOW CREATE TABLE tbl_name<br>
+      <br>
+Shows the CREATE TABLE statement that creates the given table. The<br>
+statement requires the SELECT privilege for the table. This statement<br>
+also works with views.<br>
+SHOW CREATE TABLE quotes table and column names according to the value<br>
+of the sql_quote_show_create option. See<br>
+http://dev.mysql.com/doc/refman/5.1/en/server-session-variables.html.<br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/show-create-table.html<br>
+      <br>
+Examples:<br>
+mysql&gt; SHOW CREATE TABLE t\G<br>
+*************************** 1. row ***************************<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Table: t<br>
+Create Table: CREATE TABLE t (<br>
+&nbsp; id INT(11) default NULL auto_increment,<br>
+&nbsp; s char(60) default NULL,<br>
+&nbsp; PRIMARY KEY (id)<br>
+) ENGINE=MyISAM<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;"><br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SHOW CREATE TABLE person\G</span><br>
+*************************** 1. row ***************************<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Table: person<br>
+Create Table: CREATE TABLE `person` (<br>
+&nbsp; `person_id` smallint(5) unsigned NOT NULL,<br>
+&nbsp; `first_name` varchar(45) NOT NULL,<br>
+&nbsp; `last_name` varchar(45) NOT NULL,<br>
+&nbsp; `age` smallint(3) unsigned NOT NULL,<br>
+&nbsp; PRIMARY KEY (`person_id`)<br>
+) ENGINE=InnoDB DEFAULT CHARSET=latin1<br>
+1 row in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_3">return to top of exercise</a><br>
+</div>
+<br>
+<a href="index.html#Exercise_2"></a><br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.7"></a>(3.7)&nbsp;
+Working with multiple databases<br>
+</h3>
+<div style="margin-left: 40px;"><br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">CREATE DATABASE</span> <span
+ style="font-weight: bold;">temp_db;</span><br>
+Query OK, 1 row affected (0.01 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">USE</span> <span
+ style="font-weight: bold;">temp_db;</span><br>
+Database changed<br>
+mysql&gt; CREATE TABLE temp_table (temp_id int, temp_whatever
+varchar(30));<br>
+Query OK, 0 rows affected (0.10 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SHOW DATABASES;</span><br>
++--------------------+<br>
+| Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++--------------------+<br>
+| information_schema |<br>
+|
+mydb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+mysql&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+sakila&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+temp_db&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+test&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
++--------------------+<br>
+6 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">INSERT INTO
+temp_table (temp_id, temp_whatever)</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">VALUES</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">(1, 'life is
+good'),</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">(2, 'life is
+even better');</span><br>
+Query OK, 2 rows affected (0.04 sec)<br>
+Records: 2&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+// Perform SELECT on temp_table table of the default database, temp_db<br>
+mysql&gt; <span style="font-weight: bold;">SELECT * FROM temp_table;</span><br>
++---------+---------------------+<br>
+| temp_id | temp_whatever&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++---------+---------------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 | life is
+good&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 | life is even better |<br>
++---------+---------------------+<br>
+2 rows in set (0.00 sec)<br>
+      <br>
+// Perform SELECT on temp_table table of the temp_db database<br>
+mysql&gt; <span style="font-weight: bold;">SELECT * FROM</span> <span
+ style="font-weight: bold;">temp_db.temp_table</span>;<br>
++---------+---------------------+<br>
+| temp_id | temp_whatever&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++---------+---------------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 | life is
+good&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 | life is even better |<br>
++---------+---------------------+<br>
+2 rows in set (0.00 sec)<br>
+      <br>
+// Perform SELECT on student table of the my_db database<br>
+mysql&gt; <span style="font-weight: bold;">SELECT&nbsp; * FROM</span> <span
+ style="font-weight: bold;">mydb.student</span>;<br>
++------------+------------+-----------+-----+-------+<br>
+| student_id | first_name | last_name | age | grade |<br>
++------------+------------+-----------+-----+-------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+yuna&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+kim&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 19
+|&nbsp;&nbsp;&nbsp;&nbsp; 4 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+kelly&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | jones&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp; 22 |&nbsp;&nbsp;&nbsp;&nbsp; 5 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+56 |&nbsp;&nbsp;&nbsp;&nbsp; 5 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+paul&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+34 |&nbsp;&nbsp;&nbsp;&nbsp; 7 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 |
+daniel&nbsp;&nbsp;&nbsp;&nbsp; | song&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp; 24 |&nbsp;&nbsp;&nbsp;&nbsp; 2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6 |
+nichole&nbsp;&nbsp;&nbsp; | scott&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;
+9 |&nbsp;&nbsp;&nbsp;&nbsp; 6 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7 |
+mao&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+asada&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 19 |&nbsp;&nbsp;&nbsp;&nbsp; 5 |<br>
++------------+------------+-----------+-----+-------+<br>
+7 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_3">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.8"></a>(3.8)&nbsp;
+Remove database and table</h3>
+<div style="margin-left: 40px;"><br>
+0. Study DROP.<br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">HELP DROP;</span><br>
+Many help items for your request exist.<br>
+To make a more specific request, please type 'help &lt;item&gt;',<br>
+where &lt;item&gt; is one of the following<br>
+topics:<br>
+&nbsp;&nbsp; ALTER TABLE<br>
+&nbsp;&nbsp; ALTER TABLESPACE<br>
+&nbsp;&nbsp; DEALLOCATE PREPARE<br>
+&nbsp;&nbsp; DROP DATABASE<br>
+&nbsp;&nbsp; DROP EVENT<br>
+&nbsp;&nbsp; DROP FUNCTION<br>
+&nbsp;&nbsp; DROP FUNCTION UDF<br>
+&nbsp;&nbsp; DROP INDEX<br>
+&nbsp;&nbsp; DROP PROCEDURE<br>
+&nbsp;&nbsp; DROP SERVER<br>
+&nbsp;&nbsp; DROP TABLE<br>
+&nbsp;&nbsp; DROP TABLESPACE<br>
+&nbsp;&nbsp; DROP TRIGGER<br>
+&nbsp;&nbsp; DROP USER<br>
+&nbsp;&nbsp; DROP VIEW<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">HELP DROP TABLE;</span><br>
+Name: 'DROP TABLE'<br>
+Description:<br>
+Syntax:<br>
+DROP [TEMPORARY] TABLE [IF EXISTS]<br>
+&nbsp;&nbsp;&nbsp; tbl_name [, tbl_name] ...<br>
+&nbsp;&nbsp;&nbsp; [RESTRICT | CASCADE]<br>
+      <br>
+DROP TABLE removes one or more tables. You must have the DROP privilege<br>
+for each table. All table data and the table definition are removed, so<br>
+be careful with this statement! If any of the tables named in the<br>
+argument list do not exist, MySQL returns an error indicating by name<br>
+which nonexisting tables it was unable to drop, but it also drops all<br>
+of the tables in the list that do exist.<br>
+      <br>
+*Important*: When a table is dropped, user privileges on the table are<br>
+not automatically dropped. See [HELP GRANT].<br>
+      <br>
+Note that for a partitioned table, DROP TABLE permanently removes the<br>
+table definition, all of its partitions, and all of the data which was<br>
+stored in those partitions. It also removes the partitioning definition<br>
+(.par) file associated with the dropped table.<br>
+      <br>
+Use IF EXISTS to prevent an error from occurring for tables that do not<br>
+exist. A NOTE is generated for each nonexistent table when using IF<br>
+EXISTS. See [HELP SHOW WARNINGS].<br>
+      <br>
+RESTRICT and CASCADE are allowed to make porting easier. In MySQL 5.1,<br>
+they do nothing.<br>
+      <br>
+*Note*: DROP TABLE automatically commits the current active<br>
+transaction, unless you use the TEMPORARY keyword.<br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/drop-table.html<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+1. Drop tables.<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;<span
+ style="font-weight: bold;"><span style="color: rgb(255, 0, 0);"> SHOW
+TABLES</span>;</span><br>
++-------------------+<br>
+| Tables_in_temp_db |<br>
++-------------------+<br>
+| temp_table&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++-------------------+<br>
+1 row in set (0.00 sec)<br>
+      <br>
+// Drop (remove) temp_table table<br>
+mysql&gt;<span style="font-weight: bold;"> <span
+ style="color: rgb(255, 0, 0);">DROP TABLE</span> temp_table;</span><br>
+Query OK, 0 rows affected (0.06 sec)<br>
+      <br>
+// Drop (remove) temp_table table if it exists<br>
+mysql&gt; <span style="font-weight: bold; color: rgb(255, 0, 0);">DROP
+TABLE IF EXISTS</span> temp_table;<br>
+Query OK, 0 rows affected, 1 warning (0.12 sec)<br>
+      <br>
+mysql&gt;<span style="font-weight: bold;"> <span
+ style="color: rgb(255, 0, 0);">SHOW TABLES</span>;</span><br>
+Empty set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Drop databases.<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;<span
+ style="font-weight: bold;"> <span style="color: rgb(255, 0, 0);">SHOW
+DATABASES</span>;</span><br>
++--------------------+<br>
+| Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++--------------------+<br>
+| information_schema |<br>
+|
+mydb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+mysql&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+temp_db&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+test&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
++--------------------+<br>
+5 rows in set (0.00 sec)<br>
+      <br>
+// Drop (remove) temp_db database<br>
+mysql&gt; <span style="font-weight: bold;"><span
+ style="color: rgb(255, 0, 0);">DROP DATABASE</span> temp_db;</span><br>
+Query OK, 0 rows affected (0.01 sec)<br>
+      <br>
+// Drop (remove) temp_db database if it exists<br>
+mysql&gt; <span style="font-weight: bold; color: rgb(255, 0, 0);">DROP
+DATABASE IF EXISTS</span> temp_db;<br>
+Query OK, 0 rows affected, 1 warning (0.00 sec)<br>
+      <br>
+mysql&gt;<span style="font-weight: bold;"> <span
+ style="color: rgb(255, 0, 0);">SHOW DATABASES</span>;</span><br>
++--------------------+<br>
+| Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++--------------------+<br>
+| information_schema |<br>
+|
+mydb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+mysql&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
+|
+test&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
++--------------------+<br>
+4 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt;</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_3">return to top of exercise</a><br>
+</div>
+<br>
+<p style="margin-left: 40px;"> </p>
+<h2><a name="Exercise_4"></a>Exercise 4: SQL Basics -
+Insert/Update/Delete records<br>
+</h2>
+<br>
+<div style="margin-left: 40px;">In this exercise,
+you are going to execute SQL commands related to the manipulation of
+records.<br>
+<ol start="0">
+  <li><a href="#4.0">Recreate "person" test table</a>.</li>
+  <li><a href="#4.1">Insert a record or recoreds to "person" table</a></li>
+  <li><a href="#4.2">Delete a record or recoreds from "person" table</a></li>
+  <li><a href="#4.3">Update a record or records</a><br>
+  </li>
+</ol>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="4.0"></a>(4.0)&nbsp;
+Recreate "person" test table</h3>
+<div style="margin-left: 40px;"><br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold; color: rgb(255, 0, 0);">DROP TABLE IF EXISTS</span>
+      <span style="font-weight: bold;">person;</span><br>
+Query OK, 0 rows affected (0.04 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">CREATE TABLE person (</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">person_id
+SMALLINT UNSIGNED NOT NULL,</span><br>
+&nbsp;&nbsp;&nbsp; -&gt;<span style="font-weight: bold;"> first_name
+VARCHAR(45) NOT NULL,</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">last_name
+VARCHAR(45) NOT NULL,</span><br>
+&nbsp;&nbsp;&nbsp; -&gt;<span style="font-weight: bold;"> age
+smallint(3) unsigned not null,</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">PRIMARY
+KEY&nbsp; (person_id)</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">) ;</span><br>
+Query OK, 0 rows affected (0.10 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_4">return to top of exercise</a><br>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="4.1"></a>(4.1)&nbsp;
+Insert a
+record or records</h3>
+<br>
+<div style="margin-left: 40px;">0. Study INSERT.<br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">HELP INSERT;</span><br>
+Name: 'INSERT'<br>
+Description:<br>
+Syntax:<br>
+INSERT [LOW_PRIORITY | DELAYED | HIGH_PRIORITY] [IGNORE]<br>
+&nbsp;&nbsp;&nbsp; [INTO] tbl_name [(col_name,...)]<br>
+&nbsp;&nbsp;&nbsp; {VALUES | VALUE} ({expr | DEFAULT},...),(...),...<br>
+&nbsp;&nbsp;&nbsp; [ ON DUPLICATE KEY UPDATE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; col_name=expr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [, col_name=expr] ... ]<br>
+      <br>
+Or:<br>
+      <br>
+INSERT [LOW_PRIORITY | DELAYED | HIGH_PRIORITY] [IGNORE]<br>
+&nbsp;&nbsp;&nbsp; [INTO] tbl_name<br>
+&nbsp;&nbsp;&nbsp; SET col_name={expr | DEFAULT}, ...<br>
+&nbsp;&nbsp;&nbsp; [ ON DUPLICATE KEY UPDATE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; col_name=expr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [, col_name=expr] ... ]<br>
+      <br>
+Or:<br>
+      <br>
+INSERT [LOW_PRIORITY | HIGH_PRIORITY] [IGNORE]<br>
+&nbsp;&nbsp;&nbsp; [INTO] tbl_name [(col_name,...)]<br>
+&nbsp;&nbsp;&nbsp; SELECT ...<br>
+&nbsp;&nbsp;&nbsp; [ ON DUPLICATE KEY UPDATE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; col_name=expr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [, col_name=expr] ... ]<br>
+      <br>
+INSERT inserts new rows into an existing table. The INSERT ... VALUES<br>
+and INSERT ... SET forms of the statement insert rows based on<br>
+explicitly specified values. The INSERT ... SELECT form inserts rows<br>
+selected from another table or tables. INSERT ... SELECT is discussed<br>
+further in [HELP INSERT SELECT].<br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/insert.html<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+1. Perform INSERT.<br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">// Insert a new single record
+into the
+"person" table.<br>
+mysql&gt; <span style="font-weight: bold; color: rgb(255, 0, 0);">INSERT
+INTO</span> <span style="font-weight: bold;">person (person_id,
+first_name, last_name, age)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <span
+ style="font-weight: bold; color: rgb(255, 0, 0);">VALUES</span> <span
+ style="font-weight: bold;">(1,
+'sang', 'shin', 88);</span><br>
+Query OK, 1 row affected (0.10 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * FROM person;</span><br>
++-----------+------------+-----------+-----+<br>
+| person_id | first_name | last_name | age |<br>
++-----------+------------+-----------+-----+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+sang&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+shin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 88 |<br>
++-----------+------------+-----------+-----+<br>
+1 row in set (0.00 sec)<br>
+      <br>
+// Insert multiple records into the "person" table.<br>
+mysql&gt; <span style="font-weight: bold; color: rgb(255, 0, 0);">INSERT
+INTO</span> person (person_id, first_name, last_name, age)<br>
+&nbsp;&nbsp;&nbsp; -&gt; <span
+ style="font-weight: bold; color: rgb(255, 0, 0);">VALUES </span><br>
+&nbsp;&nbsp;&nbsp; -&gt;<span style="font-weight: bold;"> (2, 'kelly',
+'jones', 22),</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">(3, 'jack',
+'kennedy', 56),</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">(4, 'paul', </span><big
+ style="font-weight: bold;">'</big><span style="font-weight: bold;">kennedy',
+34),</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">(5,
+'daniel', 'song', 24),</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">(6,
+'nichole', 'scott', 9);</span><br>
+Query OK, 3 rows affected (0.05 sec)<br>
+Records: 3&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+// Retrieve all records from the "person" table.<br>
+mysql&gt; <span style="font-weight: bold; color: rgb(255, 0, 0);">SELECT</span>
+      <span style="font-weight: bold;">*</span> <span
+ style="font-weight: bold; color: rgb(255, 0, 0);">FROM </span><span
+ style="font-weight: bold;">person;</span><br>
++-----------+------------+-----------+-----+<br>
+| person_id | first_name | last_name | age |<br>
++-----------+------------+-----------+-----+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+sang&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+shin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 88 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+kelly&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | jones&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp; 22 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+56 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+paul&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+34 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 |
+daniel&nbsp;&nbsp;&nbsp;&nbsp; | song&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp; 24 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6 |
+nichole&nbsp;&nbsp;&nbsp; | scott&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;
+9 |<br>
++-----------+------------+-----------+-----+<br>
+6 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_4">return to top of exercise</a><br>
+<br>
+</div>
+<div style="margin-left: 40px;">&nbsp;&nbsp; &nbsp;&nbsp; <br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="4.2"></a>(4.2)&nbsp;
+Delete a
+record or records<br>
+</h3>
+<div style="margin-left: 40px;"><br>
+0. Study DELETE.<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">HELP DELETE;</span><br>
+Name: 'DELETE'<br>
+Description:<br>
+Syntax:<br>
+Single-table syntax:<br>
+      <br>
+DELETE [LOW_PRIORITY] [QUICK] [IGNORE] FROM tbl_name<br>
+&nbsp;&nbsp;&nbsp; [WHERE where_condition]<br>
+&nbsp;&nbsp;&nbsp; [ORDER BY ...]<br>
+&nbsp;&nbsp;&nbsp; [LIMIT row_count]<br>
+      <br>
+Multiple-table syntax:<br>
+      <br>
+DELETE [LOW_PRIORITY] [QUICK] [IGNORE]<br>
+&nbsp;&nbsp;&nbsp; tbl_name[.*] [, tbl_name[.*]] ...<br>
+&nbsp;&nbsp;&nbsp; FROM table_references<br>
+&nbsp;&nbsp;&nbsp; [WHERE where_condition]<br>
+      <br>
+Or:<br>
+      <br>
+DELETE [LOW_PRIORITY] [QUICK] [IGNORE]<br>
+&nbsp;&nbsp;&nbsp; FROM tbl_name[.*] [, tbl_name[.*]] ...<br>
+&nbsp;&nbsp;&nbsp; USING table_references<br>
+&nbsp;&nbsp;&nbsp; [WHERE where_condition]<br>
+      <br>
+For the single-table syntax, the DELETE statement deletes rows from<br>
+tbl_name and returns a count of the number of deleted rows. This count<br>
+can be obtained by calling the ROW_COUNT() function (see<br>
+http://dev.mysql.com/doc/refman/5.1/en/information-functions.html). The<br>
+WHERE clause, if given, specifies the conditions that identify which<br>
+rows to delete. With no WHERE clause, all rows are deleted. If the<br>
+ORDER BY clause is specified, the rows are deleted in the order that is<br>
+specified. The LIMIT clause places a limit on the number of rows that<br>
+can be deleted.<br>
+      <br>
+For the multiple-table syntax, DELETE deletes from each tbl_name the<br>
+rows that satisfy the conditions. In this case, ORDER BY and LIMIT<br>
+cannot be used.<br>
+      <br>
+where_condition is an expression that evaluates to true for each row to<br>
+be deleted. It is specified as described in<br>
+http://dev.mysql.com/doc/refman/5.1/en/select.html.<br>
+      <br>
+Currently, you cannot delete from a table and select from the same<br>
+table in a subquery.<br>
+      <br>
+You need the DELETE privilege on a table to delete rows from it. You<br>
+need only the SELECT privilege for any columns that are only read, such<br>
+as those named in the WHERE clause.<br>
+      <br>
+As stated, a DELETE statement with no WHERE clause deletes all rows. A<br>
+faster way to do this, when you do not need to know the number of<br>
+deleted rows, is to use TRUNCATE TABLE. However, within a transaction<br>
+or if you have a lock on the table, TRUNCATE TABLE cannot be used<br>
+whereas DELETE can. See [HELP TRUNCATE TABLE], and [HELP LOCK].<br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/delete.html<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Perform DELETE.<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">// Delete anybody whose age is
+less than 10.<br>
+mysql&gt;<span style="color: rgb(255, 0, 0);"> </span><span
+ style="font-weight: bold; color: rgb(255, 0, 0);">DELETE FROM</span> <span
+ style="font-weight: bold;">person</span> <span
+ style="font-weight: bold; color: rgb(255, 0, 0);">WHERE</span> <span
+ style="font-weight: bold;">age &lt; 10;</span><br>
+Query OK, 1 row affected (0.07 sec)<br>
+      <br>
+mysql&gt;<span style="font-weight: bold;"> SELECT * FROM person;</span><br>
++-----------+------------+-----------+-----+<br>
+| person_id | first_name | last_name | age |<br>
++-----------+------------+-----------+-----+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+sang&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+shin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 88 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+kelly&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | jones&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp; 22 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+56 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+paul&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+34 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 |
+daniel&nbsp;&nbsp;&nbsp;&nbsp; | song&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp; 24 |<br>
++-----------+------------+-----------+-----+<br>
+5 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">DELETE FROM person WHERE
+last_name&nbsp; = 'song';</span><br>
+Query OK, 1 row affected, 2 warnings (0.09 sec)<br>
+      <br>
+// Display number of rows deleted<br>
+mysql&gt; <span style="font-weight: bold;">SELECT ROW_COUNT();</span><br>
++-------------+<br>
+| ROW_COUNT() |<br>
++-------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |<br>
++-------------+<br>
+1 row in set (0.08 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * FROM person;</span><br>
++-----------+------------+-----------+-----+<br>
+| person_id | first_name | last_name | age |<br>
++-----------+------------+-----------+-----+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+sang&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+shin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 88 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+kelly&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | jones&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp; 22 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+56 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+paul&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+34 |<br>
++-----------+------------+-----------+-----+<br>
+4 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_4">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="4.3"></a>(4.3)&nbsp;
+Update a
+record or records</h3>
+<div style="margin-left: 40px;"><br>
+0. Study UPDATE.<br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">HELP UPDATE;</span><br>
+Name: 'UPDATE'<br>
+Description:<br>
+Syntax:<br>
+Single-table syntax:<br>
+      <br>
+UPDATE [LOW_PRIORITY] [IGNORE] table_reference<br>
+&nbsp;&nbsp;&nbsp; SET col_name1={expr1|DEFAULT} [,
+col_name2={expr2|DEFAULT}] ...<br>
+&nbsp;&nbsp;&nbsp; [WHERE where_condition]<br>
+&nbsp;&nbsp;&nbsp; [ORDER BY ...]<br>
+&nbsp;&nbsp;&nbsp; [LIMIT row_count]<br>
+      <br>
+Multiple-table syntax:<br>
+      <br>
+UPDATE [LOW_PRIORITY] [IGNORE] table_references<br>
+&nbsp;&nbsp;&nbsp; SET col_name1={expr1|DEFAULT} [,
+col_name2={expr2|DEFAULT}] ...<br>
+&nbsp;&nbsp;&nbsp; [WHERE where_condition]<br>
+      <br>
+For the single-table syntax, the UPDATE statement updates columns of<br>
+existing rows in the named table with new values. The SET clause<br>
+indicates which columns to modify and the values they should be given.<br>
+Each value can be given as an expression, or the keyword DEFAULT to set<br>
+a column explicitly to its default value. The WHERE clause, if given,<br>
+specifies the conditions that identify which rows to update. With no<br>
+WHERE clause, all rows are updated. If the ORDER BY clause is<br>
+specified, the rows are updated in the order that is specified. The<br>
+LIMIT clause places a limit on the number of rows that can be updated.<br>
+      <br>
+For the multiple-table syntax, UPDATE updates rows in each table named<br>
+in table_references that satisfy the conditions. In this case, ORDER BY<br>
+and LIMIT cannot be used.<br>
+      <br>
+where_condition is an expression that evaluates to true for each row to<br>
+be updated.<br>
+      <br>
+table_references and where_condition are is specified as described in<br>
+http://dev.mysql.com/doc/refman/5.1/en/select.html.<br>
+      <br>
+You need the UPDATE privilege only for columns referenced in an UPDATE<br>
+that are actually updated. You need only the SELECT privilege for any<br>
+columns that are read but not modified.<br>
+      <br>
+The UPDATE statement supports the following modifiers:<br>
+      <br>
+o If you use the LOW_PRIORITY keyword, execution of the UPDATE is<br>
+&nbsp; delayed until no other clients are reading from the table. This<br>
+&nbsp; affects only storage engines that use only table-level locking<br>
+&nbsp; (MyISAM, MEMORY, MERGE).<br>
+      <br>
+o If you use the IGNORE keyword, the update statement does not abort<br>
+&nbsp; even if errors occur during the update. Rows for which
+duplicate-key<br>
+&nbsp; conflicts occur are not updated. Rows for which columns are
+updated<br>
+&nbsp; to values that would cause data conversion errors are updated to
+the<br>
+&nbsp; closest valid values instead.<br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/update.html<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;">1. Perform UPDATE.<br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">// Set the age field to 88&nbsp;
+of any person whose age field is currently set 99 or whose first_name
+is 'paul'<br>
+mysql&gt; <span style="font-weight: bold;">UPDATE person SET age = 88</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">WHERE age =
+99 OR first_name = 'paul';</span><br>
+Query OK, 1 row affected, 2 warnings (0.04 sec)<br>
+Rows matched: 1&nbsp; Changed: 1&nbsp; Warnings: 2<br>
+      <br>
+mysql&gt; SELECT * FROM person;<br>
++-----------+------------+-----------+-----+<br>
+| person_id | first_name | last_name | age |<br>
++-----------+------------+-----------+-----+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+sang&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+shin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 88 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+kelly&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | jones&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp; 22 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+56 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+paul&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+88 |<br>
++-----------+------------+-----------+-----+<br>
+4 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <a
+ href="index.html#Exercise_4">return to top of exercise</a><br>
+<br>
+<br>
+<br>
+</div>
+<h2><a name="Exercise_5"></a>Exercise 5: SQL Basics - Retrieval
+of
+records using SELECT<br>
+</h2>
+<br>
+<div style="margin-left: 40px;">
+SELECT is used to retrieve rows (records) selected from one or more
+tables.&nbsp; In this exercise, you are going to learn some basic
+features of SELECT statement.
+</div>
+<div style="margin-left: 40px;">
+<ol>
+  <li><a href="#5.1">Retrieving specific fields of the records</a></li>
+  <li><a href="#5.2">Retrieving records with filtering with WHERE clause</a></li>
+  <li><a href="#5.3">Retrieving records with ordering with ORDER BY
+clause</a></li>
+  <li><a href="#5.4">Retrieving records with LIMIT</a></li>
+</ol>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="5.1"></a>(5.1)&nbsp;
+Retrieving
+specific fields of the records</h3>
+<div style="margin-left: 40px;"><br>
+0. Study SELECT statement.<br>
+</div>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">HELP select;</span><br>
+Name: 'SELECT'<br>
+Description:<br>
+Syntax:<br>
+SELECT<br>
+&nbsp;&nbsp;&nbsp; [ALL | DISTINCT | DISTINCTROW ]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [HIGH_PRIORITY]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [STRAIGHT_JOIN]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [SQL_SMALL_RESULT] [SQL_BIG_RESULT]
+[SQL_BUFFER_RESULT]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [SQL_CACHE | SQL_NO_CACHE]
+[SQL_CALC_FOUND_ROWS]<br>
+&nbsp;&nbsp;&nbsp; select_expr [, select_expr ...]<br>
+&nbsp;&nbsp;&nbsp; [FROM table_references<br>
+&nbsp;&nbsp;&nbsp; [WHERE where_condition]<br>
+&nbsp;&nbsp;&nbsp; [GROUP BY {col_name | expr | position}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ASC | DESC], ... [WITH ROLLUP]]<br>
+&nbsp;&nbsp;&nbsp; [HAVING where_condition]<br>
+&nbsp;&nbsp;&nbsp; [ORDER BY {col_name | expr | position}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ASC | DESC], ...]<br>
+&nbsp;&nbsp;&nbsp; [LIMIT {[offset,] row_count | row_count OFFSET
+offset}]<br>
+&nbsp;&nbsp;&nbsp; [PROCEDURE procedure_name(argument_list)]<br>
+&nbsp;&nbsp;&nbsp; [INTO OUTFILE 'file_name'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [CHARACTER SET charset_name]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; export_options<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | INTO DUMPFILE 'file_name'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | INTO var_name [, var_name]]<br>
+&nbsp;&nbsp;&nbsp; [FOR UPDATE | LOCK IN SHARE MODE]]<br>
+      <br>
+SELECT is used to retrieve rows selected from one or more tables, and<br>
+can include UNION statements and subqueries. See [HELP UNION], and<br>
+http://dev.mysql.com/doc/refman/5.1/en/subqueries.html.<br>
+      <br>
+The most commonly used clauses of SELECT statements are these:<br>
+      <br>
+o Each select_expr indicates a column that you want to retrieve. There<br>
+&nbsp; must be at least one select_expr.<br>
+      <br>
+o table_references indicates the table or tables from which to retrieve<br>
+&nbsp; rows. Its syntax is described in [HELP JOIN].<br>
+      <br>
+o The WHERE clause, if given, indicates the condition or conditions<br>
+&nbsp; that rows must satisfy to be selected. where_condition is an<br>
+&nbsp; expression that evaluates to true for each row to be selected.
+The<br>
+&nbsp; statement selects all rows if there is no WHERE clause.<br>
+      <br>
+&nbsp; In the WHERE clause, you can use any of the functions and
+operators<br>
+&nbsp; that MySQL supports, except for aggregate (summary) functions.
+See<br>
+&nbsp; http://dev.mysql.com/doc/refman/5.1/en/functions.html.<br>
+      <br>
+SELECT can also be used to retrieve rows computed without reference to<br>
+any table.<br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/select.html<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;">1. Perform SELECT.<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">// Retrieve only "last_name" and
+"age" field from all records of the "person" table<br>
+mysql&gt;<span style="font-weight: bold;"> SELECT last_name, age FROM
+person;</span><br>
++-----------+-----+<br>
+| last_name | age |<br>
++-----------+-----+<br>
+| shin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 88 |<br>
+| jones&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 22 |<br>
+| kennedy&nbsp;&nbsp; |&nbsp; 56 |<br>
+| kennedy&nbsp;&nbsp; |&nbsp; 34 |<br>
+| song&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 24 |<br>
++-----------+-----+<br>
+5 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_5">return to top of exercise</a><br>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="5.2"></a>(5.2)&nbsp;
+Retrieving
+records with filtering through WHERE clause<br>
+</h3>
+<div style="margin-left: 40px;"><br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SELECT first_name, age
+FROM person</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <span
+ style="font-weight: bold;">WHERE age &gt; 50;</span><br>
++------------+-----+<br>
+| first_name | age |<br>
++------------+-----+<br>
+| sang&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 88 |<br>
+| jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 56 |<br>
++------------+-----+<br>
+2 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT first_name,
+last_name, age FROM person</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <span
+ style="font-weight: bold;">WHERE age &lt; 50 AND
+first_name LIKE '%niel';</span><br>
++------------+-----------+-----+<br>
+| first_name | last_name | age |<br>
++------------+-----------+-----+<br>
+| daniel&nbsp;&nbsp;&nbsp;&nbsp; | song&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp; 24 |<br>
++------------+-----------+-----+<br>
+1 row in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_5">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="5.3"></a>(5.3)&nbsp;
+Retrieving
+records with ordering through ORDER BY clause<br>
+</h3>
+<div style="margin-left: 40px;"><br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;<span
+ style="font-weight: bold;"> SELECT last_name, age
+FROM person</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">ORDER BY age
+ASC;</span><br>
++-----------+-----+<br>
+| last_name | age |<br>
++-----------+-----+<br>
+| jones&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 22 |<br>
+| song&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 24 |<br>
+| kennedy&nbsp;&nbsp; |&nbsp; 34 |<br>
+| kennedy&nbsp;&nbsp; |&nbsp; 56 |<br>
+| shin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 88 |<br>
++-----------+-----+<br>
+5 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT</span> * <span
+ style="font-weight: bold;">FROM person</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt;<span
+ style="font-weight: bold;"> ORDER BY age DESC;</span><br>
++-----------+------------+-----------+-----+<br>
+| person_id | first_name | last_name | age |<br>
++-----------+------------+-----------+-----+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+sang&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+shin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 88 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+56 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+paul&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+34 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 |
+daniel&nbsp;&nbsp;&nbsp;&nbsp; | song&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp; 24 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+kelly&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | jones&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp; 22 |<br>
++-----------+------------+-----------+-----+<br>
+5 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_5">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="5.4"></a>(5.4)&nbsp;
+Retrieving
+records through LIMIT clause</h3>
+<div style="margin-left: 40px;"><br>
+</div>
+<table style="width: 100%; text-align: left; margin-left: 40px;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SELECT * from person</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">ORDER BY age
+DESC</span><br>
+&nbsp;&nbsp;&nbsp; -&gt;<span style="font-weight: bold;"> LIMIT 3;</span><br>
++-----------+------------+-----------+-----+<br>
+| person_id | first_name | last_name | age |<br>
++-----------+------------+-----------+-----+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+sang&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+shin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 88 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+56 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+paul&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+34 |<br>
++-----------+------------+-----------+-----+<br>
+3 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div style="margin-left: 40px;"><br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_5">return to top of exercise</a><br>
+</div>
+<br>
+<h2><a name="Exercise_6"></a>Exercise 6: SQL Basics -
+arithmetic
+functions<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;">In this exercise,
+you are going to perform arithmetic operations.<br>
+</p>
+<div style="margin-left: 40px;">
+<ol>
+  <li><a href="#6.1">Arithmetic operations</a></li>
+  <li><a href="#6.2">COUNT, AVG, and SUM</a></li>
+  <li><a href="#6.3">MIN, MAX</a><br>
+  </li>
+</ol>
+</div>
+<p class="pBody" style="margin-left: 40px;"></p>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="6.1"></a>(6.1)&nbsp;
+Arithmetic operations<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SELECT 3 + 6;</span><br>
++-------+<br>
+| 3 + 6 |<br>
++-------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp; 9 |<br>
++-------+<br>
+1 row in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT 45 * (1+2);</span><br>
++------------+<br>
+| 45 * (1+2) |<br>
++------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 135 |<br>
++------------+<br>
+1 row in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_5">return to top of exercise</a><br>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="6.2"></a>(6.2)&nbsp;
+COUNT, AVG, SUM<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SELECT COUNT(age) FROM
+person;</span><br>
++------------+<br>
+| COUNT(age) |<br>
++------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 |<br>
++------------+<br>
+1 row in set (0.04 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT AVG(age) from person;</span><br>
++----------+<br>
+| AVG(age) |<br>
++----------+<br>
+|&nbsp; 44.8000 |<br>
++----------+<br>
+1 row in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT SUM(age) FROM person;</span><br>
++----------+<br>
+| SUM(age) |<br>
++----------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 224 |<br>
++----------+<br>
+1 row in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_6">return to top of exercise</a><br>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="6.3"></a>(6.3)&nbsp;
+MIN, MAX<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SELECT MIN(age) FROM
+person;</span><br>
++----------+<br>
+| MIN(age) |<br>
++----------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 22 |<br>
++----------+<br>
+1 row in set (0.00 sec)<br>
+      <br>
+mysql&gt;<span style="font-weight: bold;"> SELECT MAX(age) FROM person;</span><br>
++----------+<br>
+| MAX(age) |<br>
++----------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 88 |<br>
++----------+<br>
+1 row in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_6">return to top of exercise</a><br>
+<br>
+</div>
+<br>
+<h2><a name="Exercise_7"></a>Exercise 7: Reading and executing SQL
+script file <br>
+</h2>
+<p class="pBody" style="margin-left: 40px;">In this exercise,
+you are going to create and read simple SQL script file.<br>
+</p>
+<ol>
+  <ol>
+    <li><a href="#7.1">Create a new SQL script file</a></li>
+    <li><a href="#7.2">Read and execute the SQL script file</a><br>
+    </li>
+  </ol>
+</ol>
+<p class="pBody" style="margin-left: 40px;"></p>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="7.1"></a>(7.1)&nbsp;
+Create a new SQL script file<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">1. Create a new file called,
+<span style="font-weight: bold;">student.sql</span> with the content
+below in a directory of your choice, for example, <span
+ style="font-weight: bold;">C:\tmp</span> in the
+Windows platform or /export/home/sang/tmp directory on Linux/Mac
+platforms.<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">CREATE TABLE&nbsp; student (<br>
+&nbsp;student_id SMALLINT UNSIGNED NOT NULL,<br>
+&nbsp;first_name VARCHAR(45) NOT NULL,<br>
+&nbsp;last_name VARCHAR(45) NOT NULL,<br>
+&nbsp;age SMALLINT UNSIGNED NOT NULL,<br>
+&nbsp;grade SMALLINT UNSIGNED NOT NULL,<br>
+&nbsp;PRIMARY KEY&nbsp; (student_id)<br>
+&nbsp;);<br>
+      <br>
+      <span style="color: rgb(0, 0, 0);">INSERT INTO</span> student
+(student_id, first_name, last_name, age, grade)<br>
+&nbsp;<span style="color: rgb(255, 0, 0);"><span
+ style="color: rgb(0, 0, 0);">VALUES</span></span><span
+ style="font-weight: bold; color: rgb(255, 0, 0);"></span> <br>
+&nbsp;(1, 'yuna', 'kim', 19, 4),<br>
+&nbsp;(2, 'kelly', 'jones', 22, 5),<br>
+&nbsp;(3, 'jack', 'kennedy', 56, 5),<br>
+&nbsp;(4, 'paul', <big>'</big>kennedy', 34, 7),<br>
+&nbsp;(5, 'daniel', 'song', 24, 2),<br>
+&nbsp;(6, 'nichole', 'scott', 9, 6);<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_7">return to top of exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="7.2"></a>(7.2)&nbsp;
+Read and execure the SQL script file<br>
+</h3>
+<div style="margin-left: 40px;"><br>
+1.&nbsp; Read and execute a SQL script file.&nbsp; Even for Windows,
+you should use forward slash '/' not backward slash '\' as a directory
+path delimiter.&nbsp; For example, you should type SOURCE
+C:/tmp/student.sql not C:\tmp\student.sql.<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE /tmp/student.sql</span><br>
+Query OK, 0 rows affected (0.10 sec)<br>
+      <br>
+Query OK, 6 rows affected (0.04 sec)<br>
+Records: 6&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SHOW TABLES;</span><br>
++----------------+<br>
+| Tables_in_mydb |<br>
++----------------+<br>
+| person&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+| student&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
++----------------+<br>
+2 rows in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT * FROM student;</span><br>
++------------+------------+-----------+-----+-------+<br>
+| student_id | first_name | last_name | age | grade |<br>
++------------+------------+-----------+-----+-------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+yuna&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+kim&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 19
+|&nbsp;&nbsp;&nbsp;&nbsp; 4 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+kelly&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | jones&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp; 22 |&nbsp;&nbsp;&nbsp;&nbsp; 5 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+jack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+56 |&nbsp;&nbsp;&nbsp;&nbsp; 5 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+paul&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | kennedy&nbsp;&nbsp; |&nbsp;
+34 |&nbsp;&nbsp;&nbsp;&nbsp; 7 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 |
+daniel&nbsp;&nbsp;&nbsp;&nbsp; | song&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|&nbsp; 24 |&nbsp;&nbsp;&nbsp;&nbsp; 2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6 |
+nichole&nbsp;&nbsp;&nbsp; | scott&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;
+9 |&nbsp;&nbsp;&nbsp;&nbsp; 6 |<br>
++------------+------------+-----------+-----+-------+<br>
+6 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+ href="index.html#Exercise_7">return to top of exercise</a><br>
+<br>
+</div>
+<br>
+<br>
+<br>
+<h2><a name="Homework_Exercise"></a><a name="Homework"></a>Homework
+Exercise (for people
+who
+are taking Sang Shin's "MySQL online course") <br>
+</h2>
+<br>
+<div style="margin-left: 40px;"><span style="color: rgb(0, 0, 0);">1.
+The homework is to create a SQL file called, <span
+ style="font-weight: bold;">mysql_basics1.sql</span>, which performs
+the following tasks when run.</span><span style="color: rgb(0, 0, 0);"></span><br>
+<ul>
+  <li>Create a new database called, <span style="font-weight: bold;">myowndb</span>.</li>
+  <li>Create a new table called, <span style="font-weight: bold;">myown_animals</span>,
+which has the following fields.</li>
+  <ul>
+    <li>animal_id SMALLINT as a primary key field <br>
+    </li>
+    <li>name VARCHAR(40) <br>
+    </li>
+    <li>age INT</li>
+  </ul>
+  <li>Add 5 records (rows) of sample data to the table.&nbsp; <br>
+  </li>
+  <li>Update name of each animal to upper case.<br>
+  </li>
+  <li>Compute and display the average, maximum, and minimum age.</li>
+  <li>Delete records whose animal age is less than 10<br>
+  </li>
+</ul>
+2<span style="color: rgb(0, 0, 0);">. Send the following files to</span><span
+ style="color: rgb(0, 0, 0);"> <a
+ href="mailto:mysql_homeworks@javapassion.com">mysql_homeworks@javapassion.com</a>
+with </span><span style="font-weight: bold; color: rgb(0, 0, 0);">Subject
+</span><span style="color: rgb(0, 0, 0);">as </span><span
+ style="font-weight: bold; color: rgb(0, 0, 0);">mysql_basics1.</span><br
+ style="color: rgb(0, 0, 0);">
+<span style="font-weight: bold; color: rgb(0, 0, 0);"></span>
+<ul style="color: rgb(0, 0, 0);">
+  <li>mysql_basics1.sql file.<span style="font-weight: bold;"> <br>
+    </span></li>
+  <li>Captured output screen&nbsp;<span style="font-weight: bold;"> </span>-
+name it as <span style="font-weight: bold;">mysql_basics1.gif</span>
+or<span style="font-weight: bold;"> mysql_basics1</span><span
+ style="font-weight: bold;">.jpg</span> (or <span
+ style="font-weight: bold;">mysql_basics1.&lt;whatver
+graphics format&gt;</span>)</li>
+  <ul>
+    <li>Any screen capture that shows that your program is working is
+good enough.&nbsp; <br>
+    </li>
+  </ul>
+</ul>
+</div>
+<div style="margin-left: 40px;">
+</div>
+<div style="margin-left: 40px;">
+<div style="margin-left: 40px;"></div>
+</div>
+<div style="margin-left: 40px;"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="#Tutorial_Exercises">return
+to the top</a></div>
+<div class="indent"><br>
+<br>
+<br>
+</div>
+<br>
+<p> </p>
+<!-- ======================================================================================== -->
+</body>
+</html>

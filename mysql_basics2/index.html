@@ -1,0 +1,1769 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <script src="index_files/tigris.txt" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="index_files/netbeans.css">
+  <title>LAB-1611: MySQL Basics II</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta name="SourceCastVersion" content="2.6.2.4.10">
+  <link rel="shortcut icon" href="http://www.netbeans.org/favicon.ico"
+ type="image/x-icon">
+  <meta name="keywords"
+ content="NetBeans, IDE, Platform, free, open source, developer">
+  <link rel="stylesheet" href="index_files/netbeans_002.css">
+  <meta name="author" content="Sang Shin">
+  <style type="text/css">
+#search {height:100%;}
+#topmodule {align:right;}
+  </style>
+  <script language="JavaScript" type="text/javascript">
+<!--
+function get_sc_login() {
+  var sclogin = "guest";
+  return (sclogin);
+}
+var username=get_sc_login();
+//-->
+  </script>
+</head>
+<body onload="loginfocus()" class="composite">
+<!-- begin TopTabs --><!-- end TopTabs --><!-- start NavCol --><!-- end NavCol --><!-- Servlet-Specific template --><!-- Show servlet name if it is a servlet -->
+<br>
+<br>
+<h1 style="text-align: center;">MySQL Basics II<br>
+</h1>
+<div class="articledate" style="margin-left: 0px; text-align: center;"><a
+ href="http://www.javapassion.com/SangSchedule.html#Bio">Sang Shin</a>,
+<a href="http://www.javapassion.com">www.javapassion.com</a><a
+ href="mailto:sangshinpassion@gmail.com"><i>
+</i></a></div>
+<div class="indent"><br>
+<div style="text-align: center;"><img alt=""
+ src="index_files/sangshin2009.jpg" style="width: 88px; height: 101px;"><br>
+</div>
+<br>
+MySQL provides comprehensive set of options for creating tables and
+query operations.&nbsp; In this exercise, some of the more advanced yet
+important SQL commands and their options will be explored.<br>
+<b><br>
+</b>
+<div style="text-align: center;"><b>Expected duration: 100 minutes
+(excluding homework)<br>
+<br>
+</b></div>
+<br>
+<br>
+<h3 class="tutorial">Software Needed</h3>
+<ul>
+  <li>1611_mysql_basics2.zip (<a
+ href="http://www.javapassion.com/handsonlabs/1611_mysql_basics2.zip">download</a>)</li>
+  <ul>
+    <li>It contains this document and the lab contents<br>
+    </li>
+    <li>Download it and unzip in a directory of your choice</li>
+  </ul>
+</ul>
+<br>
+<h3 class="tutorial">OS platforms you can use<br>
+</h3>
+<ul>
+  <li>Windows</li>
+  <li>Solaris x86, Solaris Sparc</li>
+  <li>Linux</li>
+  <li>Mac OS X</li>
+</ul>
+<h3 class="tutorial"><a name="Change_Log"></a>Change Log<br>
+</h3>
+<ul>
+  <li>March 15th, 2010: Created<br>
+  </li>
+</ul>
+<br>
+<h3 class="tutorial">Things to be done (by Sang Shin)<br>
+</h3>
+<ul>
+  <li>Add more explanation to the exercises</li>
+</ul>
+<br>
+&nbsp;<br>
+<h3 class="tutorial"><a name="Tutorial_Exercises"></a>Lab Exercises</h3>
+<ul>
+  <li><a href="#Exercise_1">Exercise 1: Field modifiers (20
+minutes)</a></li>
+  <li><a href="index.html#Exercise_1">Exercise 2: Table modifiers -
+Storage engine and others (20
+minutes)</a></li>
+  <li><a href="#Exercise_3">Exercise 3: WHERE clause options (20
+minutes)</a></li>
+  <li><a href="#Exercise_4">Exercise 4: GROUP BY and HAVING (20 minutes)</a></li>
+  <li><a href="#Exercise_5">Exercise 5: User-defined variables (20
+minutes)</a></li>
+  <li><a href="#Homework_Exercise">Homework
+Exercise (for people who
+are taking Sang Shin's MySQL online course")</a></li>
+</ul>
+</div>
+<br>
+<h2><a name="Exercise_1"></a>Exercise 1: Advanced field modifiers<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;">You can specify various
+field modifiers.<br>
+</p>
+<ol>
+  <ol>
+    <li><a href="#1.1">AUTO_INCREMENT on primary key constraint<br>
+      </a></li>
+    <li><a href="#1.2">UNIQUE constraint</a></li>
+    <li><a href="#1.3">INDEX constraint (when creating a table)<br>
+      </a></li>
+    <li><a href="#1.4">INDEX constaint (to an existing table)</a></li>
+  </ol>
+</ol>
+<p class="pBody" style="margin-left: 40px;"></p>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.1"></a>(1.1)&nbsp;
+AUTO_INCREMENT on primary key</h3>
+<div style="margin-left: 40px;"><br>
+0. Study AUTO_INCREMENT<br>
+</div>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">HELP AUTO_INCREMENT;</span><br>
+Name: 'AUTO_INCREMENT'<br>
+Description:<br>
+      <span style="font-weight: bold;">The AUTO_INCREMENT attribute can
+be used to generate a unique identity</span><br
+ style="font-weight: bold;">
+      <span style="font-weight: bold;">for new rows:</span><br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/example-auto-increment.html<br>
+      <br>
+Examples:<br>
+CREATE TABLE students (<br>
+&nbsp;&nbsp;&nbsp;&nbsp; id MEDIUMINT NOT NULL AUTO_INCREMENT,<br>
+&nbsp;&nbsp;&nbsp;&nbsp; name CHAR(30) NOT NULL,<br>
+&nbsp;&nbsp;&nbsp;&nbsp; PRIMARY KEY (id)<br>
+&nbsp;);<br>
+      <br>
+INSERT INTO students (name) VALUES<br>
+&nbsp;&nbsp;&nbsp; ('dog'),('cat'),('penguin'),<br>
+&nbsp;&nbsp;&nbsp; ('lax'),('whale'),('ostrich');<br>
+      <br>
+SELECT * FROM students;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+1. Study <span style="font-weight: bold;">auto_increment_on_primarykey.sql.</span><br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Create "employees" table */<br>
+DROP TABLE IF EXISTS employees;&nbsp; <br>
+&nbsp;<br>
+CREATE TABLE employees (&nbsp; <br>
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">employee_id
+int(11) NOT NULL <span style="color: rgb(255, 0, 0);">AUTO_INCREMENT</span>,
+      </span><br>
+&nbsp;&nbsp;&nbsp; name varchar(255) NOT NULL, <br>
+&nbsp;&nbsp;&nbsp; salary decimal(7,2) NOT NULL,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (employee_id)<br>
+);<br>
+      <br>
+/* Data for the table employees - providing employee_id
+explicitly&nbsp; */<br>
+INSERT INTO employees(employee_id, name, salary)<br>
+VALUES<br>
+(1,'jack','3000.00'),<br>
+(2,'mary','2500.00'),<br>
+(3,'nichole','4000.00');<br>
+      <br>
+      <span style="font-weight: bold;">/* Data for the table employees
+- using AUTO_INCREMENT */</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">INSERT INTO employees(name,
+salary)</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">VALUES</span><br
+ style="font-weight: bold;">
+      <span style="font-weight: bold;">('angie','5000.00'),</span><br
+ style="font-weight: bold;">
+      <span style="font-weight: bold;">('jones','5000.00');</span><br
+ style="font-weight: bold;">
+      <br>
+/* Display records */<br>
+SELECT * FROM employees;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">auto_increment_on_primarykey.sql.</span><br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;&nbsp; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_basics2/sqlscripts/auto_increment_on_primarykey.sql</span><br>
+Query OK, 0 rows affected (0.06 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.17 sec)<br>
+      <br>
+Query OK, 3 rows affected (0.04 sec)<br>
+Records: 3&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
+Query OK, 2 rows affected (0.06 sec)<br>
+Records: 2&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
++-------------+---------+---------+<br>
+| employee_id | name&nbsp;&nbsp;&nbsp; | salary&nbsp; |<br>
++-------------+---------+---------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+jack&nbsp;&nbsp;&nbsp; | 3000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+mary&nbsp;&nbsp;&nbsp; | 2500.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+nichole | 4000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+angie&nbsp;&nbsp; | 5000.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 |
+jones&nbsp;&nbsp; | 5000.00 |<br>
++-------------+---------+---------+<br>
+5 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="#Exercise_1">return
+to top of the exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.2"></a>(1.2)&nbsp;
+UNIQUE constraint<br>
+</h3>
+<div style="margin-left: 40px;"><br>
+1. Study <span style="font-weight: bold;">unique.sql</span><br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Create "employees" table */<br>
+DROP TABLE IF EXISTS employees;&nbsp; <br>
+&nbsp;<br>
+CREATE TABLE employees (&nbsp; <br>
+&nbsp;&nbsp;&nbsp; employee_id int(11) NOT NULL AUTO_INCREMENT, <br>
+&nbsp;&nbsp;&nbsp; /* name field now has UNIQUE constraint */<br>
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">name varchar(255)
+NOT NULL <span style="color: rgb(255, 0, 0);">UNIQUE</span>, </span><br>
+&nbsp;&nbsp;&nbsp; salary decimal(7,2) NOT NULL,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (employee_id)<br>
+);<br>
+      <br>
+/* Data for the table employees - using AUTO_INCREMENT */<br>
+INSERT INTO employees(name, salary)<br>
+VALUES<br>
+('angie','5500.00'),<br>
+      <span style="font-weight: bold;">('jones','5000.00'),</span><br
+ style="font-weight: bold;">
+      <span style="font-weight: bold;">('jones','4000.00');&nbsp; /*
+This should result in an error */</span><br>
+      <br>
+/* Display records */<br>
+SELECT * FROM employees;</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Execute <span style="font-weight: bold;">unique.sql<br>
+<br>
+</span></div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;&nbsp; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_basics2/sqlscripts/unique.sql</span><br>
+Query OK, 0 rows affected, 1 warning (0.00 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.21 sec)<br>
+      <br>
+      <span style="color: rgb(255, 0, 0);">ERROR 1062 (23000):
+Duplicate entry 'jones' for key 'name'</span><br>
+Empty set (0.00 sec)</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_1">return
+to top of the exercise</a><br>
+<br>
+</div>
+<div style="margin-left: 40px;"><br>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.3"></a>(1.3)&nbsp;
+INDEX constraint (when creating a table)<br>
+</h3>
+<div style="margin-left: 40px;"><br>
+<span style="visibility: visible;" id="main"><span
+ style="visibility: visible;" id="search">An <em>index</em> is a
+separate file that is sorted, and contains only the field/s you're
+interested in sorting on.<br>
+<br>
+</span></span>1. Study <span style="font-weight: bold;">index.sql<br>
+<br>
+</span>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Create "employees" table */<br>
+DROP TABLE IF EXISTS employees;&nbsp; <br>
+&nbsp;<br>
+CREATE TABLE employees (&nbsp; <br>
+&nbsp;&nbsp;&nbsp; employee_id int(11) NOT NULL AUTO_INCREMENT, <br>
+&nbsp;&nbsp;&nbsp; name varchar(255) NOT NULL UNIQUE, <br>
+&nbsp;&nbsp;&nbsp; salary decimal(7,2) NOT NULL,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (employee_id),<br>
+&nbsp;&nbsp;&nbsp; <span
+ style="font-weight: bold; color: rgb(255, 0, 0);">INDEX (name)</span><span
+ style="font-weight: bold; color: rgb(255, 0, 0);"></span><br>
+);<br>
+      <br>
+/* Data for the table employees */<br>
+INSERT INTO employees(name, salary)<br>
+VALUES<br>
+('angie','5500.00'),<br>
+('bobby','2500.00'),<br>
+('jones','5000.00');<br>
+      <br>
+/* Display records */<br>
+SELECT * FROM employees;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<span style="font-weight: bold;"><br>
+</span>2. Execute <span style="font-weight: bold;">index.sql</span><br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;<span
+ style="font-weight: bold;"> SOURCE
+/handson_mysql/mysql_basics2/sqlscripts/index.sql</span><br>
+Query OK, 0 rows affected (0.15 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.10 sec)<br>
+      <br>
+Query OK, 3 rows affected (0.04 sec)<br>
+Records: 3&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
++-------------+-------+---------+<br>
+| employee_id | name&nbsp; | salary&nbsp; |<br>
++-------------+-------+---------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 | angie
+| 5500.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 | bobby
+| 2500.00 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 | jones
+| 5000.00 |<br>
++-------------+-------+---------+<br>
+3 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_1">return
+to top of the exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.4"></a>(1.4)&nbsp;
+Adding INDEX constraint to an existing table</h3>
+<div style="margin-left: 40px;"><br>
+</div>
+<div style="margin-left: 40px;">Indexing is the most important tool you
+have for speeding up queries. Other
+techniques are available to you, too, but generally the one thing that
+makes the
+most difference is the proper use of indexes.<br>
+<br>
+Let's consider how an index works by beginning with a table that has no
+indexes. An unindexed table is simply an unordered collection of rows.
+For
+example, <a
+ href="http://www.informit.com/content/images/ch04_0672326736/elementLinks/04fig01.jpg">Figure
+4.1</a> shows the a table that was discussed in Chapter 1,
+"Getting Started with MySQL and SQL." There are no indexes on this
+table, so to find the rows for a particular company, it's necessary to
+examine each row in the table to see if it matches the desired value.
+This
+involves a full table scan, which is slow, as well as tremendously
+inefficient
+if the table is large but contains only a few records that match the
+search
+criteria.<br>
+</div>
+<div style="margin-left: 40px;"><br>
+0. Study CREATE INDEX.<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">HELP CREATE INDEX;</span><br>
+Name: 'CREATE INDEX'<br>
+Description:<br>
+Syntax:<br>
+CREATE [ONLINE|OFFLINE] [UNIQUE|FULLTEXT|SPATIAL] INDEX index_name<br>
+&nbsp;&nbsp;&nbsp; [index_type]<br>
+&nbsp;&nbsp;&nbsp; ON tbl_name (index_col_name,...)<br>
+&nbsp;&nbsp;&nbsp; [index_option] ...<br>
+      <br>
+index_col_name:<br>
+&nbsp;&nbsp;&nbsp; col_name [(length)] [ASC | DESC]<br>
+      <br>
+index_type:<br>
+&nbsp;&nbsp;&nbsp; USING {BTREE | HASH | RTREE}<br>
+      <br>
+index_option:<br>
+&nbsp;&nbsp;&nbsp; KEY_BLOCK_SIZE [=] value<br>
+&nbsp; | index_type<br>
+&nbsp; | WITH PARSER parser_name<br>
+      <br>
+CREATE INDEX is mapped to an ALTER TABLE statement to create indexes.<br>
+See [HELP ALTER TABLE]. CREATE INDEX cannot be used to create a PRIMARY<br>
+KEY; use ALTER TABLE instead. For more information about indexes, see<br>
+http://dev.mysql.com/doc/refman/5.1/en/mysql-indexes.html.<br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/create-index.html<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Perform CREATE INDEX<br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">CREATE INDEX salary_index ON
+employees(salary);</span><br>
+Query OK, 3 rows affected (0.32 sec)<br>
+Records: 3&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_1">return
+to top of the exercise</a><br>
+<br>
+<br>
+<span style="font-weight: bold;"><br>
+</span></div>
+<br>
+<h2><a name="Exercise_2"></a>Exercise 2: Table modifiers - Storage
+engine<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;">You can create a table
+using various options.&nbsp; <br>
+</p>
+<ol>
+  <ol>
+    <li><a href="index.html#2.1">Storge engine</a><br>
+    </li>
+  </ol>
+</ol>
+<span style="font-weight: bold;"><br>
+</span>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="2.1"></a>(2.1)&nbsp;
+Storage engines</h3>
+<div style="margin-left: 40px;"><br>
+0. Study SHOW ENGINES.<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">help SHOW ENGINES;</span><br>
+Name: 'SHOW ENGINES'<br>
+Description:<br>
+Syntax:<br>
+SHOW [STORAGE] ENGINES<br>
+      <br>
+SHOW ENGINES displays status information about the server's storage<br>
+engines. This is particularly useful for checking whether a storage<br>
+engine is supported, or to see what the default engine is. SHOW TABLE<br>
+TYPES is a deprecated synonym.<br>
+      <br>
+URL: http://dev.mysql.com/doc/refman/5.1/en/show-engines.html<br>
+      <br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+2. Display storage engines of the server.<br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SHOW ENGINES\G</span><br>
+*************************** 1. row ***************************<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Engine: MyISAM<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Support: YES<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Comment: Default engine as of MySQL 3.23 with
+great performance<br>
+Transactions: NO<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XA: NO<br>
+&nbsp; Savepoints: NO<br>
+*************************** 2. row ***************************<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Engine: CSV<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Support: YES<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Comment: CSV storage engine<br>
+Transactions: NO<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XA: NO<br>
+&nbsp; Savepoints: NO<br>
+*************************** 3. row ***************************<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Engine: MRG_MYISAM<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Support: YES<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Comment: Collection of identical MyISAM tables<br>
+Transactions: NO<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XA: NO<br>
+&nbsp; Savepoints: NO<br>
+*************************** 4. row ***************************<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Engine: BLACKHOLE<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Support: YES<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Comment: /dev/null storage engine (anything
+you write to it disappears)<br>
+Transactions: NO<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XA: NO<br>
+&nbsp; Savepoints: NO<br>
+*************************** 5. row ***************************<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Engine: FEDERATED<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Support: NO<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Comment: Federated MySQL storage engine<br>
+Transactions: NULL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XA: NULL<br>
+&nbsp; Savepoints: NULL<br>
+*************************** 6. row ***************************<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Engine: InnoDB<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Support: DEFAULT<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Comment: Supports transactions, row-level
+locking, and foreign keys<br>
+Transactions: YES<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XA: YES<br>
+&nbsp; Savepoints: YES<br>
+*************************** 7. row ***************************<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Engine: ARCHIVE<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Support: YES<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Comment: Archive storage engine<br>
+Transactions: NO<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XA: NO<br>
+&nbsp; Savepoints: NO<br>
+*************************** 8. row ***************************<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Engine: MEMORY<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Support: YES<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Comment: Hash based, stored in memory, useful
+for temporary tables<br>
+Transactions: NO<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XA: NO<br>
+&nbsp; Savepoints: NO<br>
+8 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+3. Create tables specifying storage engine.<br>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">CREATE TABLE t1_InnoDB (id int)</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">ENGINE =
+InnoDB;</span><br>
+Query OK, 0 rows affected (0.18 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">CREATE TABLE t2_MyISAM (id
+int)</span><br>
+&nbsp;&nbsp;&nbsp; -&gt; <span style="font-weight: bold;">ENGINE =
+MyISAM;</span><br>
+Query OK, 0 rows affected (0.07 sec)<br>
+      <br>
+// Create a table with a default storage engine<br>
+mysql&gt; <span style="font-weight: bold;">CREATE TABLE t3_default (id
+int);</span><br>
+Query OK, 0 rows affected (0.13 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SHOW TABLE STATUS\G</span><br>
+*************************** 1. row ***************************<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
+ style="color: rgb(255, 0, 0);">Name:
+t1_innodb</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
+ style="color: rgb(255, 0, 0);">Engine: InnoDB</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Version: 10<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Row_format: Compact<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rows: 0<br>
+&nbsp;Avg_row_length: 0<br>
+&nbsp;&nbsp;&nbsp; Data_length: 16384<br>
+Max_data_length: 0<br>
+&nbsp;&nbsp; Index_length: 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Data_free: 5242880<br>
+&nbsp;Auto_increment: NULL<br>
+&nbsp;&nbsp;&nbsp; Create_time: 2010-03-29 07:47:56<br>
+&nbsp;&nbsp;&nbsp; Update_time: NULL<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Check_time: NULL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Collation: latin1_swedish_ci<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Checksum: NULL<br>
+&nbsp;Create_options:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Comment:<br>
+*************************** 2. row ***************************<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+ style="color: rgb(255, 0, 0);"> Name:
+t2_myisam</span><br style="color: rgb(255, 0, 0);">
+      <span style="color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Engine: MyISAM</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Version: 10<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Row_format: Fixed<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rows: 0<br>
+&nbsp;Avg_row_length: 0<br>
+&nbsp;&nbsp;&nbsp; Data_length: 0<br>
+Max_data_length: 1970324836974591<br>
+&nbsp;&nbsp; Index_length: 1024<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Data_free: 0<br>
+&nbsp;Auto_increment: NULL<br>
+&nbsp;&nbsp;&nbsp; Create_time: 2010-03-29 07:48:51<br>
+&nbsp;&nbsp;&nbsp; Update_time: 2010-03-29 07:48:51<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Check_time: NULL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Collation: latin1_swedish_ci<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Checksum: NULL<br>
+&nbsp;Create_options:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Comment:<br>
+*************************** 3. row ***************************<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+ style="color: rgb(255, 0, 0);"> Name:
+t3_default</span><br style="color: rgb(255, 0, 0);">
+      <span style="color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Engine: InnoDB</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Version: 10<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Row_format: Compact<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rows: 0<br>
+&nbsp;Avg_row_length: 0<br>
+&nbsp;&nbsp;&nbsp; Data_length: 16384<br>
+Max_data_length: 0<br>
+&nbsp;&nbsp; Index_length: 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Data_free: 5242880<br>
+&nbsp;Auto_increment: NULL<br>
+&nbsp;&nbsp;&nbsp; Create_time: 2010-03-29 07:49:09<br>
+&nbsp;&nbsp;&nbsp; Update_time: NULL<br>
+&nbsp;&nbsp;&nbsp;&nbsp; Check_time: NULL<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Collation: latin1_swedish_ci<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Checksum: NULL<br>
+&nbsp;Create_options:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Comment:<br>
+3 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; SELECT ENGINE<br>
+&nbsp;&nbsp;&nbsp; -&gt; FROM information_schema.TABLES<br>
+&nbsp;&nbsp;&nbsp; -&gt; WHERE TABLE_SCHEMA = 'mydb'<br>
+&nbsp;&nbsp;&nbsp; -&gt; AND TABLE_NAME = 'person';<br>
++--------+<br>
+| ENGINE |<br>
++--------+<br>
+| InnoDB |<br>
++--------+<br>
+1 row in set (0.07 sec)</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;"><img alt="" src="index_files/1_x1.png"
+ style="width: 833px; height: 723px;"><br>
+</div>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_2">return
+to top of the exercise</a><br>
+<br>
+<br>
+<h2><a name="Exercise_3"></a>Exercise 3: WHERE clause options<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;"><strong>SQL WHERE clause </strong>is
+used with SQL SELECT statement to
+specifies the search conditions of a query. When you execute a query
+with SQL WHERE clause, the <span class="IL_AD" id="IL_AD1">database
+server</span>
+searches for records in the database table(s) which meets your search
+conditions. SQL provides a variety of search conditions which you can
+use with <em>SQL WHERE clause.</em>
+</p>
+<ol>
+  <ol>
+    <li><a href="#3.1">Using comparison operators
+(=,&gt;,&lt;,.&gt;=,&lt;=,&lt;&gt;) in WHERE clause<br>
+      </a></li>
+    <li><a href="#3.2">Using logical operations (AND, OR, NOT) in WHERE
+clause<br>
+      </a></li>
+    <li><a href="#3.3">Using BETWEEN<br>
+      </a></li>
+    <li><a href="#3.4">Using IN</a><br>
+    </li>
+    <li><a href="#3.5">Sorting through ORDER BY</a></li>
+    <li><a href="#3.6">Using LIKE</a></li>
+    <li><a href="#3.7">Using regular expression</a><br>
+    </li>
+    <li><a href="#3.8">Eliminating dulicates through DISTINCT<br>
+      </a> </li>
+    <li><a href="#3.9">Limiting results with LIMIT</a><a
+ href="index.html#1.4"><br>
+      </a></li>
+  </ol>
+</ol>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.1"></a>(3.1)&nbsp;
+Using comparison operators (=,&gt;,&lt;,.&gt;=,&lt;=,&lt;&gt;) in WHERE
+clause<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Create "employees" table */<br>
+DROP TABLE IF EXISTS employees; <br>
+&nbsp;<br>
+CREATE TABLE employees ( <br>
+&nbsp;&nbsp;&nbsp; employee_id int(11) NOT NULL AUTO_INCREMENT,<br>
+&nbsp;&nbsp;&nbsp; name varchar(255) NOT NULL,<br>
+&nbsp;&nbsp;&nbsp; salary decimal(7,2) NOT NULL, <br>
+&nbsp;&nbsp;&nbsp; department_id int(11) NOT NULL,<br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (employee_id)<br>
+) ENGINE=InnoDB;&nbsp; <br>
+      <br>
+/* Data for the table employees */<br>
+INSERT INTO employees(name, salary, department_id)<br>
+VALUES<br>
+('jack','3000.00', 1),<br>
+('mary','2500.00', 2),<br>
+('nichole','4000.00', 1),<br>
+('angie','5000.00', 2),<br>
+('jones','5000.00', 3);<br>
+      <br>
+/* Use comparison operators */<br>
+SELECT * FROM employees <br>
+WHERE <span style="font-weight: bold;">salary &gt; 3500;</span><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_basics2/sqlscripts/comparison_operators.sql</span><br>
+Query OK, 0 rows affected (0.04 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.11 sec)<br>
+      <br>
+Query OK, 5 rows affected (0.03 sec)<br>
+Records: 5&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
++-------------+---------+---------+---------------+<br>
+| employee_id | name&nbsp;&nbsp;&nbsp; | salary&nbsp; | department_id |<br>
++-------------+---------+---------+---------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+nichole | 4000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+angie&nbsp;&nbsp; | 5000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 |
+jones&nbsp;&nbsp; | 5000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 |<br>
++-------------+---------+---------+---------------+<br>
+3 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_3">return
+to top of the exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.2"></a>(3.2)&nbsp;
+Using logical operations (AND, OR, NOT) in WHERE clause<br>
+</h3>
+<div style="margin-left: 40px;"><br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Use logical operators */<br>
+SELECT * FROM employees <br>
+WHERE salary &gt; 3500 AND department_id &gt;= 2;<br>
+      <br>
+SELECT * FROM employees<br>
+WHERE <span style="font-weight: bold;">(department_id = 1 AND NOT name
+= 'nichole')</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+OR salary &gt; 4500;</span><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;<span
+ style="font-weight: bold;"> SOURCE
+/handson_mysql/mysql_basics2/sqlscripts/logical_operators.sql</span><br>
++-------------+-------+---------+---------------+<br>
+| employee_id | name&nbsp; | salary&nbsp; | department_id |<br>
++-------------+-------+---------+---------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 | angie
+| 5000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 | jones
+| 5000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 |<br>
++-------------+-------+---------+---------------+<br>
+2 rows in set (0.00 sec)<br>
+      <br>
++-------------+-------+---------+---------------+<br>
+| employee_id | name&nbsp; | salary&nbsp; | department_id |<br>
++-------------+-------+---------+---------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+jack&nbsp; | 3000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 | angie
+| 5000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 | jones
+| 5000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 |<br>
++-------------+-------+---------+---------------+<br>
+3 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_3">return
+to top of the exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.3"></a>(3.3)&nbsp;
+Using BETWEEN</h3>
+<div style="margin-left: 40px;"><br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Use BETWEEN */<br>
+SELECT * FROM employees <br>
+WHERE salary <span style="font-weight: bold;">BETWEEN 2000 AND 4000;</span><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_basics2/sqlscripts/between.sql</span><br>
++-------------+---------+---------+---------------+<br>
+| employee_id | name&nbsp;&nbsp;&nbsp; | salary&nbsp; | department_id |<br>
++-------------+---------+---------+---------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+jack&nbsp;&nbsp;&nbsp; | 3000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+mary&nbsp;&nbsp;&nbsp; | 2500.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+nichole | 4000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
++-------------+---------+---------+---------------+<br>
+3 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_3">return
+to top of the exercise</a><br>
+<br>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.4"></a>(3.4)&nbsp;
+Using IN</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Use IN */<br>
+SELECT * FROM employees <br>
+WHERE name<span style="font-weight: bold;"> IN ('nichole', 'jack');</span><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_basics2/sqlscripts/in.sql</span><br>
++-------------+---------+---------+---------------+<br>
+| employee_id | name&nbsp;&nbsp;&nbsp; | salary&nbsp; | department_id |<br>
++-------------+---------+---------+---------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+jack&nbsp;&nbsp;&nbsp; | 3000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+nichole | 4000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
++-------------+---------+---------+---------------+<br>
+2 rows in set (0.00 sec)</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_3">return
+to top of the exercise</a><br>
+<br>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.5"></a>(3.5)&nbsp;
+Sorting through ORDER BY</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Use ORDER BY ascending */<br>
+SELECT * FROM employees <br>
+WHERE salary BETWEEN 2000 AND 4000<br>
+ORDER BY name ASC;<br>
+      <br>
+/* Use ORDER BY descending */<br>
+SELECT * FROM employees <br>
+WHERE salary BETWEEN 2000 AND 4000<br>
+ORDER BY name DESC;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_basics2/sqlscripts/orderby.sql</span><br>
++-------------+---------+---------+---------------+<br>
+| employee_id | name&nbsp;&nbsp;&nbsp; | salary&nbsp; | department_id |<br>
++-------------+---------+---------+---------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+jack&nbsp;&nbsp;&nbsp; | 3000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+mary&nbsp;&nbsp;&nbsp; | 2500.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+nichole | 4000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
++-------------+---------+---------+---------------+<br>
+3 rows in set (0.00 sec)<br>
+      <br>
++-------------+---------+---------+---------------+<br>
+| employee_id | name&nbsp;&nbsp;&nbsp; | salary&nbsp; | department_id |<br>
++-------------+---------+---------+---------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+nichole | 4000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+mary&nbsp;&nbsp;&nbsp; | 2500.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+jack&nbsp;&nbsp;&nbsp; | 3000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
++-------------+---------+---------+---------------+<br>
+3 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_3">return
+to top of the exercise</a><br>
+<br>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.6"></a>(3.6)&nbsp;
+Using LIKE</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Use LIKE */<br>
+SELECT * FROM employees <br>
+WHERE name LIKE '%n%';<br>
+      <br>
+SELECT * FROM employees <br>
+WHERE name LIKE '%e';<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;<span
+ style="font-weight: bold;"> SOURCE
+/handson_mysql/mysql_basics2/sqlscripts/like.sql</span><br>
++-------------+---------+---------+---------------+<br>
+| employee_id | name&nbsp;&nbsp;&nbsp; | salary&nbsp; | department_id |<br>
++-------------+---------+---------+---------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+nichole | 4000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+angie&nbsp;&nbsp; | 5000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 |
+jones&nbsp;&nbsp; | 5000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 |<br>
++-------------+---------+---------+---------------+<br>
+3 rows in set (0.00 sec)<br>
+      <br>
++-------------+---------+---------+---------------+<br>
+| employee_id | name&nbsp;&nbsp;&nbsp; | salary&nbsp; | department_id |<br>
++-------------+---------+---------+---------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+nichole | 4000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+angie&nbsp;&nbsp; | 5000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
++-------------+---------+---------+---------------+<br>
+2 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_3">return
+to top of the exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.7"></a>(3.7)&nbsp;
+Using regular expression</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Use Regular Expression */<br>
+      <br>
+/* Get all records whose name is either 'jones' or 'mary' */<br>
+SELECT * FROM employees <br>
+WHERE name REGEXP 'jones|mary';<br>
+      <br>
+/* Get all records whose name starts with 'j' */<br>
+SELECT * FROM employees <br>
+WHERE name REGEXP '^j';<br>
+      <br>
+/* Get all records whose name ends with 'e' */<br>
+SELECT * FROM employees <br>
+WHERE name REGEXP 'e$';<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_basics2/sqlscripts/regexp.sql;</span><br>
++-------------+-------+---------+---------------+<br>
+| employee_id | name&nbsp; | salary&nbsp; | department_id |<br>
++-------------+-------+---------+---------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+mary&nbsp; | 2500.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 | jones
+| 5000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 |<br>
++-------------+-------+---------+---------------+<br>
+2 rows in set (0.00 sec)<br>
+      <br>
++-------------+-------+---------+---------------+<br>
+| employee_id | name&nbsp; | salary&nbsp; | department_id |<br>
++-------------+-------+---------+---------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+jack&nbsp; | 3000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 | jones
+| 5000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3 |<br>
++-------------+-------+---------+---------------+<br>
+2 rows in set (0.00 sec)<br>
+      <br>
++-------------+---------+---------+---------------+<br>
+| employee_id | name&nbsp;&nbsp;&nbsp; | salary&nbsp; | department_id |<br>
++-------------+---------+---------+---------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+nichole | 4000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 |
+angie&nbsp;&nbsp; | 5000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
++-------------+---------+---------+---------------+<br>
+2 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_3">return
+to top of the exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.8"></a>(3.8)&nbsp;
+Eliminating dulicates using DISTINCT</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Use DISTINCT */<br>
+SELECT DISTINCT salary FROM employees;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; SOURCE
+/handson_mysql/mysql_basics2/sqlscripts/distinct.sql<br>
++---------+<br>
+| salary&nbsp; |<br>
++---------+<br>
+| 3000.00 |<br>
+| 2500.00 |<br>
+| 4000.00 |<br>
+| 5000.00 |<br>
++---------+<br>
+4 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_3">return
+to top of the exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.9"></a>(3.9)&nbsp;
+Limiting results with LIMIT</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Use LIMIT */<br>
+SELECT * FROM employees <br>
+LIMIT 3;<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; SOURCE
+/handson_mysql/mysql_basics2/sqlscripts/limit.sql;<br>
++-------------+---------+---------+---------------+<br>
+| employee_id | name&nbsp;&nbsp;&nbsp; | salary&nbsp; | department_id |<br>
++-------------+---------+---------+---------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 |
+jack&nbsp;&nbsp;&nbsp; | 3000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 |
+mary&nbsp;&nbsp;&nbsp; | 2500.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 |
+nichole | 4000.00
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
++-------------+---------+---------+---------------+<br>
+3 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_3">return
+to top of the exercise</a><br>
+</div>
+<br>
+<div style="margin-left: 40px;"><br>
+</div>
+<h2><a name="Exercise_4"></a>Exercise 4: GROUP BY and HAVING<br>
+</h2>
+<p class="pBody" style="margin-left: 40px;"><strong
+ style="font-weight: normal;">GROUP BY</strong>
+as its name
+imply, returns group of rows. <em>SQL GROUP BY</em> clause divides a
+table into sets and it usually use with SQL aggregate functions which
+produces summary value for each set. <br>
+</p>
+<p class="pBody" style="margin-left: 40px;">SQL HAVING clause is a SQL
+WHERE clause for groups. Just as SQL WHERE clause limits rows, <em>SQL
+HAVING clause</em> limits groups. In most programming contexts, you
+will use <em>SQL HAVING clause </em>after SQL GROUP BY clause to
+limits groups by searched conditions.
+</p>
+<ol>
+  <ol>
+    <li><a href="index.html#4.1">GROUP BY<br>
+      </a></li>
+    <li><a href="index.html#4.2">HAVING<br>
+      </a></li>
+  </ol>
+</ol>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="4.1"></a>(4.1)
+GROUP BY<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Create "employees" table */<br>
+DROP TABLE IF EXISTS employees;&nbsp; <br>
+&nbsp;<br>
+CREATE TABLE employees (&nbsp; <br>
+&nbsp;&nbsp;&nbsp; employee_id int(11) NOT NULL AUTO_INCREMENT, <br>
+&nbsp;&nbsp;&nbsp; name varchar(255) NOT NULL, <br>
+&nbsp;&nbsp;&nbsp; salary decimal(7,2) NOT NULL,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; department_id int(11) NOT NULL,<br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (employee_id)<br>
+) ENGINE=InnoDB;&nbsp;&nbsp; <br>
+      <br>
+/* Data for the table employees */<br>
+INSERT INTO employees(name, salary, department_id)<br>
+VALUES<br>
+('jack','3000.00', 1),<br>
+('mary','2500.00', 2),<br>
+('nichole','4000.00', 1),<br>
+('angie','5000.00', 2),<br>
+('jones','5000.00', 3);<br>
+      <br>
+      <span style="font-weight: bold;">/* Get number of employees for
+each department using GROUP BY */</span><br>
+SELECT department_id, COUNT(employee_id) AS employee_count <br>
+FROM employees<br>
+      <span style="font-weight: bold;">GROUP BY department_id; </span><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;&nbsp; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_basics2/sqlscripts/group_by.sql</span><br>
+Query OK, 0 rows affected, 1 warning (0.00 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.12 sec)<br>
+      <br>
+Query OK, 5 rows affected (0.04 sec)<br>
+Records: 5&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
++-------------------+----------------- ----+<br>
+| department_id | employee_count |<br>
++-----------==----+-----===-----------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp;&nbsp;
+1
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp;
+2
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+3
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 |<br>
++-------------------+----------------------+<br>
+3 rows in set (0.08 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_4">return
+to top of the exercise</a><br>
+<br>
+</div>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="4.2"></a>(4.2)
+HAVING</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">/* Create "employees" table */<br>
+DROP TABLE IF EXISTS employees;&nbsp; <br>
+&nbsp;<br>
+CREATE TABLE employees (&nbsp; <br>
+&nbsp;&nbsp;&nbsp; employee_id int(11) NOT NULL AUTO_INCREMENT, <br>
+&nbsp;&nbsp;&nbsp; name varchar(255) NOT NULL, <br>
+&nbsp;&nbsp;&nbsp; salary decimal(7,2) NOT NULL,&nbsp; <br>
+&nbsp;&nbsp;&nbsp; department_id int(11) NOT NULL,<br>
+&nbsp;&nbsp;&nbsp; PRIMARY KEY&nbsp; (employee_id)<br>
+) ENGINE=InnoDB;&nbsp;&nbsp; <br>
+      <br>
+/* Data for the table employees */<br>
+INSERT INTO employees(name, salary, department_id)<br>
+VALUES<br>
+('jack','3000.00', 1),<br>
+('mary','2500.00', 2),<br>
+('nichole','4000.00', 1),<br>
+('angie','5000.00', 2),<br>
+('jones','5000.00', 3);<br>
+      <br>
+/* Get number of employees for each department using GROUP BY &amp;<br>
+&nbsp;* the number of employees are greater than or equal to 2.<br>
+&nbsp;*/<br>
+SELECT department_id, COUNT(employee_id) AS employee_count <br>
+FROM employees<br>
+GROUP BY department_id<br>
+      <span style="font-weight: bold;">HAVING employee_count &gt;= 2;</span><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;&nbsp; <span
+ style="font-weight: bold;">SOURCE
+/handson_mysql/mysql_basics2/sqlscripts/having.sql</span><br>
+Query OK, 0 rows affected (0.05 sec)<br>
+      <br>
+Query OK, 0 rows affected (0.09 sec)<br>
+      <br>
+Query OK, 5 rows affected (0.03 sec)<br>
+Records: 5&nbsp; Duplicates: 0&nbsp; Warnings: 0<br>
+      <br>
++-------------------+----------------------+<br>
+| department_id | employee_count |<br>
++-------------------+----------------------+<br>
+|&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+2
+|&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 |<br>
++-------------------+----------------------+<br>
+2 rows in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_4">return
+to top of the exercise</a><br>
+</div>
+<br>
+<div style="margin-left: 40px;"><br>
+</div>
+<div style="margin-left: 40px;"></div>
+<br>
+<h2><a name="Exercise_5"></a>Exercise 5: User-defined variables<br>
+</h2>
+<p style="margin-left: 40px;"> You can store a value in a user-defined
+variable in one statement and then refer to it later in another
+statement. This enables you to pass values from one statement to
+another. <span class="emphasis"><em>User-defined variables are
+connection-specific</em></span>. That is, a user variable defined by
+one client cannot be seen or used by other clients. All variables for a
+given client connection are automatically freed when that client exits.
+</p>
+<div style="margin-left: 40px;"> User variables are written as <code
+ class="literal">@<em class="replaceable"><code>var_name</code></em></code>,
+where the variable name <em class="replaceable"><code>var_name</code></em>
+consists of alphanumeric characters from the current character set. A
+user variable
+name can contain other characters if you quote it as a string or
+identifier (for example, <code class="literal">@'my-var'</code>, <code
+ class="literal">@"my-var"</code>, or <code class="literal">@`my-var`</code>).<br>
+<p> One way to set a user-defined variable is by issuing a <code
+ class="literal">SET</code>
+statement: </p>
+<pre style="margin-left: 40px;" class="programlisting">SET @<em
+ class="replaceable"><code>var_name</code></em> = <em
+ class="replaceable"><code>expr</code></em> [, @<em class="replaceable"><code>var_name</code></em> = <em
+ class="replaceable"><code>expr</code></em>] ...<br></pre>
+<p> For <code class="literal">SET</code>,
+either <code class="literal">=</code> or <code class="literal">:=</code>
+can be used as the assignment operator.&nbsp; You can also assign a
+value to a user variable in statements other than <code class="literal">SET</code>.
+In
+this case, the assignment operator must be <code class="literal">:=</code>
+and not <code class="literal">=</code> because <code class="literal">=</code>
+is treated as a comparison operator in non-<code class="literal">SET</code>
+statements: </p>
+</div>
+<p class="pBody" style="margin-left: 40px;"></p>
+<ol>
+  <ol>
+    <li><a href="index.html#5.1">Setting a user-defined variable with
+SET</a></li>
+    <li><a href="#5.2">Setting a user-defined variable with SELECT..
+INTO statement</a><br>
+    </li>
+  </ol>
+</ol>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="5.1"></a>(5.1)&nbsp;
+Setting a user-defined variable with SET<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt;<span
+ style="font-weight: bold;"> SET @my_var1 = 10, @my_var2 := 20;</span><br>
+Query OK, 0 rows affected (0.24 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT @my_var1, @my_var2,
+@my_var3 := @my_var1 + @my_var2;</span><br>
++----------+----------+---------------------------------+<br>
+| @my_var1 | @my_var2 | @my_var3 := @my_var1 + @my_var2 |<br>
++----------+----------+---------------------------------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 20
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+30 |<br>
++----------+----------+---------------------------------+<br>
+1 row in set (0.05 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SET @my_string_var = 'Sang
+Shin';</span><br>
+Query OK, 0 rows affected (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT
+UPPER(@my_string_var), LOWER(@my_string_var);</span><br>
++-----------------------+-----------------------+<br>
+| UPPER(@my_string_var) | LOWER(@my_string_var) |<br>
++-----------------------+-----------------------+<br>
+| SANG
+SHIN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| sang
+shin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|<br>
++-----------------------+-----------------------+<br>
+1 row in set (0.08 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_5">return
+to top of the exercise</a><br>
+</div>
+<br>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="5.2"></a>(5.2)
+Setting a user-defined variable with SELECT .. INTO statement<br>
+</h3>
+<br>
+<div style="margin-left: 40px;">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">mysql&gt; <span
+ style="font-weight: bold;">SELECT 67 INTO
+@my_var4;</span><br>
+Query OK, 1 row affected (0.06 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT @my_var4;</span><br>
++----------+<br>
+| @my_var4 |<br>
++----------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 67 |<br>
++----------+<br>
+1 row in set (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT @my_var4 + 10 INTO
+@my_var5;</span><br>
+Query OK, 1 row affected (0.00 sec)<br>
+      <br>
+mysql&gt; <span style="font-weight: bold;">SELECT @my_var4, @my_var5;</span><br>
++----------+----------+<br>
+| @my_var4 | @my_var5 |<br>
++----------+----------+<br>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 67
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 77 |<br>
++----------+----------+<br>
+1 row in set (0.00 sec)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="index.html#Exercise_5">return
+to top of the exercise</a><br>
+</div>
+<br>
+<br>
+<div style="margin-left: 40px;"><br>
+</div>
+<br>
+<h2><a name="Homework_Exercise"></a><a name="Homework"></a>Homework
+Exercise (for people
+who
+are taking Sang Shin's "MySQL online course") <br>
+</h2>
+<br>
+<div style="margin-left: 40px;"><span style="color: rgb(0, 0, 0);">1.
+The homework is to create a SQL file called, <span
+ style="font-weight: bold;">mysql_basics2.sql</span>, which
+performs the following SQL tasks, when run.</span><span
+ style="color: rgb(0, 0, 0);"></span><br>
+<ul>
+  <li>Create a new database called, myowndb.</li>
+  <li>Create a new table called, myown_students, which has the
+following fields. The table should be created with InnoDB storage
+engine.<br>
+  </li>
+  <ul>
+    <li>student_id SMALLINT as a primary key field with AUTO_INCREMENT</li>
+    <li>name VARCHAR(40) <br>
+    </li>
+    <li>school VARCHAR(40)<br>
+    </li>
+    <li>age INT<br>
+    </li>
+  </ul>
+  <li>The name field has to be unique</li>
+  <li>The school field has to be indexed<br>
+  </li>
+  <li>Add 7 records (rows) of sample data to the table. The primary key
+should be provided using AUTO_INCREMENT.</li>
+  <li>Define user-define variables average_age, min_age, max_age and
+compute them from the records and display them</li>
+  <li>Compute and display number of students for each school using
+GROUP BY and HAVING<br>
+  </li>
+</ul>
+2<span style="color: rgb(0, 0, 0);">. Send the following files to</span><span
+ style="color: rgb(0, 0, 0);"> <a
+ href="mailto:mysql_homeworks@javapassion.com">mysql_homeworks@javapassion.com</a>
+with </span><span style="font-weight: bold; color: rgb(0, 0, 0);">Subject
+</span><span style="color: rgb(0, 0, 0);">as </span><span
+ style="font-weight: bold; color: rgb(0, 0, 0);">mysql_basics2.</span><br
+ style="color: rgb(0, 0, 0);">
+<span style="font-weight: bold; color: rgb(0, 0, 0);"></span>
+<ul style="color: rgb(0, 0, 0);">
+  <li>mysql_basics2.sql file.<span style="font-weight: bold;"> <br>
+    </span></li>
+  <li>Captured output screen&nbsp;<span style="font-weight: bold;"> </span>-
+name it as <span style="font-weight: bold;">mysql_basics2.gif</span>
+or <span style="font-weight: bold;">mysql_basics2</span><span
+ style="font-weight: bold;">.jpg</span> (or <span
+ style="font-weight: bold;">mysql_basics2.&lt;whatver
+graphics format&gt;</span>)</li>
+  <ul>
+    <li>Any screen capture that shows that your program is working is
+good enough.&nbsp; </li>
+  </ul>
+</ul>
+<br>
+<span style="font-weight: bold;"></span></div>
+<div style="margin-left: 40px;">
+</div>
+<div style="margin-left: 40px;">
+<div style="margin-left: 40px;"></div>
+</div>
+<div style="margin-left: 40px;"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="#Tutorial_Exercises">return
+to the top</a></div>
+<div class="indent"><br>
+<br>
+<br>
+</div>
+<br>
+<p> </p>
+<!-- ======================================================================================== -->
+</body>
+</html>
